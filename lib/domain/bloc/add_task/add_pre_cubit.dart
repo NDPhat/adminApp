@@ -134,8 +134,8 @@ class AddPreHWCubit extends Cubit<AddPreHWState> {
       try {
         int? data = await teacherAPIRepo.createPreHW(PreQuizHWReqAPI(
           week: state.week,
-          dstart: "${state.timeStart} ${state.dayStart}",
-          dend: "${state.dayEnd} ${state.timeEnd}",
+          dstart: "${state.timeStart.trim()} ${state.dayStart.trim()}",
+          dend: "${state.timeEnd.trim()} ${state.dayEnd.trim()}",
           sign: state.sign,
           sNum: int.parse(state.sNum),
           numQ: int.parse(state.numQ),

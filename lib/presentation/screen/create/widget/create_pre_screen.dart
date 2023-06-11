@@ -168,8 +168,8 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                                   await DatePicker.showSimpleDatePicker(
                                 context,
                                 initialDate: DateTime.now(),
-                                dateFormat: "dd-MMMM-yyyy",
-                                locale: DateTimePickerLocale.en_us,
+                                dateFormat: "yyyy-MM-dd",
+                                locale: DateTimePickerLocale.es,
                                 looping: true,
                               );
                               if (datePicked != null) {
@@ -233,8 +233,8 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                                   await DatePicker.showSimpleDatePicker(
                                 context,
                                 initialDate: DateTime.now(),
-                                dateFormat: "dd-MMMM-yyyy",
-                                locale: DateTimePickerLocale.en_us,
+                                dateFormat: "yyyy-MM-dd",
+                                locale: DateTimePickerLocale.es,
                                 looping: true,
                               );
                               if (datePicked != null) {

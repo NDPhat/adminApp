@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-final formatDateView = DateFormat("dd-MMMM-yyyy");
-final formatDateInput = DateFormat("dd-MMMM-yyyy");
+final formatDateView = DateFormat("yyyy-MM-dd");
+final formatDateInput = DateFormat("yyyy-MM-dd");
 final formatTimeInput = DateFormat('HH:mm ');
 
 double convertTimeDayToDouble(TimeOfDay myTime) =>
@@ -13,4 +13,9 @@ TimeOfDay convertToTimeOfDay(String timeDayString) {
   int minute = int.parse(timeDayString.split(":")[1]);
 
   return TimeOfDay(hour: hour, minute: minute);
+}
+
+String convertToDate(String timeDayString) {
+  final f = DateFormat('yyyy-MM-dd');
+  return f.format(DateTime.tryParse(timeDayString)!);
 }

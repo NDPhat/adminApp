@@ -5,12 +5,13 @@ import 'package:admin/presentation/navigation/routers.dart';
 import 'package:admin/presentation/screen/create/widget/item_card.dart';
 import 'package:admin/presentation/widget/bg_home_screen.dart';
 import 'package:flutter/material.dart';
-
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../../../application/cons/color.dart';
 import '../../../application/cons/constants.dart';
 import '../../../application/cons/text_style.dart';
 import '../../../application/utils/find_color/find_color.dart';
 import '../../../data/event_local/update_pre_now.dart';
+import '../../../data/local/models/per_global.dart';
 import '../../../main.dart';
 import '../../widget/app_bar_widget.dart';
 import '../../widget/rounded_button.dart';
@@ -99,7 +100,7 @@ class CreateMainScreen extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(
-            height: size.height * 0.15,
+            height: size.height * 0.1,
             width: size.width,
             child: Center(
               child: RoundedButton(
@@ -108,7 +109,7 @@ class CreateMainScreen extends StatelessWidget {
                   },
                   color: colorMainBlue,
                   width: size.width * 0.8,
-                  height: size.height * 0.1,
+                  height: size.height * 0.08,
                   child: const Text(
                     'CREATE',
                     style: s30f500colorSysWhite,
@@ -126,20 +127,31 @@ class CreateMainScreen extends StatelessWidget {
           SizedBox(
             height: size.height * 0.02,
           ),
-          SizedBox(
+          Container(
+            width: size.width,
+            alignment: Alignment.centerLeft,
             height: size.height * 0.025,
-            child: const Center(
-                child: Text(
-              'HISTORY',
-              style: s20f700ColorErrorPro,
-            )),
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'ON GOING',
+                  style: s20f700ColorErrorPro,
+                ),
+                Icon(
+                  LineAwesomeIcons.clock,
+                  color: Colors.black,
+                  size: 35,
+                ),
+              ],
+            ),
           ),
           SingleChildScrollView(
             child: SizedBox(
-                height: size.height * 0.5,
+                height: size.height * 0.15,
                 width: size.width * 0.9,
                 child: FutureBuilder<List<PreHWResModel>?>(
-                    future: instance.get<TeacherAPIRepo>().getALlPreHW(),
+                    future: instance.get<TeacherAPIRepo>().getOnGoingPreHW(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return SizedBox(
@@ -169,12 +181,7 @@ class CreateMainScreen extends StatelessWidget {
                                 style: s16f500ColorSysWhite,
                               ),
                               onTap: () {
-                                if (snapshot.data![index].status == "GOING") {
                                   showPreViewDialog(snapshot.data![index]);
-                                } else if (snapshot.data![index].status ==
-                                    "EXPIRED") {
-                                  showExpiredDateDialog(snapshot.data![index]);
-                                }
                               },
                               childRight: Text(
                                 "${snapshot.data![index].status}",
@@ -187,7 +194,77 @@ class CreateMainScreen extends StatelessWidget {
                         return Container();
                       }
                     })),
-          )
+          ),SizedBox(
+            height: size.height * 0.02,
+          ),
+          Container(
+            width: size.width,
+            alignment: Alignment.centerLeft,
+            height: size.height * 0.025,
+            child: const Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'HISTORY',
+                  style: s20f700ColorErrorPro,
+                ),
+                Icon(
+                  LineAwesomeIcons.history,
+                  color: Colors.black,
+                  size: 35,
+                ),
+              ],
+            ),
+          ),
+          SingleChildScrollView(
+            child: SizedBox(
+                height: size.height * 0.35,
+                width: size.width * 0.9,
+                child: FutureBuilder<List<PreHWResModel>?>(
+                    future: instance.get<TeacherAPIRepo>().getALlDonePreHW(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return SizedBox(
+                          height: size.height * 0.2,
+                          width: size.width * 0.5,
+                          child: const Center(
+                            child: CircularProgressIndicator(
+                              color: colorMainBlue,
+                              strokeWidth: 5,
+                            ),
+                          ),
+                        );
+                      }
+                      if (snapshot.hasData) {
+                        return ListView.builder(
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            // update thong tin pre global
+                            UserEventLocal.updatePreGlobal(
+                                snapshot.data![index]);
+                            return ItemCard(
+                              size: size,
+                              backgroundColor:
+                                  findColor(snapshot.data![index].color!),
+                              childCenter: Text(
+                                "WEEK ${snapshot.data![index].week}",
+                                style: s16f500ColorSysWhite,
+                              ),
+                              onTap: () {
+                                  showExpiredDateDialog(snapshot.data![index]);
+                              },
+                              childRight: Text(
+                                "${snapshot.data![index].status}",
+                                style: s16f500ColorSysWhite,
+                              ),
+                            );
+                          },
+                        );
+                      } else {
+                        return Container();
+                      }
+                    })),
+          ),
         ],
       ),
     );

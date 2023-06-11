@@ -4,6 +4,7 @@ import 'package:admin/main.dart';
 import 'package:admin/presentation/screen/dashboard/dash_board_main_screen.dart';
 import 'package:admin/presentation/screen/detail/detail_pre_hw_screen.dart';
 import 'package:admin/presentation/screen/login/login_screen.dart';
+import 'package:admin/presentation/screen/mark/widget/detail_mark_screen_by_week.dart';
 import 'package:flutter/material.dart';
 import '../../data/remote/api/api/api_teacher_repo.dart';
 import '../../domain/bloc/add_task/add_pre_cubit.dart';
@@ -17,6 +18,7 @@ class Routers {
   static const String login = '/login';
   static const String createPre = '/createPre';
   static const String detailPre = '/detailPre';
+  static const String detailAllResultHW = '/detailAllResultHW';
   static const String dashboard = '/dashboard';
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -30,6 +32,8 @@ class Routers {
     switch (settings.name) {
       case welCome:
         return const WelcomeScreen();
+      case detailAllResultHW:
+        return const DetailResultHWByWeek();
       case dashboard:
         return const DashBoardMainScreen();
       case createPre:

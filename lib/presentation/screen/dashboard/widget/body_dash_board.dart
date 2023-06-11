@@ -1,3 +1,4 @@
+import 'package:admin/presentation/screen/mark/mark_main_screen.dart';
 import 'package:admin/presentation/screen/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import '../../create/create_main_screen.dart';
@@ -23,6 +24,7 @@ class BodyDashBoard extends StatelessWidget {
               size: size,
             ),
             CreateMainScreen(size:size),
+            MarkMainScreen(size: size),
             ProfileScreen(size: size)
           ]),
     ); // Comment this if you need to use Swipe.

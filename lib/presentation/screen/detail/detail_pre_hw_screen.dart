@@ -30,6 +30,46 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     PreHWResModel data =
         ModalRoute.of(context)!.settings.arguments as PreHWResModel;
+    Future<void> showUpdateDoneDialog() {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext contextBuild) {
+          return BlocProvider.value(
+            value: BlocProvider.of<DetailPreHWCubit>(context),
+            child: AlertDialog(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                25,
+              )),
+              backgroundColor: const Color(0xff1542bf),
+              title: const FittedBox(
+                child: Text('UPDATE DONE YOUR PRE HOME WORK?',
+                    textAlign: TextAlign.center, style: s30f700colorSysWhite),
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    context
+                        .read<DetailPreHWCubit>()
+                        .updatePreHWToDone(data.key!);
+                    Navigator.pop(context);
+                  },
+                  child: const Text('GO', style: s16f700ColorError),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text('EXIT', style: s15f700ColorYellow),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+    }
+
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
@@ -67,7 +107,7 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                       );
                     }),
                     SizedBox(
-                      height: size.height * 0.03,
+                      height: size.height * 0.02,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -122,7 +162,7 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: size.height * 0.03,
+                      height: size.height * 0.02,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -172,7 +212,7 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: size.height * 0.03,
+                      height: size.height * 0.02,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -191,8 +231,8 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                                   await DatePicker.showSimpleDatePicker(
                                 context,
                                 initialDate: DateTime.now(),
-                                dateFormat: "dd-MMMM-yyyy",
-                                locale: DateTimePickerLocale.en_us,
+                                dateFormat: "yyyy-MM-dd",
+                                locale: DateTimePickerLocale.es,
                                 looping: true,
                               );
                               if (datePicked != null) {
@@ -237,7 +277,7 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: size.height * 0.03,
+                      height: size.height * 0.02,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -256,8 +296,8 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                                   await DatePicker.showSimpleDatePicker(
                                 context,
                                 initialDate: DateTime.now(),
-                                dateFormat: "dd-MMMM-yyyy",
-                                locale: DateTimePickerLocale.en_us,
+                                dateFormat: "yyyy-MM-dd",
+                                locale: DateTimePickerLocale.es,
                                 looping: true,
                               );
                               if (datePicked != null) {
@@ -337,7 +377,7 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: size.height * 0.03,
+                      height: size.height * 0.02,
                     ),
                     Padding(
                       padding: EdgeInsets.only(
@@ -569,7 +609,7 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                                           child: const Center(
                                             child: CircularProgressIndicator(
                                               color: colorSystemWhite,
-                                              strokeWidth: 3,
+                                              strokeWidth: 2,
                                             ),
                                           ),
                                         )
@@ -578,12 +618,114 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                                           style: s14f500colorSysWhite,
                                         ))
                                   : const Text(
-                                      'EXPIRED',
+                                      'DONE',
                                       style: s14f500colorSysWhite,
                                     ));
                         }),
                       ],
                     ),
+                    SizedBox(
+                      height: size.height * 0.04,
+                    ),
+                    // update status to done
+                    BlocConsumer<DetailPreHWCubit, DetailPreHWState>(
+                        listener: (context, state) {
+                      if (state.status == AddPreHWStatus.error) {
+                        showDialog(
+                            context: context,
+                            builder: (ctx) => Center(
+                                    child: AlertDialog(
+                                  shape: ShapeBorder.lerp(const StadiumBorder(),
+                                      const StadiumBorder(), 100),
+                                  backgroundColor: colorSystemWhite,
+                                  title: const Center(
+                                    child: Text('UPDATE FAIL',
+                                        style: s16f700ColorError,
+                                        textAlign: TextAlign.center),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                        child: Container(
+                                            padding: const EdgeInsets.all(15),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                border: Border.all(
+                                                    color: colorSystemYeloow)),
+                                            child: const Center(
+                                              child: Text(
+                                                'BACK',
+                                                style: s15f700ColorErrorPri,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            )),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        }),
+                                  ],
+                                )));
+                        context
+                            .read<DetailPreHWCubit>()
+                            .clearOldDataErrorForm();
+                      } else if (state.status == AddPreHWStatus.success) {
+                        showDialog(
+                            context: context,
+                            builder: (ctx) => Center(
+                                    child: AlertDialog(
+                                  shape: ShapeBorder.lerp(const StadiumBorder(),
+                                      const StadiumBorder(), 100),
+                                  backgroundColor: colorSystemWhite,
+                                  title: const Center(
+                                    child: Text('DONE!!',
+                                        style: s16f700ColorError,
+                                        textAlign: TextAlign.center),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                        child: Container(
+                                            padding: const EdgeInsets.all(15),
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(100),
+                                                border: Border.all(
+                                                    color: colorSystemYeloow)),
+                                            child: const Center(
+                                              child: Text(
+                                                'BACK',
+                                                style: s15f700ColorErrorPri,
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            )),
+                                        onPressed: () {
+                                          Navigator.pushNamed(
+                                              context, Routers.dashboard);
+                                        }),
+                                  ],
+                                )));
+                      }
+                    }, builder: (context, state) {
+                      return RoundedButton(
+                          press: () {
+                            showUpdateDoneDialog();
+                          },
+                          color: colorErrorPrimary,
+                          width: size.width * 0.9,
+                          height: size.height * 0.08,
+                          child: state.status == AddPreHWStatus.updating
+                              ? SizedBox(
+                                  height: size.height * 0.05,
+                                  child: const Center(
+                                    child: CircularProgressIndicator(
+                                      color: colorSystemWhite,
+                                      strokeWidth: 3,
+                                    ),
+                                  ),
+                                )
+                              : const Text(
+                                  'DONE TASK',
+                                  style: s14f500colorSysWhite,
+                                ));
+                    }),
                   ],
                 ),
               ),

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:device_preview/device_preview.dart';
 import 'application/di/setupProject.dart';
+
 GetIt instance = GetIt.instance;
 void main() {
   setUpProject();
@@ -18,11 +19,16 @@ class AdminApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // SystemChrome.setEnabledSystemUIOverlays([]);
-    return const MaterialApp(
-      builder: DevicePreview.appBuilder,
-      debugShowCheckedModeBanner: false,
-      initialRoute: Routers.welCome,
-      onGenerateRoute: Routers.generateRoute,
+    return GestureDetector(
+      onTap: () {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: const MaterialApp(
+        builder: DevicePreview.appBuilder,
+        debugShowCheckedModeBanner: false,
+        initialRoute: Routers.welCome,
+        onGenerateRoute: Routers.generateRoute,
+      ),
     );
   }
 }

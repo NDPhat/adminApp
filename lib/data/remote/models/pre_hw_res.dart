@@ -41,15 +41,15 @@ class PreHWResModel {
 
   PreHWResModel(
       {this.color,
-        this.dend,
-        this.dstart,
-        this.eNum,
-        this.key,
-        this.numQ,
-        this.sNum,
-        this.sign,
-        this.status,
-        this.week});
+      this.dend,
+      this.dstart,
+      this.eNum,
+      this.key,
+      this.numQ,
+      this.sNum,
+      this.sign,
+      this.status,
+      this.week});
 
   PreHWResModel.fromJson(Map<String, dynamic> json) {
     color = json['color'];

@@ -136,14 +136,47 @@ class DetailPreHWCubit extends Cubit<DetailPreHWState> {
         bool? data = await teacherAPIRepo.updatePreHW(
             PreQuizHWReqAPI(
               week: state.week,
-              dstart: "${state.timeStart} ${state.dayStart}",
-              dend: "${state.timeEnd} ${state.dayEnd}",
+              dstart: "${state.timeStart.trim()} ${state.dayStart.trim()}",
+              dend: "${state.timeEnd.trim()} ${state.dayEnd.trim()}",
               sign: state.sign,
               sNum: int.parse(state.sNum),
               numQ: int.parse(state.numQ),
               eNum: int.parse(state.eNum),
               color: state.color,
               status: state.statusPre,
+            ),
+            key);
+        if (data == true) {
+          emit(state.copyWith(status: AddPreHWStatus.success));
+        } else {
+          emit(state.copyWith(status: AddPreHWStatus.error));
+        }
+      } on Exception catch (e) {}
+    } else {
+      emit(state.copyWith(
+          status: AddPreHWStatus.error,
+          weekMess: weekMess,
+          sNumMess: sNumMess,
+          numQMess: numQMess,
+          eNumMess: eNumMess));
+    }
+  }
+
+  Future<void> updatePreHWToDone(String key) async {
+    emit(state.copyWith(status: AddPreHWStatus.updating));
+    if (isFormValid()) {
+      try {
+        bool? data = await teacherAPIRepo.updatePreHW(
+            PreQuizHWReqAPI(
+              week: state.week,
+              dstart: state.timeStart + " " +state.dayStart,
+              dend: state.timeEnd + " " +state.dayEnd,
+              sign: state.sign,
+              sNum: int.parse(state.sNum),
+              numQ: int.parse(state.numQ),
+              eNum: int.parse(state.eNum),
+              color: state.color,
+              status: "DONE",
             ),
             key);
         if (data == true) {
