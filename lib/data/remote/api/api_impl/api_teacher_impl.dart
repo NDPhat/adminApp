@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:admin/data/remote/models/pre_hw_req.dart';
 import 'package:admin/data/remote/models/pre_hw_res.dart';
+import 'package:admin/data/remote/models/quiz_hw_res.dart';
 import 'package:admin/data/remote/models/result_hw_res.dart';
 import 'package:admin/data/remote/models/user_res.dart';
 import '../../../../application/cons/endpoint.dart';
@@ -160,6 +161,71 @@ class TeacherAPIImpl extends TeacherAPIRepo {
       return null;
     } catch (_) {
       return null;
+    }
+  }
+
+  @override
+  Future<List<QuizHWAPIModel>?> getAllQuizHWByResultID(String resultID) async {
+    try {
+      final url = "${endpoint}getAllQuizHWByResultID?resultID=$resultID";
+      final req = await http.get(Uri.parse(url), headers: requestHeaders);
+      if (req.statusCode == 200) {
+        Map<String, dynamic> parsed = json.decode(req.body);
+        List<QuizHWAPIModel>? result =
+            QuizHWAPIResponse.fromJson(parsed).lItems;
+        return result;
+      } else {
+        // log(req.body);
+        Map<String, dynamic> parsed = json.decode(req.body);
+        List<QuizHWAPIModel>? result =
+            QuizHWAPIResponse.fromJson(parsed).lItems;
+        return result;
+      }
+    } on SocketException catch (_) {
+      return Future.error('No network found');
+    } catch (_) {
+      return Future.error('Something occurred');
+    }
+  }
+
+  @override
+  Future<bool?> createUser(UserAPIModel data) async {
+    try {
+      const url = "${endpoint}create_user";
+      final req = await http.post(Uri.parse(url),
+          headers: requestHeaders, body: jsonEncode(data.toJson()));
+      Map<String, dynamic> parsed = json.decode(req.body);
+      if (req.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } on SocketException catch (_) {
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
+  Future<List<UserAPIModel>?> getAllStudentByClass(String lop) async {
+    try {
+      final url = "${endpoint}getListUserByClass?lop=$lop";
+      final req = await http.get(Uri.parse(url), headers: requestHeaders);
+      if (req.statusCode == 200) {
+        Map<String, dynamic> parsed = json.decode(req.body);
+        List<UserAPIModel>? result = UserAPIRes.fromJson(parsed).lItems;
+        return result;
+      } else {
+        // log(req.body);
+        Map<String, dynamic> parsed = json.decode(req.body);
+        List<UserAPIModel>? result = UserAPIRes.fromJson(parsed).lItems;
+        return result;
+      }
+    } on SocketException catch (_) {
+      return Future.error('No network found');
+    } catch (_) {
+      return Future.error('Something occurred');
     }
   }
 }

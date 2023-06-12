@@ -1,0 +1,1 @@
+enum AddUserStatus { initial,success,sameWeek,error,submit,updating}

@@ -1,5 +1,6 @@
 import 'package:admin/data/remote/models/result_hw_res.dart';
 import 'package:admin/data/remote/models/user_res.dart';
+import 'package:admin/presentation/navigation/routers.dart';
 import 'package:admin/presentation/screen/mark/widget/item_fillter.dart';
 import 'package:admin/presentation/widget/app_bar_widget.dart';
 import 'package:admin/presentation/widget/input_field_widget.dart';
@@ -151,7 +152,11 @@ class _DetailResultHWByWeekState extends State<DetailResultHWByWeek> {
                               itemCount: listConvert!.length,
                               itemBuilder: (context, index) {
                                 return ItemCard(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.pushNamed(
+                                        context, Routers.detailQuizHWByResultID,
+                                        arguments: listConvert![index]);
+                                  },
                                   size: size,
                                   backgroundColor: colorMainBlue,
                                   childRight: Center(

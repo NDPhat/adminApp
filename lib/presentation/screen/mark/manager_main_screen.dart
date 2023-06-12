@@ -1,7 +1,9 @@
 import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
 import 'package:admin/presentation/screen/create/widget/item_card.dart';
 import 'package:admin/presentation/widget/bg_home_screen.dart';
+import 'package:admin/presentation/widget/rounded_button.dart';
 import 'package:flutter/material.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
 import '../../../application/cons/color.dart';
 import '../../../application/cons/text_style.dart';
@@ -11,8 +13,8 @@ import '../../../main.dart';
 import '../../navigation/routers.dart';
 import '../dashboard_main/dashboard_home_page_screen.dart';
 
-class MarkMainScreen extends StatelessWidget {
-  const MarkMainScreen({Key? key, required this.size}) : super(key: key);
+class ManagerMainScreen extends StatelessWidget {
+  const ManagerMainScreen({Key? key, required this.size}) : super(key: key);
   final Size size;
 
   @override
@@ -54,19 +56,41 @@ class MarkMainScreen extends StatelessWidget {
     }
 
     return BGHomeScreen(
-        textNow: 'Mark',
+        textNow: 'Manager',
         size: size,
         child: Padding(
           padding: EdgeInsets.only(
               left: size.width * 0.02, right: size.width * 0.02),
           child: Column(
             children: [
-              Column(
-                children: [
-                  LineContentItem(
-                      size: size, title: 'DONE', icon: const Icon(Icons.check)),
-                ],
+              LineContentItem(
+                  size: size,
+                  title: 'STUDENT',
+                  icon: const Icon(LineAwesomeIcons.user)),
+              SizedBox(
+                height: size.height * 0.02,
               ),
+              SizedBox(
+                child: Center(
+                    child: RoundedButton(
+                        press: () {
+                          Navigator.pushNamed(context, Routers.managerUser);
+                        },
+                        color: colorMainBlue,
+                        width: size.width,
+                        height: size.height * 0.08,
+                        child: const Text(
+                          "1D",
+                          style: s24f500ColorGreyPri,
+                        ))),
+              ),
+              SizedBox(
+                height: size.height * 0.02,
+              ),
+              LineContentItem(
+                  size: size,
+                  title: 'HOME WORK',
+                  icon: const Icon(Icons.home_work)),
               SingleChildScrollView(
                 child: SizedBox(
                   height: size.height * 0.4,

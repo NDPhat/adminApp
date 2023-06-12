@@ -15,6 +15,7 @@ import '../../../data/local/models/per_global.dart';
 import '../../../main.dart';
 import '../../widget/app_bar_widget.dart';
 import '../../widget/rounded_button.dart';
+import '../dashboard_main/dashboard_home_page_screen.dart';
 
 class CreateMainScreen extends StatelessWidget {
   CreateMainScreen({Key? key, required this.size}) : super(key: key);
@@ -99,22 +100,31 @@ class CreateMainScreen extends StatelessWidget {
       size: size,
       child: Column(
         children: [
+          LineContentItem(
+              size: size,
+              title: 'User',
+              icon: const Icon(LineAwesomeIcons.user)),
           SizedBox(
-            height: size.height * 0.1,
+            height: size.height * 0.02,
+          ),
+          SizedBox(
             width: size.width,
             child: Center(
               child: RoundedButton(
                   press: () async {
-                    Navigator.pushNamed(context, Routers.createPre);
+                    Navigator.pushNamed(context, Routers.createUser);
                   },
                   color: colorMainBlue,
                   width: size.width * 0.8,
-                  height: size.height * 0.08,
+                  height: size.height * 0.05,
                   child: const Text(
                     'CREATE',
                     style: s30f500colorSysWhite,
                   )),
             ),
+          ),
+          SizedBox(
+            height: size.height * 0.02,
           ),
           Container(
             height: 1,
@@ -124,28 +134,37 @@ class CreateMainScreen extends StatelessWidget {
               ),
             ),
           ),
+
+          LineContentItem(
+              size: size,
+              title: 'HOME WORK',
+              icon: const Icon(Icons.home_work)),
           SizedBox(
             height: size.height * 0.02,
           ),
-          Container(
+          SizedBox(
             width: size.width,
-            alignment: Alignment.centerLeft,
-            height: size.height * 0.025,
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'ON GOING',
-                  style: s20f700ColorErrorPro,
-                ),
-                Icon(
-                  LineAwesomeIcons.clock,
-                  color: Colors.black,
-                  size: 35,
-                ),
-              ],
+            child: Center(
+              child: RoundedButton(
+                  press: () async {
+                    Navigator.pushNamed(context, Routers.createPre);
+                  },
+                  color: colorMainBlue,
+                  width: size.width * 0.8,
+                  height: size.height * 0.05,
+                  child: const Text(
+                    'CREATE',
+                    style: s30f500colorSysWhite,
+                  )),
             ),
           ),
+          SizedBox(
+            height: size.height * 0.01,
+          ),
+          LineContentItem(
+              size: size,
+              title: 'ON SCHEDULE',
+              icon: const Icon(LineAwesomeIcons.school)),
           SingleChildScrollView(
             child: SizedBox(
                 height: size.height * 0.15,
@@ -155,7 +174,7 @@ class CreateMainScreen extends StatelessWidget {
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return SizedBox(
-                          height: size.height * 0.2,
+                          height: size.height * 0.1,
                           width: size.width * 0.5,
                           child: const Center(
                             child: CircularProgressIndicator(
@@ -181,7 +200,7 @@ class CreateMainScreen extends StatelessWidget {
                                 style: s16f500ColorSysWhite,
                               ),
                               onTap: () {
-                                  showPreViewDialog(snapshot.data![index]);
+                                showPreViewDialog(snapshot.data![index]);
                               },
                               childRight: Text(
                                 "${snapshot.data![index].status}",
@@ -194,38 +213,21 @@ class CreateMainScreen extends StatelessWidget {
                         return Container();
                       }
                     })),
-          ),SizedBox(
-            height: size.height * 0.02,
           ),
-          Container(
-            width: size.width,
-            alignment: Alignment.centerLeft,
-            height: size.height * 0.025,
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'HISTORY',
-                  style: s20f700ColorErrorPro,
-                ),
-                Icon(
-                  LineAwesomeIcons.history,
-                  color: Colors.black,
-                  size: 35,
-                ),
-              ],
-            ),
-          ),
+          LineContentItem(
+              size: size,
+              title: 'HISTORY',
+              icon: const Icon(LineAwesomeIcons.history)),
           SingleChildScrollView(
             child: SizedBox(
-                height: size.height * 0.35,
+                height: size.height * 0.25,
                 width: size.width * 0.9,
                 child: FutureBuilder<List<PreHWResModel>?>(
                     future: instance.get<TeacherAPIRepo>().getALlDonePreHW(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
                         return SizedBox(
-                          height: size.height * 0.2,
+                          height: size.height * 0.1,
                           width: size.width * 0.5,
                           child: const Center(
                             child: CircularProgressIndicator(
@@ -251,7 +253,7 @@ class CreateMainScreen extends StatelessWidget {
                                 style: s16f500ColorSysWhite,
                               ),
                               onTap: () {
-                                  showExpiredDateDialog(snapshot.data![index]);
+                                showExpiredDateDialog(snapshot.data![index]);
                               },
                               childRight: Text(
                                 "${snapshot.data![index].status}",
