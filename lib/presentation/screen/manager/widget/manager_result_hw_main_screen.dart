@@ -1,9 +1,6 @@
 import 'package:admin/data/remote/models/result_hw_res.dart';
-import 'package:admin/data/remote/models/user_res.dart';
 import 'package:admin/presentation/navigation/routers.dart';
-import 'package:admin/presentation/screen/mark/widget/item_fillter.dart';
 import 'package:admin/presentation/widget/app_bar_widget.dart';
-import 'package:admin/presentation/widget/input_field_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../../../../application/cons/color.dart';
@@ -13,14 +10,16 @@ import '../../../../data/remote/api/api/api_teacher_repo.dart';
 import '../../../../data/remote/models/pre_hw_res.dart';
 import '../../../../main.dart';
 import '../../create/widget/item_card.dart';
+import 'item_fillter.dart';
 
-class DetailResultHWByWeek extends StatefulWidget {
-  const DetailResultHWByWeek({Key? key}) : super(key: key);
+class ManagerResultHWMainScreen extends StatefulWidget {
+  const ManagerResultHWMainScreen({Key? key}) : super(key: key);
   @override
-  State<DetailResultHWByWeek> createState() => _DetailResultHWByWeekState();
+  State<ManagerResultHWMainScreen> createState() =>
+      _ManagerResultHWMainScreenState();
 }
 
-class _DetailResultHWByWeekState extends State<DetailResultHWByWeek> {
+class _ManagerResultHWMainScreenState extends State<ManagerResultHWMainScreen> {
   List<ResultQuizHWAPIModel>? listConvert = [];
   List<ResultQuizHWAPIModel>? listSearch = [];
   Future<List<ResultQuizHWAPIModel>?>? listServer;

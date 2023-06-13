@@ -4,20 +4,18 @@ import 'package:admin/domain/bloc/login/login_cubit.dart';
 import 'package:admin/main.dart';
 import 'package:admin/presentation/screen/create/widget/create_user_screen.dart';
 import 'package:admin/presentation/screen/dashboard/dash_board_main_screen.dart';
-import 'package:admin/presentation/screen/detail/detail_mark_item_screen.dart';
 import 'package:admin/presentation/screen/detail/detail_pre_hw_screen.dart';
 import 'package:admin/presentation/screen/login/login_screen.dart';
-import 'package:admin/presentation/screen/mark/manager_main_screen.dart';
-import 'package:admin/presentation/screen/mark/widget/detail_mark_screen_by_week.dart';
+import 'package:admin/presentation/screen/manager/widget/manager_result_hw_main_screen.dart';
 import 'package:flutter/material.dart';
 import '../../data/remote/api/api/api_teacher_repo.dart';
 import '../../domain/bloc/add_task/add_pre_cubit.dart';
 import '../../domain/bloc/detail_pre/detail_pre_cubit.dart';
 import '../screen/create/widget/create_pre_screen.dart';
-import '../screen/detail/manager_student_screen.dart';
+import '../screen/detail/detail_result_hw_item_screen.dart';
+import '../screen/manager/widget/manager_student_with_page_view_screen.dart';
 import '../screen/welcome/welcome_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 class Routers {
   static const String welCome = '/welCome';
   static const String login = '/login';
@@ -41,7 +39,7 @@ class Routers {
       case welCome:
         return const WelcomeScreen();
       case managerUser:
-        return const ManagerStudentScreen();
+        return  ManagerStudentPageView();
       case createUser:
         return BlocProvider(
             create: (context) => AddUserCubit(
@@ -49,9 +47,9 @@ class Routers {
                 ),
             child: CreateUserScreen());
       case detailAllResultHW:
-        return const DetailResultHWByWeek();
+        return const ManagerResultHWMainScreen();
       case detailQuizHWByResultID:
-        return const DetailMarkItemScreen();
+        return const DetailResultHWItemScreen();
       case dashboard:
         return const DashBoardMainScreen();
       case createPre:

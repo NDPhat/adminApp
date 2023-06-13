@@ -11,8 +11,8 @@ import '../../../main.dart';
 import '../../widget/anwser_widget.dart';
 import '../../widget/app_bar_widget.dart';
 
-class DetailMarkItemScreen extends StatelessWidget {
-  const DetailMarkItemScreen({Key? key}) : super(key: key);
+class DetailResultHWItemScreen extends StatelessWidget {
+  const DetailResultHWItemScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

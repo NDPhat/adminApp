@@ -1,8 +1,9 @@
-import 'package:admin/presentation/screen/mark/manager_main_screen.dart';
 import 'package:admin/presentation/screen/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import '../../create/create_main_screen.dart';
 import '../../dashboard_main/dashboard_home_page_screen.dart';
+import '../../manager/manager_main_screen.dart';
+
 class BodyDashBoard extends StatelessWidget {
   BodyDashBoard({Key? key, required this.myPage, required this.size})
       : super(key: key);
@@ -23,7 +24,7 @@ class BodyDashBoard extends StatelessWidget {
             DashBoardHomePageScreen(
               size: size,
             ),
-            CreateMainScreen(size:size),
+            CreateMainScreen(size: size),
             ManagerMainScreen(size: size),
             ProfileScreen(size: size)
           ]),
