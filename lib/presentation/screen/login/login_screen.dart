@@ -134,34 +134,79 @@ class _LoginAppState extends State<LoginApp> {
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               BlocConsumer<LoginCubit, LoginState>(
-                                  listener: (context, state) {},
-                                  builder: (context, state) {
-                                    return CircleAvatar(
-                                      radius: 50,
-                                      backgroundColor: colorMainBlue,
-                                      child:
-                                          state.status == LoginStatus.onLoading
-                                              ? SizedBox(
-                                                  height: size.height * 0.1,
-                                                  child: const Center(
-                                                    child:
-                                                        CircularProgressIndicator(
-                                                      color: colorSystemWhite,
-                                                      strokeWidth: 3,
-                                                    ),
-                                                  ),
-                                                )
-                                              : IconButton(
-                                                  color: Colors.white,
-                                                  onPressed: () async {
-                                                    Navigator.pushNamed(context, Routers.dashboard);
-                                                  },
-                                                  icon: const Icon(
-                                                    Icons.arrow_forward,
-                                                    size: 30,
-                                                  )),
-                                    );
-                                  })
+                                  listener: (context, state) {
+                                if (state.status == LoginStatus.success) {
+                                  Navigator.pushNamed(
+                                      context, Routers.dashboard);
+                                } else if (state.status == LoginStatus.error) {
+                                  showDialog(
+                                      context: context,
+                                      builder: (ctx) => Center(
+                                              child: AlertDialog(
+                                            shape: ShapeBorder.lerp(
+                                                const StadiumBorder(),
+                                                const StadiumBorder(),
+                                                100),
+                                            backgroundColor: colorSystemWhite,
+                                            title: const Center(
+                                              child: Text('LOGIN FAIL',
+                                                  style: s16f700ColorError,
+                                                  textAlign: TextAlign.center),
+                                            ),
+                                            actions: <Widget>[
+                                              TextButton(
+                                                  child: Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              15),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      100),
+                                                          border: Border.all(
+                                                              color:
+                                                                  colorSystemYeloow)),
+                                                      child: const Center(
+                                                        child: Text(
+                                                          'BACK',
+                                                          style:
+                                                              s15f700ColorErrorPri,
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                        ),
+                                                      )),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  }),
+                                            ],
+                                          )));
+                                }
+                              }, builder: (context, state) {
+                                return CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: colorMainBlue,
+                                  child: state.status == LoginStatus.onLoading
+                                      ? SizedBox(
+                                          height: size.height * 0.1,
+                                          child: const Center(
+                                            child: CircularProgressIndicator(
+                                              color: colorSystemWhite,
+                                              strokeWidth: 3,
+                                            ),
+                                          ),
+                                        )
+                                      : IconButton(
+                                          color: Colors.white,
+                                          onPressed: ()  {
+                                           context.read<LoginCubit>().loginAppWithEmailAndPass();
+                                          },
+                                          icon: const Icon(
+                                            Icons.arrow_forward,
+                                            size: 30,
+                                          )),
+                                );
+                              })
                             ],
                           ),
                         ),

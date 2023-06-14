@@ -9,12 +9,14 @@ class UserAPIReq {
   String? birthDate;
   String? linkImage;
   String? phone;
+  String? role;
 
   UserAPIReq(
       {this.name,
       this.email,
       this.password,
       this.lop,
+      this.role,
       this.otp,
       this.add,
       this.sex,
@@ -29,6 +31,7 @@ class UserAPIReq {
     lop = json['lop'];
     otp = json['otp'];
     add = json['add'];
+    role = json['role'];
     sex = json['sex'];
     birthDate = json['birthDate'];
     linkImage = json['linkImage'];
@@ -43,6 +46,7 @@ class UserAPIReq {
     data['lop'] = this.lop;
     data['otp'] = this.otp;
     data['add'] = this.add;
+    data['role'] = this.role;
     data['sex'] = this.sex;
     data['birthDate'] = this.birthDate;
     data['linkImage'] = this.linkImage;

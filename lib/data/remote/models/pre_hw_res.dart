@@ -38,6 +38,7 @@ class PreHWResModel {
   List<String>? sign;
   String? status;
   String? week;
+  String? lop;
 
   PreHWResModel(
       {this.color,
@@ -47,6 +48,7 @@ class PreHWResModel {
       this.key,
       this.numQ,
       this.sNum,
+      this.lop,
       this.sign,
       this.status,
       this.week});
@@ -58,6 +60,7 @@ class PreHWResModel {
     eNum = json['eNum'];
     key = json['key'];
     numQ = json['numQ'];
+    lop = json['lop'];
     sNum = json['sNum'];
     sign = json['sign'].cast<String>();
     status = json['status'];
@@ -71,6 +74,7 @@ class PreHWResModel {
     data['dstart'] = this.dstart;
     data['eNum'] = this.eNum;
     data['key'] = this.key;
+    data['lop'] = this.lop;
     data['numQ'] = this.numQ;
     data['sNum'] = this.sNum;
     data['sign'] = this.sign;

@@ -31,21 +31,23 @@ class ResultQuizHWAPIModel {
   int? falseQ;
   String? key;
   int? numQ;
-  String ? name;
+  String? name;
   int? score;
   int? trueQ;
   String? userId;
   String? week;
+  String? lop;
 
   ResultQuizHWAPIModel(
       {this.falseQ,
-        this.key,
-        this.numQ,
-        this.score,
-        this.trueQ,
-        this.name,
-        this.userId,
-        this.week});
+      this.key,
+      this.numQ,
+      this.score,
+      this.lop,
+      this.trueQ,
+      this.name,
+      this.userId,
+      this.week});
 
   ResultQuizHWAPIModel.fromJson(Map<String, dynamic> json) {
     falseQ = json['falseQ'];
@@ -53,6 +55,7 @@ class ResultQuizHWAPIModel {
     numQ = json['numQ'];
     score = json['score'];
     trueQ = json['trueQ'];
+    lop = json['lop'];
     name = json['name'];
     userId = json['userId'];
     week = json['week'];
@@ -67,6 +70,7 @@ class ResultQuizHWAPIModel {
     data['name'] = this.name;
     data['trueQ'] = this.trueQ;
     data['userId'] = this.userId;
+    data['lop'] = this.lop;
     data['week'] = this.week;
     return data;
   }

@@ -4,11 +4,10 @@ import 'package:admin/presentation/widget/bg_home_screen.dart';
 import 'package:admin/presentation/widget/rounded_button.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-
 import '../../../application/cons/color.dart';
 import '../../../application/cons/text_style.dart';
+import '../../../data/local/models/user_global.dart';
 import '../../../data/remote/models/pre_hw_res.dart';
-import '../../../data/remote/models/result_hw_res.dart';
 import '../../../main.dart';
 import '../../navigation/routers.dart';
 import '../dashboard_main/dashboard_home_page_screen.dart';
@@ -79,8 +78,8 @@ class ManagerMainScreen extends StatelessWidget {
                         color: colorMainBlue,
                         width: size.width,
                         height: size.height * 0.08,
-                        child: const Text(
-                          "1D",
+                        child:  Text(
+                          "Lop ${instance.get<UserGlobal>().lop}",
                           style: s24f500ColorGreyPri,
                         ))),
               ),

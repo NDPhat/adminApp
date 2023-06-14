@@ -7,8 +7,10 @@ import '../../models/result_hw_res.dart';
 
 abstract class TeacherAPIRepo {
   Future<bool?> createUser(UserAPIModel data);
+  Future<UserAPIModel?> loginWithEmailAndPass(String email, String pass);
   Future<List<UserAPIModel>?> getAllStudentByClass(String lop);
-  Future<UserAPIModel?> getUserStudentById(String id);
+  Future<UserAPIModel?> getUserById(String id);
+  Future<UserAPIModel?> getUserByEmail(String email);
   Future<int?> createPreHW(PreQuizHWReqAPI data);
   Future<bool?> updatePreHW(PreQuizHWReqAPI data, String key);
   Future<List<ResultQuizHWAPIModel>?> getAllResultQuizHWByWeek(String week);

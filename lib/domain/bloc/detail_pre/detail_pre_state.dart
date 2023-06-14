@@ -44,8 +44,11 @@ class DetailPreHWState extends Equatable {
       numQ: instance.get<PreGlobal>().numQ.toString() ?? '',
       week: instance.get<PreGlobal>().week ?? '',
       weekMess: '',
-      dayEnd: convertToDate(instance.get<PreGlobal>().dend!.split(" ")[1]) ?? (formatDateView.format((DateTime.now()))),
-      dayStart: convertToDate(instance.get<PreGlobal>().dstart!.split(" ")[1]) ?? (formatDateView.format((DateTime.now()))),
+      dayEnd: convertToDate(instance.get<PreGlobal>().dend!.split(" ")[1]) ??
+          (formatDateView.format((DateTime.now()))),
+      dayStart:
+          convertToDate(instance.get<PreGlobal>().dstart!.split(" ")[1]) ??
+              (formatDateView.format((DateTime.now()))),
       numQMess: '',
       sign: instance.get<PreGlobal>().sign ?? [],
       timeStart: instance.get<PreGlobal>().dstart!.split(" ")[0].toString(),

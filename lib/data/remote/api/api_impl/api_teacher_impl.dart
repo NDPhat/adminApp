@@ -7,6 +7,7 @@ import 'package:admin/data/remote/models/result_hw_res.dart';
 import 'package:admin/data/remote/models/user_res.dart';
 import '../../../../application/cons/endpoint.dart';
 import '../../../event_local/update_pre_now.dart';
+import '../../../event_local/update_user_global.dart';
 import '../api/api_teacher_repo.dart';
 import 'package:http/http.dart' as http;
 
@@ -143,7 +144,7 @@ class TeacherAPIImpl extends TeacherAPIRepo {
   }
 
   @override
-  Future<UserAPIModel?> getUserStudentById(String id) async {
+  Future<UserAPIModel?> getUserById(String id) async {
     try {
       final url = "${endpoint}getUserById?uId=$id";
       final res = await http.get(Uri.parse(url), headers: requestHeaders);
@@ -155,6 +156,31 @@ class TeacherAPIImpl extends TeacherAPIRepo {
         // log(req.body);
         Map<String, dynamic> parsed = json.decode(res.body);
         final userModel = UserAPIModel.fromJson(parsed);
+        return userModel;
+      }
+    } on SocketException catch (_) {
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<UserAPIModel?> getUserByEmail(String email) async {
+    try {
+      final url = "${endpoint}getUserByEmail?email=$email";
+      final res = await http.get(Uri.parse(url), headers: requestHeaders);
+      if (res.statusCode == 200) {
+        Map<String, dynamic> parsed = json.decode(res.body);
+        final userModel = UserAPIRes.fromJson(parsed).lItems!.first;
+        UserEventLocal.updateUserGlobal(userModel);
+        return userModel;
+      } else {
+        // log(req.body);
+        Map<String, dynamic> parsed = json.decode(res.body);
+        final userModel = UserAPIRes.fromJson(parsed).lItems!.first;
+        UserEventLocal.updateUserGlobal(userModel);
+
         return userModel;
       }
     } on SocketException catch (_) {
@@ -226,6 +252,36 @@ class TeacherAPIImpl extends TeacherAPIRepo {
       return Future.error('No network found');
     } catch (_) {
       return Future.error('Something occurred');
+    }
+  }
+
+  @override
+  Future<UserAPIModel?> loginWithEmailAndPass(String email, String pass) async {
+    try {
+      final url =
+          "${endpoint}getUserByEmailAndPassword?email=$email&password=$pass";
+      final res = await http.get(Uri.parse(url), headers: requestHeaders);
+      if (res.statusCode == 200) {
+        Map<String, dynamic> parsed = json.decode(res.body);
+        UserAPIModel userModel = UserAPIRes.fromJson(parsed).lItems!.first;
+        if (userModel!.role == "teacher") {
+          UserEventLocal.updateUserGlobal(userModel);
+          return userModel;
+        } else {
+          return null;
+        }
+      } else {
+        // log(req.body);
+        Map<String, dynamic> parsed = json.decode(res.body);
+        final userModel = UserAPIRes.fromJson(parsed).lItems!.first;
+        UserEventLocal.updateUserGlobal(userModel);
+
+        return userModel;
+      }
+    } on SocketException catch (_) {
+      return null;
+    } catch (_) {
+      return null;
     }
   }
 }

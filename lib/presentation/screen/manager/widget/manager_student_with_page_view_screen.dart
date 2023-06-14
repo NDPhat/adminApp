@@ -1,3 +1,4 @@
+import 'package:admin/data/local/models/user_global.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
@@ -28,7 +29,9 @@ class _ManagerStudentPageViewState extends State<ManagerStudentPageView> {
     _pageController = PageController(initialPage: 0);
     super.initState();
     Future.delayed(Duration.zero, () {
-      listServer = instance.get<TeacherAPIRepo>().getAllStudentByClass("1D");
+      listServer = instance
+          .get<TeacherAPIRepo>()
+          .getAllStudentByClass(instance.get<UserGlobal>().lop.toString());
       listServer!.then((value) => setState(() {
             listConvert = value;
             pageNum = listConvert!.length ~/ 4 + 1;
@@ -38,7 +41,9 @@ class _ManagerStudentPageViewState extends State<ManagerStudentPageView> {
   }
 
   void getListDataBack() {
-    listFake = instance.get<TeacherAPIRepo>().getAllStudentByClass("1D");
+    listFake = instance
+        .get<TeacherAPIRepo>()
+        .getAllStudentByClass(instance.get<UserGlobal>().lop.toString());
   }
 
   @override

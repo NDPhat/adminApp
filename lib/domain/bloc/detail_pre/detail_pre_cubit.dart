@@ -1,4 +1,3 @@
-import 'package:admin/data/local/models/per_global.dart';
 import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
 import 'package:admin/data/remote/models/pre_hw_req.dart';
 import 'package:admin/data/remote/models/pre_hw_res.dart';
@@ -9,6 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../../application/utils/status/add_pre_hw.dart';
 import '../../../application/utils/time_change/format.dart';
+import '../../../data/local/models/pre_global.dart';
 
 part 'detail_pre_state.dart';
 

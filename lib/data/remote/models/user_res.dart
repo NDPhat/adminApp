@@ -28,28 +28,32 @@ class UserAPIRes {
 }
 
 class UserAPIModel {
-  String? add;
-  String? birthDate;
-  String? email;
   String? key;
-  String? lop;
   String? name;
-  String? otp;
+  String? email;
   String? password;
+  String? lop;
+  String? otp;
+  String? add;
   String? phone;
   String? sex;
+  String? linkImage;
+  String? birthDate;
+  String? role;
 
   UserAPIModel(
       {this.add,
-        this.birthDate,
-        this.email,
-        this.key,
-        this.lop,
-        this.name,
-        this.otp,
-        this.password,
-        this.phone,
-        this.sex});
+      this.birthDate,
+      this.email,
+      this.key,
+      this.lop,
+      this.name,
+      this.role,
+      this.otp,
+      this.linkImage,
+      this.password,
+      this.phone,
+      this.sex});
 
   UserAPIModel.fromJson(Map<String, dynamic> json) {
     add = json['add'];
@@ -57,8 +61,10 @@ class UserAPIModel {
     email = json['email'];
     key = json['key'];
     lop = json['lop'];
+    role = json['role'];
     name = json['name'];
     otp = json['otp'];
+    linkImage = json['linkImage'];
     password = json['password'];
     phone = json['phone'];
     sex = json['sex'];
@@ -70,6 +76,8 @@ class UserAPIModel {
     data['email'] = this.email;
     data['key'] = this.key;
     data['lop'] = this.lop;
+    data['role'] = this.role;
+    data['linkImage'] = this.linkImage;
     data['name'] = this.name;
     data['otp'] = this.otp;
     data['password'] = this.password;

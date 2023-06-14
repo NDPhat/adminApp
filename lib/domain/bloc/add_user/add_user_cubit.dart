@@ -157,6 +157,7 @@ class AddUserCubit extends Cubit<AddUserState> {
           birthDate: state.birthDate,
           password: state.password,
           sex: state.sex,
+          role: "user",
           otp: otp.toString(),
           name: state.name,
           phone: state.phone));

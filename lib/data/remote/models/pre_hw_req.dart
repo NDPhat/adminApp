@@ -7,6 +7,7 @@ class PreQuizHWReqAPI {
   int? eNum;
   String? dstart;
   String? dend;
+  String? lop;
   String? status;
   String? color;
 
@@ -14,6 +15,7 @@ class PreQuizHWReqAPI {
       {this.week,
         this.numQ,
         this.sign,
+        this.lop,
         this.sNum,
         this.eNum,
         this.dstart,
@@ -27,6 +29,7 @@ class PreQuizHWReqAPI {
     sign = json['sign'].cast<String>();
     sNum = json['sNum'];
     eNum = json['eNum'];
+    lop = json['lop'];
     dstart = json['dstart'];
     dend = json['dend'];
     status = json['status'];
@@ -40,6 +43,7 @@ class PreQuizHWReqAPI {
     data['sign'] = this.sign;
     data['sNum'] = this.sNum;
     data['eNum'] = this.eNum;
+    data['lop'] = this.lop;
     data['dstart'] = this.dstart;
     data['dend'] = this.dend;
     data['status'] = this.status;

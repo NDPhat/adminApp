@@ -1,3 +1,4 @@
+import 'package:admin/data/local/models/user_global.dart';
 import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
 import 'package:admin/data/remote/models/pre_hw_req.dart';
 import 'package:admin/data/remote/models/pre_hw_res.dart';
@@ -137,6 +138,7 @@ class AddPreHWCubit extends Cubit<AddPreHWState> {
           dstart: "${state.timeStart.trim()} ${state.dayStart.trim()}",
           dend: "${state.timeEnd.trim()} ${state.dayEnd.trim()}",
           sign: state.sign,
+          lop: instance.get<UserGlobal>().lop.toString(),
           sNum: int.parse(state.sNum),
           numQ: int.parse(state.numQ),
           eNum: int.parse(state.eNum),

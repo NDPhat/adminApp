@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../../application/utils/status/login_status.dart';
+import '../../../data/local/models/user_global.dart';
 import '../../../data/remote/api/api/api_teacher_repo.dart';
 import '../../../data/remote/authen/authen_repo.dart';
 import '../../../main.dart';
@@ -37,6 +38,17 @@ class LoginCubit extends Cubit<LoginState> {
   Future<void> loginAppWithEmailAndPass() async {
     emit(state.copyWith(status: LoginStatus.onLoading));
     if (isEmailValid(state.email)) {
+      final user =
+      await teacherAPIRepo.loginWithEmailAndPass(state.email, state.pass);
+      if (user != null) {
+        authenRepository.handleAutoLoginApp(true);
+        authenRepository.handleMailLoginApp(state.email.toString());
+        instance.get<UserGlobal>().onLogin = true;
+        emit(state.copyWith(status: LoginStatus.success));
+      } else {
+        passMess = "Your password do not match";
+        emit(state.copyWith(status: LoginStatus.error, passError: passMess));
+      }
     } else {
       emailMess = "This is not an email!";
       emit(state.copyWith(status: LoginStatus.error, emailError: emailMess));

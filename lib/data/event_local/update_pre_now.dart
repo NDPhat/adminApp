@@ -1,9 +1,9 @@
 import 'package:admin/data/remote/models/pre_hw_res.dart';
 
 import '../../main.dart';
-import '../local/models/per_global.dart';
+import '../local/models/pre_global.dart';
 
-class UserEventLocal {
+class PreEventLocal {
   static void updatePreGlobal(PreHWResModel a) {
     instance.get<PreGlobal>().key = a.key;
     instance.get<PreGlobal>().sign = a.sign;

@@ -1,5 +1,4 @@
 import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
-import 'package:admin/data/remote/models/pre_hw_req.dart';
 import 'package:admin/data/remote/models/pre_hw_res.dart';
 import 'package:admin/presentation/navigation/routers.dart';
 import 'package:admin/presentation/screen/create/widget/item_card.dart';
@@ -7,13 +6,10 @@ import 'package:admin/presentation/widget/bg_home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import '../../../application/cons/color.dart';
-import '../../../application/cons/constants.dart';
 import '../../../application/cons/text_style.dart';
 import '../../../application/utils/find_color/find_color.dart';
 import '../../../data/event_local/update_pre_now.dart';
-import '../../../data/local/models/per_global.dart';
 import '../../../main.dart';
-import '../../widget/app_bar_widget.dart';
 import '../../widget/rounded_button.dart';
 import '../dashboard_main/dashboard_home_page_screen.dart';
 
@@ -134,7 +130,6 @@ class CreateMainScreen extends StatelessWidget {
               ),
             ),
           ),
-
           LineContentItem(
               size: size,
               title: 'HOME WORK',
@@ -189,7 +184,7 @@ class CreateMainScreen extends StatelessWidget {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             // update thong tin pre global
-                            UserEventLocal.updatePreGlobal(
+                            PreEventLocal.updatePreGlobal(
                                 snapshot.data![index]);
                             return ItemCard(
                               size: size,
@@ -242,7 +237,7 @@ class CreateMainScreen extends StatelessWidget {
                           itemCount: snapshot.data!.length,
                           itemBuilder: (context, index) {
                             // update thong tin pre global
-                            UserEventLocal.updatePreGlobal(
+                            PreEventLocal.updatePreGlobal(
                                 snapshot.data![index]);
                             return ItemCard(
                               size: size,
