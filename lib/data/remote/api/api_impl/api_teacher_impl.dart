@@ -284,4 +284,55 @@ class TeacherAPIImpl extends TeacherAPIRepo {
       return null;
     }
   }
+
+  @override
+  Future<List<ResultQuizHWAPIModel>?> getAllResultQuizHWByWeekAndLop(
+      String week, String lop) async {
+    try {
+      final url =
+          "${endpoint}getAllResultQuizHWByWeekAndClass?week=$week&lop=$lop";
+      final req = await http.get(Uri.parse(url), headers: requestHeaders);
+      if (req.statusCode == 200) {
+        Map<String, dynamic> parsed = json.decode(req.body);
+        List<ResultQuizHWAPIModel>? result =
+            ResultQuizHWAPIResponse.fromJson(parsed).lItems;
+        return result;
+      } else {
+        // log(req.body);
+        Map<String, dynamic> parsed = json.decode(req.body);
+        List<ResultQuizHWAPIModel>? result =
+            ResultQuizHWAPIResponse.fromJson(parsed).lItems;
+        return result;
+      }
+    } on SocketException catch (_) {
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<List<ResultQuizHWAPIModel>?> getAllResultQuizHWByLop(
+      String lop) async {
+    try {
+      final url = "${endpoint}getAllResultQuizHWByLop?lop=$lop";
+      final req = await http.get(Uri.parse(url), headers: requestHeaders);
+      if (req.statusCode == 200) {
+        Map<String, dynamic> parsed = json.decode(req.body);
+        List<ResultQuizHWAPIModel>? result =
+            ResultQuizHWAPIResponse.fromJson(parsed).lItems;
+        return result;
+      } else {
+        // log(req.body);
+        Map<String, dynamic> parsed = json.decode(req.body);
+        List<ResultQuizHWAPIModel>? result =
+            ResultQuizHWAPIResponse.fromJson(parsed).lItems;
+        return result;
+      }
+    } on SocketException catch (_) {
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
 }

@@ -145,7 +145,10 @@ class DetailResultHWItemScreen extends StatelessWidget {
                             }
                           }),
                       const Center(
-                        child: Text('Detail answer',style: s14f500ColorMainTe,),
+                        child: Text(
+                          'Detail answer',
+                          style: s14f500ColorMainTe,
+                        ),
                       )
                     ],
                   ),
