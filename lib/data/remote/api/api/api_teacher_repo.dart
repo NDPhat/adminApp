@@ -14,9 +14,11 @@ abstract class TeacherAPIRepo {
   Future<int?> createPreHW(PreQuizHWReqAPI data);
   Future<bool?> updatePreHW(PreQuizHWReqAPI data, String key);
   Future<List<ResultQuizHWAPIModel>?> getAllResultQuizHWByWeek(String week);
-  Future<List<ResultQuizHWAPIModel>?> getAllResultQuizHWByWeekAndLop(String week,String lop);
+  Future<List<ResultQuizHWAPIModel>?> getAllResultQuizHWByWeekAndLop(
+      String week, String lop);
   Future<List<ResultQuizHWAPIModel>?> getAllResultQuizHWByLop(String lop);
   Future<List<PreHWResModel>?> getALlDonePreHW();
+  Future<PreHWResModel?> getPreHWByWeek(String week);
   Future<List<PreHWResModel>?> getOnGoingPreHW();
   Future<List<QuizHWAPIModel>?> getAllQuizHWByResultID(String resultID);
 }

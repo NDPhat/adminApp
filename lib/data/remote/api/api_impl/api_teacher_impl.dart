@@ -335,4 +335,26 @@ class TeacherAPIImpl extends TeacherAPIRepo {
       return null;
     }
   }
+
+  @override
+  Future<PreHWResModel?> getPreHWByWeek(String week) async {
+    try {
+      final url = "${endpoint}getPreQuizHWByWeek?week=$week";
+      final req = await http.get(Uri.parse(url), headers: requestHeaders);
+      if (req.statusCode == 200) {
+        Map<String, dynamic> parsed = json.decode(req.body);
+        PreHWResModel result = PreHWResAPI.fromJson(parsed).lItems!.first;
+        return result;
+      } else {
+        // log(req.body);
+        Map<String, dynamic> parsed = json.decode(req.body);
+        PreHWResModel result = PreHWResModel.fromJson(parsed);
+        return result;
+      }
+    } on SocketException catch (_) {
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
 }

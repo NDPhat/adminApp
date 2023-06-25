@@ -3,29 +3,27 @@ import 'package:flutter/material.dart';
 import '../../../../application/cons/color.dart';
 import '../../../../application/cons/text_style.dart';
 
-
-class ItemAsyncDataPageHome extends StatelessWidget {
-  const ItemAsyncDataPageHome({
+class ItemAsyncDataCreatePageHome extends StatelessWidget {
+  const ItemAsyncDataCreatePageHome({
     Key? key,
     required this.size,
     required this.textTitle,
-    required this.totalUserJoin,
-    required this.scoreAvg,
+    required this.signList,
     required this.childRight,
-    required this.timeNow, required this.onTap,
+    required this.timeJoin,
+    required this.onTap,
   }) : super(key: key);
   final Size size;
   final String textTitle;
-  final String totalUserJoin;
-  final String timeNow;
-  final String scoreAvg;
+  final List<String> signList;
+  final String timeJoin;
   final Widget childRight;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap:onTap ,
+      onTap: onTap,
       child: Card(
         color: colorBGInput,
         child: Container(
@@ -52,19 +50,11 @@ class ItemAsyncDataPageHome extends StatelessWidget {
                         textTitle,
                         style: s16f500ColorGreyTe,
                       ),
-                    ),
-                    Container(
+                    ),  Container(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        'Total Join : $totalUserJoin',
-                        style: s16f500ColorError,
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Average : $scoreAvg',
-                        style: s14f500ColorMainTe,
+                        'Sign :$signList',
+                        style: s16f500ColorGreyTe,
                       ),
                     ),
                   ],
@@ -78,7 +68,7 @@ class ItemAsyncDataPageHome extends StatelessWidget {
                       alignment: Alignment.centerLeft,
                       height: size.height * 0.05,
                       child: Text(
-                        timeNow,
+                        timeJoin,
                         style: s12f400ColorGreyTe,
                       ),
                     ),

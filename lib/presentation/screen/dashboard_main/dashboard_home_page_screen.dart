@@ -1,17 +1,20 @@
 import 'package:admin/application/utils/find_average/find_average_score.dart';
 import 'package:admin/data/local/models/user_global.dart';
 import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
+import 'package:admin/data/remote/models/pre_hw_req.dart';
 import 'package:admin/presentation/navigation/routers.dart';
-import 'package:admin/presentation/screen/dashboard_main/widget/chart_season.dart';
-import 'package:admin/presentation/screen/dashboard_main/widget/item_async_data_main_screen.dart';
+import 'package:admin/presentation/screen/dashboard_main/widget/chart_hw_season.dart';
+import 'package:admin/presentation/screen/dashboard_main/widget/chart_sign_season.dart';
+import 'package:admin/presentation/screen/dashboard_main/widget/item_async_data_create_main_screen.dart';
+import 'package:admin/presentation/screen/dashboard_main/widget/item_async_data_hw_main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
 import '../../../application/cons/color.dart';
 import '../../../application/cons/text_style.dart';
+import '../../../data/local/models/chart_data.dart';
 import '../../../data/local/models/chart_hw_by_week_main_screen.dart';
-import '../../../data/local/models/chart_hw_main_screen.dart';
+import '../../../data/remote/models/pre_hw_res.dart';
 import '../../../data/remote/models/result_hw_res.dart';
 import '../../../main.dart';
 import '../../widget/bg_home_screen.dart';
@@ -124,7 +127,7 @@ class DashBoardHomePageScreen extends StatelessWidget {
                                       totalJ = totalJ + element.numQ!;
                                       score = score + element.score!;
                                     }
-                                    return ItemAsyncDataPageHome(
+                                    return ItemAsyncDataHWPageHome(
                                       size: size,
                                       onTap: () {
                                         Navigator.pushNamed(
@@ -158,8 +161,75 @@ class DashBoardHomePageScreen extends StatelessWidget {
                   ),
                   LineContentItem(
                     size: size,
-                    title: 'Practices',
+                    title: 'Create',
                     icon: const Icon(Icons.dashboard),
+                  ),
+                  ChartCreateSeason(
+                    size: size,
+                  ),
+                  const Center(
+                    child: Text(
+                      'Data sign by season ',
+                      style: s12f400ColorGreyTe,
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.02,
+                  ),
+                  Center(
+                    child: LineContentItem(
+                      size: size,
+                      title: 'Sign by week',
+                      icon: const Icon(Icons.calendar_view_week),
+                    ),
+                  ),
+                  SizedBox(
+                    height: size.height * 0.5,
+                    child: SingleChildScrollView(
+                      child: SizedBox(
+                        height: size.height * 0.5,
+                        child: ListView.builder(
+                          itemCount: 14,
+                          itemBuilder: (context, index) {
+                            return FutureBuilder<PreHWResModel?>(
+                                future: instance
+                                    .get<TeacherAPIRepo>()
+                                    .getPreHWByWeek((index + 1).toString()),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return SizedBox(
+                                      height: size.height * 0.3,
+                                      width: size.width * 0.3,
+                                      child: const Center(
+                                        child: CircularProgressIndicator(
+                                          color: colorMainBlue,
+                                          strokeWidth: 5,
+                                        ),
+                                      ),
+                                    );
+                                  }
+                                  else if (snapshot.hasData) {
+                                    return ItemAsyncDataCreatePageHome(
+                                      size: size,
+                                      onTap: () {},
+                                      textTitle: 'WEEK ${index + 1}',
+                                      childRight: ChildRightCreateByWeek(
+                                        size: size,
+                                        week: (index + 1).toString(),
+                                      ),
+                                      timeJoin: DateFormat.yMMMEd()
+                                          .format(DateTime.now()), signList: snapshot.data!.sign!,
+                                    );
+                                  }
+                                  else {
+                                    return Container();
+                                  }
+                                });
+                          },
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -266,6 +336,94 @@ class ChildRightHWByWeek extends StatelessWidget {
                         xValueMapper: (ChartDataMSByWeek chart, _) =>
                             chart.x.toString(),
                         yValueMapper: (ChartDataMSByWeek chart, _) => chart.y,
+                        width: 1,
+                        // Spacing between the columns
+                        spacing: 0.2,
+                        dataLabelSettings: const DataLabelSettings(
+                            color: colorErrorPrimary,
+                            textStyle: TextStyle(fontSize: 2)),
+                      ),
+                    ]);
+              } else {
+                return Container();
+              }
+            }));
+  }
+}
+
+class ChildRightCreateByWeek extends StatelessWidget {
+  ChildRightCreateByWeek({
+    Key? key,
+    required this.size,
+    required this.week,
+  }) : super(key: key);
+  final Size size;
+  String week;
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        width: size.width * 0.5,
+        height: size.height * 0.1,
+        child: FutureBuilder<PreHWResModel?>(
+            future: instance.get<TeacherAPIRepo>().getPreHWByWeek(week),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                int signAddTrue = 0;
+                int signSubTrue = 0;
+                int signMulTrue = 0;
+                int signDiviTrue = 0;
+                List<String> sign = snapshot.data!.sign!;
+                for (int i = 0; i < sign.length; i++) {
+                  switch (sign[i]) {
+                    case "+":
+                      signAddTrue++;
+                      break;
+                    case "-":
+                      signSubTrue++;
+                      break;
+                    case "x":
+                      signMulTrue++;
+                      break;
+                    case "/":
+                      signDiviTrue++;
+                      break;
+                  }
+                }
+                List<ChartData> dataList = [
+                  ChartData("+", signAddTrue),
+                  ChartData(
+                    "-",
+                    signSubTrue,
+                  ),
+                  ChartData(
+                    "x",
+                    signMulTrue,
+                  ),
+                  ChartData(
+                    "/",
+                    signDiviTrue,
+                  ),
+                ];
+                return SfCartesianChart(
+                    plotAreaBorderColor: colorMainBlue,
+                    plotAreaBorderWidth: 0,
+                    primaryXAxis: CategoryAxis(
+                      majorGridLines: const MajorGridLines(width: 0),
+                      //Hide the axis line of x-axis
+                    ),
+                    primaryYAxis: NumericAxis(
+                      //Hide the gridlines of y-axis
+                      majorGridLines: const MajorGridLines(width: 0),
+                      //Hide the axis line of y-axis
+                    ),
+                    series: <ChartSeries<ChartData, String>>[
+                      ColumnSeries<ChartData, String>(
+                        color: colorErrorPrimary,
+                        isVisible: true,
+                        dataSource: dataList,
+                        xValueMapper: (ChartData chart, _) =>
+                            chart.x.toString(),
+                        yValueMapper: (ChartData chart, _) => chart.y,
                         width: 1,
                         // Spacing between the columns
                         spacing: 0.2,
