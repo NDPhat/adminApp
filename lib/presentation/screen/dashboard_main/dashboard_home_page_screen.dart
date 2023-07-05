@@ -74,12 +74,7 @@ class DashBoardHomePageScreen extends StatelessWidget {
                   ChartHWSeason(
                     size: size,
                   ),
-                  const Center(
-                    child: Text(
-                      'Data homework by season ',
-                      style: s12f400ColorGreyTe,
-                    ),
-                  ),
+
                   SizedBox(
                     height: size.height * 0.02,
                   ),
@@ -90,69 +85,66 @@ class DashBoardHomePageScreen extends StatelessWidget {
                       icon: const Icon(Icons.calendar_view_week),
                     ),
                   ),
-                  SizedBox(
-                    height: size.height * 0.5,
-                    child: SingleChildScrollView(
-                      child: SizedBox(
-                        height: size.height * 0.3,
-                        child: ListView.builder(
-                          itemCount: 14,
-                          itemBuilder: (context, index) {
-                            return FutureBuilder<List<ResultQuizHWAPIModel>?>(
-                                future: instance
-                                    .get<TeacherAPIRepo>()
-                                    .getAllResultQuizHWByWeekAndLop(
-                                      (index + 1).toString(),
-                                      instance.get<UserGlobal>().lop.toString(),
+                  SingleChildScrollView(
+                    child: SizedBox(
+                      height: size.height * 0.3,
+                      child: ListView.builder(
+                        itemCount: 14,
+                        itemBuilder: (context, index) {
+                          return FutureBuilder<List<ResultQuizHWAPIModel>?>(
+                              future: instance
+                                  .get<TeacherAPIRepo>()
+                                  .getAllResultQuizHWByWeekAndLop(
+                                    (index + 1).toString(),
+                                    instance.get<UserGlobal>().lop.toString(),
+                                  ),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return SizedBox(
+                                    height: size.height * 0.3,
+                                    width: size.width * 0.3,
+                                    child: const Center(
+                                      child: CircularProgressIndicator(
+                                        color: colorMainBlue,
+                                        strokeWidth: 5,
+                                      ),
                                     ),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return SizedBox(
-                                      height: size.height * 0.3,
-                                      width: size.width * 0.3,
-                                      child: const Center(
-                                        child: CircularProgressIndicator(
-                                          color: colorMainBlue,
-                                          strokeWidth: 5,
-                                        ),
-                                      ),
-                                    );
+                                  );
+                                }
+                                if (snapshot.hasData &&
+                                    snapshot.data!.isNotEmpty) {
+                                  int totalJ = 0;
+                                  int score = 0;
+                                  for (var element in snapshot.data!) {
+                                    totalJ = totalJ + element.numQ!;
+                                    score = score + element.score!;
                                   }
-                                  if (snapshot.hasData &&
-                                      snapshot.data!.isNotEmpty) {
-                                    int totalJ = 0;
-                                    int score = 0;
-                                    for (var element in snapshot.data!) {
-                                      totalJ = totalJ + element.numQ!;
-                                      score = score + element.score!;
-                                    }
-                                    return ItemAsyncDataHWPageHome(
+                                  return ItemAsyncDataHWPageHome(
+                                    size: size,
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                          context,
+                                          Routers
+                                              .detailResultHWByWeakMainScreen,
+                                          arguments: snapshot!.data![index]);
+                                    },
+                                    textTitle: 'WEEK ${index + 1}',
+                                    totalUserJoin:
+                                        snapshot!.data!.length.toString(),
+                                    scoreAvg: ((score / totalJ) * 10)
+                                        .toStringAsFixed(2),
+                                    childRight: ChildRightHWByWeek(
                                       size: size,
-                                      onTap: () {
-                                        Navigator.pushNamed(
-                                            context,
-                                            Routers
-                                                .detailResultHWByWeakMainScreen,
-                                            arguments: snapshot!.data![index]);
-                                      },
-                                      textTitle: 'WEEK ${index + 1}',
-                                      totalUserJoin:
-                                          snapshot!.data!.length.toString(),
-                                      scoreAvg: ((score / totalJ) * 10)
-                                          .toStringAsFixed(2),
-                                      childRight: ChildRightHWByWeek(
-                                        size: size,
-                                        week: (index + 1).toString(),
-                                      ),
-                                      timeNow: DateFormat.yMMMEd()
-                                          .format(DateTime.now()),
-                                    );
-                                  }
-                                  return Container();
-                                });
-                          },
-                        ),
+                                      week: (index + 1).toString(),
+                                    ),
+                                    timeNow: DateFormat.yMMMEd()
+                                        .format(DateTime.now()),
+                                  );
+                                }
+                                return Container();
+                              });
+                        },
                       ),
                     ),
                   ),
@@ -167,12 +159,7 @@ class DashBoardHomePageScreen extends StatelessWidget {
                   ChartCreateSeason(
                     size: size,
                   ),
-                  const Center(
-                    child: Text(
-                      'Data sign by season ',
-                      style: s12f400ColorGreyTe,
-                    ),
-                  ),
+
                   SizedBox(
                     height: size.height * 0.02,
                   ),
@@ -183,51 +170,48 @@ class DashBoardHomePageScreen extends StatelessWidget {
                       icon: const Icon(Icons.calendar_view_week),
                     ),
                   ),
-                  SizedBox(
-                    height: size.height * 0.5,
-                    child: SingleChildScrollView(
-                      child: SizedBox(
-                        height: size.height * 0.5,
-                        child: ListView.builder(
-                          itemCount: 14,
-                          itemBuilder: (context, index) {
-                            return FutureBuilder<PreHWResModel?>(
-                                future: instance
-                                    .get<TeacherAPIRepo>()
-                                    .getPreHWByWeek((index + 1).toString()),
-                                builder: (context, snapshot) {
-                                  if (snapshot.connectionState ==
-                                      ConnectionState.waiting) {
-                                    return SizedBox(
-                                      height: size.height * 0.3,
-                                      width: size.width * 0.3,
-                                      child: const Center(
-                                        child: CircularProgressIndicator(
-                                          color: colorMainBlue,
-                                          strokeWidth: 5,
-                                        ),
+                  SingleChildScrollView(
+                    child: SizedBox(
+                      height: size.height * 0.3,
+                      child: ListView.builder(
+                        itemCount: 14,
+                        itemBuilder: (context, index) {
+                          return FutureBuilder<PreHWResModel?>(
+                              future: instance
+                                  .get<TeacherAPIRepo>()
+                                  .getPreHWByWeek((index + 1).toString()),
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return SizedBox(
+                                    height: size.height * 0.3,
+                                    width: size.width * 0.3,
+                                    child: const Center(
+                                      child: CircularProgressIndicator(
+                                        color: colorMainBlue,
+                                        strokeWidth: 5,
                                       ),
-                                    );
-                                  }
-                                  else if (snapshot.hasData) {
-                                    return ItemAsyncDataCreatePageHome(
+                                    ),
+                                  );
+                                }
+                                else if (snapshot.hasData) {
+                                  return ItemAsyncDataCreatePageHome(
+                                    size: size,
+                                    onTap: () {},
+                                    textTitle: 'WEEK ${index + 1}',
+                                    childRight: ChildRightCreateByWeek(
                                       size: size,
-                                      onTap: () {},
-                                      textTitle: 'WEEK ${index + 1}',
-                                      childRight: ChildRightCreateByWeek(
-                                        size: size,
-                                        week: (index + 1).toString(),
-                                      ),
-                                      timeJoin: DateFormat.yMMMEd()
-                                          .format(DateTime.now()), signList: snapshot.data!.sign!,
-                                    );
-                                  }
-                                  else {
-                                    return Container();
-                                  }
-                                });
-                          },
-                        ),
+                                      week: (index + 1).toString(),
+                                    ),
+                                    timeJoin: DateFormat.yMMMEd()
+                                        .format(DateTime.now()), signList: snapshot.data!.sign!,
+                                  );
+                                }
+                                else {
+                                  return Container();
+                                }
+                              });
+                        },
                       ),
                     ),
                   ),

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:admin/data/remote/models/pre_hw_req.dart';
 import 'package:admin/data/remote/models/pre_hw_res.dart';
 import 'package:admin/data/remote/models/quiz_hw_res.dart';
+import 'package:admin/data/remote/models/resukt_hw_req.dart';
 import 'package:admin/data/remote/models/result_hw_res.dart';
 import 'package:admin/data/remote/models/user_res.dart';
 import '../../../../application/cons/endpoint.dart';
@@ -355,6 +356,25 @@ class TeacherAPIImpl extends TeacherAPIRepo {
       return null;
     } catch (_) {
       return null;
+    }
+  }
+
+  @override
+  Future<bool?> createResultHWForStudentNoJoin(
+       ResultHWAPIReq data) async {
+    try {
+      const url = "${endpoint}create_result_quiz_for_student_No_join";
+      final req = await http.post(Uri.parse(url),
+          headers: requestHeaders, body: jsonEncode(data.toJson()));
+      if (req.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } on SocketException catch (_) {
+      return false;
+    } catch (_) {
+      return false;
     }
   }
 }

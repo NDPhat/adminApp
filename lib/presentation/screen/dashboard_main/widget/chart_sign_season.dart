@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../application/cons/color.dart';
+import '../../../../application/cons/text_style.dart';
 import '../../../../application/utils/find_average/find_average_score.dart';
 import '../../../../application/utils/find_average/get_sign.dart';
 import '../../../../data/local/models/chart_data.dart';
@@ -23,12 +24,10 @@ class ChartCreateSeason extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: size.width,
-        height: size.height * 0.3,
         child: FutureBuilder<List<PreHWResModel>?>(
             future: instance.get<TeacherAPIRepo>().getALlDonePreHW(),
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
+              if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                 int signAddTrue = 0;
                 int signSubTrue = 0;
                 int signMulTrue = 0;
@@ -67,34 +66,48 @@ class ChartCreateSeason extends StatelessWidget {
                     signDiviTrue,
                   ),
                 ];
-                return SfCartesianChart(
-                    plotAreaBorderColor: colorMainBlue,
-                    plotAreaBorderWidth: 0,
-                    primaryXAxis: CategoryAxis(
-                      majorGridLines: const MajorGridLines(width: 0),
-                      //Hide the axis line of x-axis
+                return Column(
+                  children: [
+                    SizedBox(
+                      width: size.width,
+                      height: size.height * 0.3,
+                      child: SfCartesianChart(
+                          plotAreaBorderColor: colorMainBlue,
+                          plotAreaBorderWidth: 0,
+                          primaryXAxis: CategoryAxis(
+                            majorGridLines: const MajorGridLines(width: 0),
+                            //Hide the axis line of x-axis
+                          ),
+                          primaryYAxis: NumericAxis(
+                            //Hide the gridlines of y-axis
+                            majorGridLines: const MajorGridLines(width: 0),
+                            //Hide the axis line of y-axis
+                          ),
+                          series: <ChartSeries<ChartData, String>>[
+                            ColumnSeries<ChartData, String>(
+                              color: colorErrorPrimary,
+                              isVisible: true,
+                              dataSource: dataList,
+                              xValueMapper: (ChartData chart, _) =>
+                                  chart.x.toString(),
+                              yValueMapper: (ChartData chart, _) => chart.y,
+                              width: 1,
+                              // Spacing between the columns
+                              spacing: 0.2,
+                              dataLabelSettings: const DataLabelSettings(
+                                  color: colorErrorPrimary,
+                                  textStyle: TextStyle(fontSize: 2)),
+                            ),
+                          ]),
                     ),
-                    primaryYAxis: NumericAxis(
-                      //Hide the gridlines of y-axis
-                      majorGridLines: const MajorGridLines(width: 0),
-                      //Hide the axis line of y-axis
-                    ),
-                    series: <ChartSeries<ChartData, String>>[
-                      ColumnSeries<ChartData, String>(
-                        color: colorErrorPrimary,
-                        isVisible: true,
-                        dataSource: dataList,
-                        xValueMapper: (ChartData chart, _) =>
-                            chart.x.toString(),
-                        yValueMapper: (ChartData chart, _) => chart.y,
-                        width: 1,
-                        // Spacing between the columns
-                        spacing: 0.2,
-                        dataLabelSettings: const DataLabelSettings(
-                            color: colorErrorPrimary,
-                            textStyle: TextStyle(fontSize: 2)),
+                    const Center(
+                      child: Text(
+                        'Data sign by season ',
+                        style: s12f400ColorGreyTe,
                       ),
-                    ]);
+                    ),
+                  ],
+                );
               } else {
                 return Container();
               }

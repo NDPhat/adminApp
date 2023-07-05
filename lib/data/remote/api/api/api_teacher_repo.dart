@@ -3,6 +3,7 @@ import 'package:admin/data/remote/models/quiz_hw_res.dart';
 import 'package:admin/data/remote/models/user_res.dart';
 
 import '../../models/pre_hw_res.dart';
+import '../../models/resukt_hw_req.dart';
 import '../../models/result_hw_res.dart';
 
 abstract class TeacherAPIRepo {
@@ -21,4 +22,5 @@ abstract class TeacherAPIRepo {
   Future<PreHWResModel?> getPreHWByWeek(String week);
   Future<List<PreHWResModel>?> getOnGoingPreHW();
   Future<List<QuizHWAPIModel>?> getAllQuizHWByResultID(String resultID);
+  Future<bool?> createResultHWForStudentNoJoin(ResultHWAPIReq data);
 }

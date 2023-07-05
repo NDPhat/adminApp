@@ -11,10 +11,7 @@ import '../../../../application/cons/color.dart';
 import '../../../../application/cons/text_style.dart';
 import '../../../../application/utils/status/add_pre_hw.dart';
 import '../../../../application/utils/time_change/format.dart';
-import '../../../../domain/bloc/add_task/add_pre_cubit.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
-
 import '../../widget/box_field.dart';
 import '../../widget/rounded_button.dart';
 
@@ -52,7 +49,7 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                   onPressed: () {
                     context
                         .read<DetailPreHWCubit>()
-                        .updatePreHWToDone(data.key!);
+                        .updatePreHWToDone(data.key!, data.week!, data.lop!);
                     Navigator.pop(context);
                   },
                   child: const Text('GO', style: s16f700ColorError),

@@ -67,7 +67,7 @@ class CreateMainScreen extends StatelessWidget {
             )),
             backgroundColor: const Color(0xff1542bf),
             title: const FittedBox(
-              child: Text('YOUR PRE HOME WORK EXPIRED.ONLY READ!!',
+              child: Text('REVIEW YOUR PRE HOME WORK !!',
                   textAlign: TextAlign.center, style: s30f700colorSysWhite),
             ),
             actions: [
