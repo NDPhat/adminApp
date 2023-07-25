@@ -5,24 +5,26 @@ class UserAPIReq {
   String? lop;
   String? otp;
   String? add;
-  String? sex;
-  String? birthDate;
-  String? linkImage;
+  String? deleteHash;
   String? phone;
+  String? sex;
+  String? linkImage;
+  String? birthDate;
   String? role;
 
   UserAPIReq(
       {this.name,
-      this.email,
-      this.password,
-      this.lop,
-      this.role,
-      this.otp,
-      this.add,
-      this.sex,
-      this.birthDate,
-      this.linkImage,
-      this.phone});
+        this.email,
+        this.password,
+        this.lop,
+        this.otp,
+        this.add,
+        this.deleteHash,
+        this.phone,
+        this.sex,
+        this.linkImage,
+        this.birthDate,
+        this.role});
 
   UserAPIReq.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -31,11 +33,12 @@ class UserAPIReq {
     lop = json['lop'];
     otp = json['otp'];
     add = json['add'];
-    role = json['role'];
-    sex = json['sex'];
-    birthDate = json['birthDate'];
-    linkImage = json['linkImage'];
+    deleteHash = json['deleteHash'];
     phone = json['phone'];
+    sex = json['sex'];
+    linkImage = json['linkImage'];
+    birthDate = json['birthDate'];
+    role = json['role'];
   }
 
   Map<String, dynamic> toJson() {
@@ -46,11 +49,12 @@ class UserAPIReq {
     data['lop'] = this.lop;
     data['otp'] = this.otp;
     data['add'] = this.add;
-    data['role'] = this.role;
-    data['sex'] = this.sex;
-    data['birthDate'] = this.birthDate;
-    data['linkImage'] = this.linkImage;
+    data['deleteHash'] = this.deleteHash;
     data['phone'] = this.phone;
+    data['sex'] = this.sex;
+    data['linkImage'] = this.linkImage;
+    data['birthDate'] = this.birthDate;
+    data['role'] = this.role;
     return data;
   }
 }

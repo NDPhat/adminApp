@@ -28,31 +28,31 @@ class UserAPIRes {
 }
 
 class UserAPIModel {
-  String? key;
-  String? name;
-  String? email;
-  String? password;
-  String? lop;
-  String? otp;
   String? add;
-  String? phone;
-  String? sex;
-  String? linkImage;
   String? birthDate;
+  String? email;
+  String? key;
+  String? linkImage;
+  String? lop;
+  String? name;
+  String ? otp;
+  String? password;
+  String? phone;
   String? role;
+  String? sex;
 
   UserAPIModel(
       {this.add,
       this.birthDate,
       this.email,
       this.key,
+      this.linkImage,
       this.lop,
       this.name,
-      this.role,
       this.otp,
-      this.linkImage,
       this.password,
       this.phone,
+      this.role,
       this.sex});
 
   UserAPIModel.fromJson(Map<String, dynamic> json) {
@@ -60,28 +60,29 @@ class UserAPIModel {
     birthDate = json['birthDate'];
     email = json['email'];
     key = json['key'];
+    linkImage = json['linkImage'];
     lop = json['lop'];
-    role = json['role'];
     name = json['name'];
     otp = json['otp'];
-    linkImage = json['linkImage'];
     password = json['password'];
     phone = json['phone'];
+    role = json['role'];
     sex = json['sex'];
   }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['add'] = this.add;
     data['birthDate'] = this.birthDate;
     data['email'] = this.email;
     data['key'] = this.key;
-    data['lop'] = this.lop;
-    data['role'] = this.role;
     data['linkImage'] = this.linkImage;
+    data['lop'] = this.lop;
     data['name'] = this.name;
     data['otp'] = this.otp;
     data['password'] = this.password;
     data['phone'] = this.phone;
+    data['role'] = this.role;
     data['sex'] = this.sex;
     return data;
   }

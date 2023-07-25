@@ -1,8 +1,10 @@
 import 'package:admin/data/remote/models/result_hw_res.dart';
 import 'package:admin/presentation/navigation/routers.dart';
 import 'package:admin/presentation/widget/app_bar_widget.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:sizer/sizer.dart';
 import '../../../../application/cons/color.dart';
 import '../../../../application/cons/text_style.dart';
 import '../../../../application/utils/find_average/find_average_score.dart';
@@ -61,33 +63,30 @@ class _ManagerResultHWMainScreenState extends State<ManagerResultHWMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return Scaffold(
       body: Column(
         children: [
           AppBarWidget(
-            size: size,
             onBack: () {
               Navigator.pop(context);
             },
             textTitle: "WEEK 1",
           ),
           SizedBox(
-            width: size.width,
-            height: size.height * 0.1,
+            width: 100.w,
+            height: 10.h,
             child: TextField(
               textInputAction: TextInputAction.next,
               style: s16f700ColorGreyTe,
-              decoration: const InputDecoration(
-                suffixIcon: Icon(
+              decoration: InputDecoration(
+                suffixIcon: const Icon(
                   LineAwesomeIcons.search,
                   size: 30,
                   color: colorGrayBG,
                 ),
-                hintText: "Search",
+                hintText: "search".tr().toString(),
                 fillColor: colorBGInput,
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.black)),
                 filled: true,
               ),
@@ -98,8 +97,8 @@ class _ManagerResultHWMainScreenState extends State<ManagerResultHWMainScreen> {
           ),
           Padding(
             padding: EdgeInsets.only(
-              left: size.width * 0.05,
-              right: size.width * 0.05,
+              left: 5.w,
+              right: 5.w,
             ),
             child: Column(
               children: [
@@ -108,8 +107,7 @@ class _ManagerResultHWMainScreenState extends State<ManagerResultHWMainScreen> {
                     Row(
                       children: [
                         ItemFillter(
-                          size: size,
-                          name: "NAME",
+                          name: "name".tr().toString(),
                           onTap: () {
                             setState(() {
                               chooseScoreNow = false;
@@ -124,8 +122,7 @@ class _ManagerResultHWMainScreenState extends State<ManagerResultHWMainScreen> {
                           onChoose: chooseNameNow,
                         ),
                         ItemFillter(
-                          size: size,
-                          name: "SCORE",
+                          name: "score".tr().toString(),
                           onTap: () {
                             setState(() {
                               chooseScoreNow = true;
@@ -145,7 +142,7 @@ class _ManagerResultHWMainScreenState extends State<ManagerResultHWMainScreen> {
                 ),
                 SingleChildScrollView(
                   child: SizedBox(
-                      height: size.height * 0.55,
+                      height: 55.h,
                       child: listSearch!.isEmpty
                           ? ListView.builder(
                               itemCount: listConvert!.length,
@@ -156,7 +153,6 @@ class _ManagerResultHWMainScreenState extends State<ManagerResultHWMainScreen> {
                                         context, Routers.detailQuizHWByResultID,
                                         arguments: listConvert![index]);
                                   },
-                                  size: size,
                                   backgroundColor: colorMainBlue,
                                   childRight: Center(
                                     child: Text(
@@ -173,7 +169,7 @@ class _ManagerResultHWMainScreenState extends State<ManagerResultHWMainScreen> {
                                         style: s16f500ColorSysWhite,
                                       ),
                                       Text(
-                                        "SCORE : ${listConvert![index].score}",
+                                        "${"score".tr().toString()} : ${listConvert![index].score}",
                                         style: s16f700ColorError,
                                       ),
                                     ],
@@ -185,7 +181,6 @@ class _ManagerResultHWMainScreenState extends State<ManagerResultHWMainScreen> {
                               itemBuilder: (context, index) {
                                 return ItemCard(
                                   onTap: () {},
-                                  size: size,
                                   backgroundColor: colorMainBlue,
                                   childRight: Center(
                                     child: Text(
@@ -202,7 +197,7 @@ class _ManagerResultHWMainScreenState extends State<ManagerResultHWMainScreen> {
                                         style: s16f500ColorSysWhite,
                                       ),
                                       Text(
-                                        "SCORE : ${listSearch![index].score}",
+                                        "${"score".tr()}: ${listSearch![index].score}",
                                         style: s16f700ColorError,
                                       ),
                                     ],

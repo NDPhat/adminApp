@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:multiselect/multiselect.dart';
+import 'package:sizer/sizer.dart';
 import '../../../../application/cons/color.dart';
 import '../../../../application/cons/text_style.dart';
 import '../../../../application/utils/status/add_pre_hw.dart';
@@ -24,20 +25,17 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
   List<String> selectedSignList = [];
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
         children: [
           AppBarWidget(
-            size: size,
             onBack: () {
               Navigator.pop(context);
             },
             textTitle: 'Create Pre Home work',
           ),
           Padding(
-            padding: EdgeInsets.only(
-                left: size.width * 0.05, right: size.width * 0.05),
+            padding: EdgeInsets.only(left: 5.w, right: 5.w),
             child: SafeArea(
               child: SingleChildScrollView(
                 child: Column(
@@ -54,12 +52,12 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                         },
                         validateText: state.weekMess,
                         isHidden: state.weekMess != "",
-                        width: size.width * 0.9,
-                        height: size.height * 0.1,
+                        width: 90.w,
+                        height: 8.h,
                       );
                     }),
                     SizedBox(
-                      height: size.height * 0.03,
+                      height: 3.h,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -76,8 +74,8 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                             },
                             validateText: state.numQMess,
                             isHidden: state.numQMess != "",
-                            width: size.width * 0.4,
-                            height: size.height * 0.1,
+                            width: 40.w,
+                            height: 8.h,
                           );
                         }),
                         BlocBuilder<AddPreHWCubit, AddPreHWState>(
@@ -85,11 +83,10 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                           return pre.sign != now.sign;
                         }, builder: (context, state) {
                           return Padding(
-                            padding:
-                                EdgeInsets.only(bottom: size.height * 0.03),
+                            padding: EdgeInsets.only(bottom: 3.h),
                             child: SizedBox(
-                              width: size.width * 0.4,
-                              height: size.height * 0.1,
+                              width: 40.w,
+                              height: 8.h,
                               child: DropDownMultiSelect(
                                 readOnly: true,
                                 icon:
@@ -109,7 +106,7 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: size.height * 0.03,
+                      height: 3.h,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -126,8 +123,8 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                             },
                             validateText: state.sNumMess,
                             isHidden: state.sNumMess != "",
-                            width: size.width * 0.4,
-                            height: size.height * 0.1,
+                            width: 40.w,
+                            height: 8.h,
                           );
                         }),
                         BlocBuilder<AddPreHWCubit, AddPreHWState>(
@@ -142,14 +139,14 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                             validateText: state.eNumMess,
                             isHidden: state.eNumMess != "",
                             typeText: TextInputType.number,
-                            width: size.width * 0.4,
-                            height: size.height * 0.1,
+                            width: 40.w,
+                            height: 8.h,
                           );
                         }),
                       ],
                     ),
                     SizedBox(
-                      height: size.height * 0.03,
+                      height: 3.h,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -161,7 +158,7 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                           return BoxField(
                             hintText: state.dayStart,
                             nameTitle: 'Day start',
-                            size: size.width * 0.42,
+                            size: 42.w,
                             icon: const Icon(Icons.calendar_month),
                             onTapped: () async {
                               var datePicked =
@@ -189,7 +186,7 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                           return BoxField(
                               hintText: state.timeStart,
                               nameTitle: 'Time start',
-                              size: size.width * 0.42,
+                              size: 42.w,
                               icon: const Icon(Icons.timer),
                               onTapped: () async {
                                 var timePic = await showTimePicker(
@@ -214,7 +211,7 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: size.height * 0.03,
+                      height: 3.h,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -226,7 +223,7 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                           return BoxField(
                             hintText: state.dayEnd,
                             nameTitle: 'Day end',
-                            size: size.width * 0.42,
+                            size: 42.w,
                             icon: const Icon(Icons.calendar_month),
                             onTapped: () async {
                               var datePicked =
@@ -254,7 +251,7 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                           return BoxField(
                               hintText: state.timeEnd,
                               nameTitle: 'End time',
-                              size: size.width * 0.42,
+                              size: 42.w,
                               icon: const Icon(Icons.timer),
                               onTapped: () async {
                                 var timePic = await showTimePicker(
@@ -286,8 +283,8 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                                           Navigator.pop(context);
                                         },
                                         color: colorMainBlue,
-                                        width: size.width,
-                                        height: size.height * 0.1,
+                                        width: 90.w,
+                                        height: 8.h,
                                         child: Text('GO'),
                                       )
                                     ],
@@ -314,14 +311,14 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: size.height * 0.03,
+                      height: 3.h,
                     ),
                     Padding(
                       padding: EdgeInsets.only(
-                        bottom: size.height * 0.01,
+                        bottom: 1.h,
                       ),
                       child: SizedBox(
-                        width: size.width,
+                        width: 100.w,
                         child: const Text(
                           'Color',
                           style: s15f700ColorBlueMa,
@@ -332,7 +329,7 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SizedBox(
-                          width: size.width * 0.3,
+                          width: 30.w,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -533,11 +530,11 @@ class CreatePreHomeWorkScreen extends StatelessWidget {
                                 context.read<AddPreHWCubit>().createPreHW();
                               },
                               color: colorMainBlue,
-                              width: size.width * 0.4,
-                              height: size.height * 0.05,
+                              width: 40.w,
+                              height: 5.h,
                               child: state.status == AddPreHWStatus.submit
                                   ? SizedBox(
-                                      height: size.height * 0.1,
+                                      height: 10.h,
                                       child: const Center(
                                         child: CircularProgressIndicator(
                                           color: colorSystemWhite,

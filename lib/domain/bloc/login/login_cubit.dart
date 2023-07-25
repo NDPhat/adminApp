@@ -35,11 +35,16 @@ class LoginCubit extends Cubit<LoginState> {
     state.pass = value;
   }
 
+  void clearData() {
+    emit(state.copyWith(
+        emailError: "", passError: "", status: LoginStatus.clear));
+  }
+
   Future<void> loginAppWithEmailAndPass() async {
     emit(state.copyWith(status: LoginStatus.onLoading));
     if (isEmailValid(state.email)) {
       final user =
-      await teacherAPIRepo.loginWithEmailAndPass(state.email, state.pass);
+          await teacherAPIRepo.loginWithEmailAndPass(state.email, state.pass);
       if (user != null) {
         authenRepository.handleAutoLoginApp(true);
         authenRepository.handleMailLoginApp(state.email.toString());

@@ -41,7 +41,17 @@
   "task": "Bài",
   "score": "Điểm",
   "choose sign": "Chọn phép tính",
-  "choose mode": "Chọn bài toán"
+  "choose mode": "Chọn bài toán",
+  "manager": "Quản lí",
+  "student":"Học sinh",
+  "week": "Tuần",
+  "manager student": "Quản lí học sinh",
+  "search": "Tìm kiếm",
+  "name": "Tên",
+  "finish this hw": "Kết thúc bài tập tuần này",
+  "skip": "Bỏ qua",
+  "create": "Tạo mới",
+  "data sheet": "Thống kê"
 
 
 

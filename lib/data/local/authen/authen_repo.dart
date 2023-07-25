@@ -6,6 +6,11 @@ class AuthenRepository {
     return prefs.getBool("flagAutoLogin") ?? false;
   }
 
+  Future<bool> loadHandleFirstTimeUsingApp() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool("flagIntro") ?? false;
+  }
+
   Future<String> getMailHandleAutoLoginApp() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString("mail") ?? "";
@@ -14,6 +19,12 @@ class AuthenRepository {
   void handleAutoLoginApp(bool value) {
     SharedPreferences.getInstance().then((prefs) {
       prefs.setBool("flagAutoLogin", value);
+    });
+  }
+
+  void handleFirstTimeUsingApp(bool value) {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.setBool("flagIntro", value);
     });
   }
 

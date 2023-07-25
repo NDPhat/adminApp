@@ -1,1 +1,1 @@
-enum LoginStatus { initial,success,onLoading,error}
+enum LoginStatus { initial,success,onLoading,error,clear}

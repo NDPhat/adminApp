@@ -1,8 +1,3 @@
-import 'dart:io';
-import 'dart:ui' as ui;
-import 'dart:async';
-import 'dart:typed_data';
-import 'dart:math' as math;
 import 'package:admin/application/utils/status/add_user_status.dart';
 import 'package:admin/domain/bloc/add_user/add_user_cubit.dart';
 import 'package:admin/presentation/navigation/routers.dart';
@@ -12,9 +7,9 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:scroll_date_picker/scroll_date_picker.dart';
+import 'package:sizer/sizer.dart';
 import '../../../../../application/cons/color.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-
 import '../../../../application/cons/text_style.dart';
 import '../../../widget/app_bar_widget.dart';
 import '../../../widget/rounded_button.dart';
@@ -27,12 +22,10 @@ class CreateUserScreen extends StatelessWidget {
   final List<String> genders = ["Male", "Female"];
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
         children: [
           AppBarWidget(
-            size: size,
             onBack: () {
               Navigator.pop(context);
             },
@@ -42,10 +35,7 @@ class CreateUserScreen extends StatelessWidget {
             child: SingleChildScrollView(
               child: Padding(
                 padding: EdgeInsets.only(
-                    top: size.height * 0.02,
-                    bottom: size.height * 0.1,
-                    left: size.width * 0.02,
-                    right: size.width * 0.02),
+                    top: 2.h, bottom: 10.h, left: 2.w, right: 2.w),
                 child: Container(
                   padding: const EdgeInsets.all(10),
                   child: Column(
@@ -59,8 +49,8 @@ class CreateUserScreen extends StatelessWidget {
                             return pre.nameMess != now.nameMess;
                           }, builder: (context, state) {
                             return InputFieldWidget(
-                              width: size.width * 0.45,
-                              height: size.height * 0.1,
+                              width: 45.w,
+                              height: 8.h,
                               hintText: 'Your name',
                               onChanged: (value) {
                                 context.read<AddUserCubit>().nameChanged(value);
@@ -79,8 +69,8 @@ class CreateUserScreen extends StatelessWidget {
                             return pre.lopMess != now.lopMess;
                           }, builder: (context, state) {
                             return InputFieldWidget(
-                              width: size.width * 0.45,
-                              height: size.height * 0.1,
+                              width: 45.w,
+                              height: 8.h,
                               hintText: 'Your class',
                               onChanged: (value) {
                                 context.read<AddUserCubit>().lopChanged(value);
@@ -96,14 +86,14 @@ class CreateUserScreen extends StatelessWidget {
                           }),
                         ],
                       ),
-                      SizedBox(height: size.height * 0.01),
+                      SizedBox(height: 1.h),
                       BlocBuilder<AddUserCubit, AddUserState>(
                           buildWhen: (pre, now) {
                         return pre.mailMess != now.mailMess;
                       }, builder: (context, state) {
                         return InputFieldWidget(
-                          width: size.width * 0.9,
-                          height: size.height * 0.1,
+                          width: 90.w,
+                          height: 8.h,
                           hintText: 'Your email',
                           onChanged: (value) {
                             context.read<AddUserCubit>().mailChanged(value);
@@ -117,14 +107,14 @@ class CreateUserScreen extends StatelessWidget {
                           validateText: state.mailMess,
                         );
                       }),
-                      SizedBox(height: size.height * 0.01),
+                      SizedBox(height: 1.h),
                       BlocBuilder<AddUserCubit, AddUserState>(
                           buildWhen: (pre, now) {
                         return pre.passMess != now.passMess;
                       }, builder: (context, state) {
                         return InputFieldWidget(
-                          width: size.width * 0.9,
-                          height: size.height * 0.1,
+                          width: 90.w,
+                          height: 8.h,
                           hintText: 'Your password',
                           onChanged: (value) {
                             context.read<AddUserCubit>().passChanged(value);
@@ -138,7 +128,7 @@ class CreateUserScreen extends StatelessWidget {
                           validateText: state.passMess,
                         );
                       }),
-                      SizedBox(height: size.height * 0.01),
+                      SizedBox(height: 1.h),
                       BlocBuilder<AddUserCubit, AddUserState>(
                           buildWhen: (pre, now) {
                         return pre.sex != now.sex;
@@ -187,8 +177,8 @@ class CreateUserScreen extends StatelessWidget {
                                     .sexChanged(value ?? "Male");
                               },
                               buttonStyleData: ButtonStyleData(
-                                width: size.width * 0.9,
-                                height: size.height * 0.075,
+                                width: 90.w,
+                                height: 8.h,
                                 padding:
                                     const EdgeInsets.only(left: 14, right: 14),
                                 decoration: BoxDecoration(
@@ -210,7 +200,7 @@ class CreateUserScreen extends StatelessWidget {
                               ),
                               dropdownStyleData: DropdownStyleData(
                                 maxHeight: 100,
-                                width: size.width * 0.45,
+                                width: 45.w,
                                 padding: null,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(14),
@@ -226,7 +216,7 @@ class CreateUserScreen extends StatelessWidget {
                           ),
                         );
                       }),
-                      SizedBox(height: size.height * 0.01),
+                      SizedBox(height: 1.h),
                       BlocBuilder<AddUserCubit, AddUserState>(
                           buildWhen: (pre, now) {
                         return pre.phoneMess != now.phoneMess;
@@ -235,8 +225,8 @@ class CreateUserScreen extends StatelessWidget {
                           onChanged: (value) {
                             context.read<AddUserCubit>().phoneChanged(value);
                           },
-                          width: size.width * 0.9,
-                          height: size.height * 0.1,
+                          width: 90.w,
+                          height: 8.h,
                           hintText: 'Your phone',
                           icon: const Icon(
                             LineAwesomeIcons.phone,
@@ -247,7 +237,7 @@ class CreateUserScreen extends StatelessWidget {
                           validateText: state.phoneMess,
                         );
                       }),
-                      SizedBox(height: size.height * 0.01),
+                      SizedBox(height: 1.h),
                       BlocBuilder<AddUserCubit, AddUserState>(
                           buildWhen: (pre, now) {
                         return pre.birthMess != now.birthMess ||
@@ -255,11 +245,11 @@ class CreateUserScreen extends StatelessWidget {
                       }, builder: (context, state) {
                         return InputFieldWidget(
                           readOnly: true,
-                          width: size.width * 0.9,
-                          height: size.height * 0.1,
+                          width: 90.w,
+                          height: 8.h,
                           hintText: 'Your birthDate',
                           controller:
-                          TextEditingController(text: state.birthDate),
+                              TextEditingController(text: state.birthDate),
                           isHidden: state.birthMess != "",
                           validateText: state.birthMess,
                           icon: const Icon(
@@ -282,17 +272,17 @@ class CreateUserScreen extends StatelessWidget {
                                               context),
                                           child: Padding(
                                             padding: EdgeInsets.only(
-                                              left: size.width * 0.05,
-                                              right: size.width * 0.05,
+                                              left: 5.w,
+                                              right: 5.w,
                                             ),
                                             child: SizedBox(
-                                              height: size.height * 0.3,
+                                              height: 30.h,
                                               child: Column(
                                                 children: [
                                                   SizedBox(
-                                                    height: size.height * 0.23,
+                                                    height: 23.h,
                                                     child: MyScrollDatePicker(
-                                                        widthScreen: size.width,
+                                                        widthScreen: 100.w,
                                                         scrollViewOptions:
                                                             const DatePickerScrollViewOptions(
                                                           year: ScrollViewDetailOptions(
@@ -328,8 +318,8 @@ class CreateUserScreen extends StatelessWidget {
                                                       Navigator.pop(context);
                                                     },
                                                     color: colorMainBlue,
-                                                    width: size.width * 0.8,
-                                                    height: size.height * 0.06,
+                                                    width: 80.w,
+                                                    height: 6.h,
                                                     child: const Text(
                                                       'Done',
                                                       style:
@@ -345,7 +335,7 @@ class CreateUserScreen extends StatelessWidget {
                               icon: const Icon(Icons.calendar_month)),
                         );
                       }),
-                      SizedBox(height: size.height * 0.01),
+                      SizedBox(height: 1.h),
                       BlocBuilder<AddUserCubit, AddUserState>(
                           buildWhen: (pre, now) {
                         return pre.addMess != now.addMess;
@@ -354,8 +344,8 @@ class CreateUserScreen extends StatelessWidget {
                           onChanged: (value) {
                             context.read<AddUserCubit>().addChanged(value);
                           },
-                          width: size.width * 0.9,
-                          height: size.height * 0.1,
+                          width: 90.w,
+                          height: 8.h,
                           hintText: "Your add",
                           icon: const Icon(
                             LineAwesomeIcons.address_card,
@@ -366,7 +356,7 @@ class CreateUserScreen extends StatelessWidget {
                           validateText: state.addMess,
                         );
                       }),
-                      SizedBox(height: size.height * 0.02),
+                      SizedBox(height: 2.h),
                       BlocConsumer<AddUserCubit, AddUserState>(
                           listener: (context, state) {
                         if (state.status == AddUserStatus.success) {
@@ -415,11 +405,11 @@ class CreateUserScreen extends StatelessWidget {
                               context.read<AddUserCubit>().createUser();
                             },
                             color: colorMainBlue,
-                            width: size.width * 0.8,
-                            height: size.height * 0.08,
+                            width: 80.w,
+                            height: 8.h,
                             child: state.status == AddUserStatus.submit
                                 ? SizedBox(
-                                    height: size.height * 0.1,
+                                    height: 10.h,
                                     child: const Center(
                                       child: CircularProgressIndicator(
                                         color: colorSystemWhite,

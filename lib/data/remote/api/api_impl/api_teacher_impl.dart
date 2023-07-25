@@ -3,12 +3,12 @@ import 'dart:io';
 import 'package:admin/data/remote/models/pre_hw_req.dart';
 import 'package:admin/data/remote/models/pre_hw_res.dart';
 import 'package:admin/data/remote/models/quiz_hw_res.dart';
-import 'package:admin/data/remote/models/resukt_hw_req.dart';
 import 'package:admin/data/remote/models/result_hw_res.dart';
+import 'package:admin/data/remote/models/user_req.dart';
 import 'package:admin/data/remote/models/user_res.dart';
 import '../../../../application/cons/endpoint.dart';
-import '../../../event_local/update_pre_now.dart';
 import '../../../event_local/update_user_global.dart';
+import '../../models/result_hw_req.dart';
 import '../api/api_teacher_repo.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,7 +20,6 @@ class TeacherAPIImpl extends TeacherAPIRepo {
       final req = await http.post(Uri.parse(url),
           headers: requestHeaders, body: jsonEncode(data.toJson()));
       Map<String, dynamic> parsed = json.decode(req.body);
-      print(req.statusCode);
       if (req.statusCode == 200) {
         return 0;
       } else if (req.statusCode == 404 &&
@@ -264,8 +263,8 @@ class TeacherAPIImpl extends TeacherAPIRepo {
       final res = await http.get(Uri.parse(url), headers: requestHeaders);
       if (res.statusCode == 200) {
         Map<String, dynamic> parsed = json.decode(res.body);
-        UserAPIModel userModel = UserAPIRes.fromJson(parsed).lItems!.first;
-        if (userModel!.role == "teacher") {
+        final userModel = UserAPIRes.fromJson(parsed).lItems!.first;
+        if (userModel.role == "teacher") {
           UserEventLocal.updateUserGlobal(userModel);
           return userModel;
         } else {
@@ -360,8 +359,7 @@ class TeacherAPIImpl extends TeacherAPIRepo {
   }
 
   @override
-  Future<bool?> createResultHWForStudentNoJoin(
-       ResultHWAPIReq data) async {
+  Future<bool?> createResultHWForStudentNoJoin(ResultHWAPIReq data) async {
     try {
       const url = "${endpoint}create_result_quiz_for_student_No_join";
       final req = await http.post(Uri.parse(url),
@@ -369,6 +367,25 @@ class TeacherAPIImpl extends TeacherAPIRepo {
       if (req.statusCode == 200) {
         return true;
       } else {
+        return false;
+      }
+    } on SocketException catch (_) {
+      return false;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  @override
+  Future<bool?> updateProfileUser(String keyId, UserAPIReq user) async {
+    try {
+      final url = "${endpoint}updateUserById?id=$keyId";
+      final res = await http.patch(Uri.parse(url),
+          headers: requestHeaders, body: jsonEncode(user.toJson()));
+      if (res.statusCode == 200) {
+        return true;
+      } else {
+        // log(req.body);
         return false;
       }
     } on SocketException catch (_) {

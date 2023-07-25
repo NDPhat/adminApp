@@ -1,4 +1,5 @@
 import 'package:admin/data/local/models/user_global.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 
@@ -11,6 +12,8 @@ import '../../../widget/app_bar_widget.dart';
 import '../../../widget/item_manager_user.dart';
 
 class ManagerStudentPageView extends StatefulWidget {
+  const ManagerStudentPageView({Key? key}) : super(key: key);
+
   @override
   State<ManagerStudentPageView> createState() => _ManagerStudentPageViewState();
 }
@@ -81,11 +84,10 @@ class _ManagerStudentPageViewState extends State<ManagerStudentPageView> {
       body: Column(
         children: [
           AppBarWidget(
-            size: size,
             onBack: () {
               Navigator.pop(context);
             },
-            textTitle: "Manger User",
+            textTitle: "manager student".tr().toString(),
           ),
           SizedBox(
             width: size.width,
@@ -93,15 +95,15 @@ class _ManagerStudentPageViewState extends State<ManagerStudentPageView> {
             child: TextField(
               textInputAction: TextInputAction.next,
               style: s16f700ColorGreyTe,
-              decoration: const InputDecoration(
-                suffixIcon: Icon(
+              decoration: InputDecoration(
+                suffixIcon: const Icon(
                   LineAwesomeIcons.search,
                   size: 30,
                   color: colorGrayBG,
                 ),
-                hintText: "Search",
+                hintText: "search".tr().toString(),
                 fillColor: colorBGInput,
-                border: OutlineInputBorder(
+                border: const OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.black)),
                 filled: true,
               ),
@@ -134,7 +136,6 @@ class _ManagerStudentPageViewState extends State<ManagerStudentPageView> {
                               int indexListNow = index + _pageIndex * 4;
                               if (indexListNow < listConvert!.length) {
                                 return ItemManagerUser(
-                                    size: size,
                                     lop: listConvert![indexListNow].lop!,
                                     ten: listConvert![indexListNow].name!,
                                     onTap: () {});
@@ -147,7 +148,6 @@ class _ManagerStudentPageViewState extends State<ManagerStudentPageView> {
                             itemCount: listSearch!.length,
                             itemBuilder: (context, index) {
                               return ItemManagerUser(
-                                  size: size,
                                   lop: listSearch![index].lop!,
                                   ten: listSearch![index].name!,
                                   onTap: () {});

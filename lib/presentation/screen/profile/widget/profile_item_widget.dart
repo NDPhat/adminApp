@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../../application/cons/color.dart';
 
@@ -10,14 +11,13 @@ class ProfileItemWidget extends StatelessWidget {
         required this.icon,
         required this.onPress,
         this.textColor,
-        required this.size})
+        })
       : super(key: key);
 
   final String title;
   final IconData icon;
   final VoidCallback onPress;
   final Color? textColor;
-  final Size size;
 
   @override
   Widget build(BuildContext context) {
@@ -26,18 +26,19 @@ class ProfileItemWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onPress,
       child: Container(
-        padding: EdgeInsets.all(size.width * 0.02),
+        padding: EdgeInsets.all(2.w),
+
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: colorSystemYeloow),
         ),
-        width: size.width * 0.8,
-        height: size.height * 0.08,
+        width:80.w,
+        height: 8.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-                width: size.width * 0.5,
+                width: 50.w,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: iconColor.withOpacity(0.1),
@@ -46,7 +47,7 @@ class ProfileItemWidget extends StatelessWidget {
                   children: [
                     Icon(icon, color: colorMainBlue),
                     SizedBox(
-                      width: size.width * 0.05,
+                      width: 5.w,
                     ),
                     Text(title,
                         style: Theme.of(context)

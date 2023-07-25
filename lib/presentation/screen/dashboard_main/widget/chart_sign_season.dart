@@ -1,6 +1,7 @@
 import 'package:admin/data/remote/models/pre_hw_res.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../application/cons/color.dart';
@@ -16,11 +17,9 @@ import '../../../../data/remote/models/result_hw_res.dart';
 import '../../../../main.dart';
 
 class ChartCreateSeason extends StatelessWidget {
-  ChartCreateSeason({
+  const ChartCreateSeason({
     Key? key,
-    required this.size,
   }) : super(key: key);
-  final Size size;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -69,8 +68,8 @@ class ChartCreateSeason extends StatelessWidget {
                 return Column(
                   children: [
                     SizedBox(
-                      width: size.width,
-                      height: size.height * 0.3,
+                      width: 100.w,
+                      height: 30.h,
                       child: SfCartesianChart(
                           plotAreaBorderColor: colorMainBlue,
                           plotAreaBorderWidth: 0,

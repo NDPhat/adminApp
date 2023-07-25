@@ -1,17 +1,15 @@
 import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
 import 'package:admin/data/remote/models/pre_hw_req.dart';
-import 'package:admin/data/remote/models/pre_hw_res.dart';
-import 'package:admin/data/remote/models/resukt_hw_req.dart';
 import 'package:admin/data/remote/models/result_hw_res.dart';
 import 'package:admin/main.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
-
 import '../../../application/utils/status/add_pre_hw.dart';
 import '../../../application/utils/time_change/format.dart';
 import '../../../data/local/models/dataUser.dart';
 import '../../../data/local/models/pre_global.dart';
+import '../../../data/remote/models/result_hw_req.dart';
 import '../../../data/remote/models/user_res.dart';
 
 part 'detail_pre_state.dart';

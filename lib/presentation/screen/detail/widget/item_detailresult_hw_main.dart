@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../../application/cons/color.dart';
 import '../../../../application/cons/text_style.dart';
@@ -6,12 +7,10 @@ import '../../../../application/cons/text_style.dart';
 class ItemDetailRSHWMainScreen extends StatelessWidget {
   const ItemDetailRSHWMainScreen({
     Key? key,
-    required this.size,
     required this.week,
     required this.name,
     required this.childRight,
   }) : super(key: key);
-  final Size size;
   final String week;
   final String name;
   final Widget childRight;
@@ -23,18 +22,14 @@ class ItemDetailRSHWMainScreen extends StatelessWidget {
       child: Container(
         decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(25))),
-        padding: EdgeInsets.only(
-            left: size.width * 0.02,
-            right: size.width * 0.02,
-            top: size.height * 0.01,
-            bottom: size.height * 0.01),
-        width: size.width * 0.9,
-        height: size.height * 0.2,
+        padding: EdgeInsets.only(left: 2.h, right: 2.w, top: 1.h, bottom: 1.h),
+        width: 90.w,
+        height: 20.h,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             SizedBox(
-              width: size.width * 0.3,
+              width: 30.w,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -58,9 +53,7 @@ class ItemDetailRSHWMainScreen extends StatelessWidget {
             SizedBox(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(height: size.height * 0.18, child: childRight)
-                ],
+                children: [SizedBox(height: 18.h, child: childRight)],
               ),
             ),
           ],

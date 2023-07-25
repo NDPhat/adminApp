@@ -3,11 +3,12 @@ import 'package:admin/application/cons/text_style.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:sizer/sizer.dart';
+
 class ItemManagerUser extends StatelessWidget {
   const ItemManagerUser(
-      {Key? key, required this.size, required this.lop, required this.ten, required this.onTap})
+      {Key? key, required this.lop, required this.ten, required this.onTap})
       : super(key: key);
-  final Size size;
   final String lop, ten;
   final VoidCallback onTap;
 
@@ -18,11 +19,11 @@ class ItemManagerUser extends StatelessWidget {
       child: Card(
         color: colorErrorPrimary,
         child: SizedBox(
-          height: size.height * 0.15,
+          height: 15.h,
           child: Row(
             children: [
               SizedBox(
-                width: size.width * 0.5,
+                width: 50.w,
                 child: Column(
                   children: [
                     Image.asset("assets/images/icon_app.png"),
@@ -45,7 +46,7 @@ class ItemManagerUser extends StatelessWidget {
               ),
               Container(
                 alignment: Alignment.center,
-                width: size.width * 0.3,
+                width: 30.w,
                 child: Text(
                   ten,
                   style: s16f500ColorSysWhite,

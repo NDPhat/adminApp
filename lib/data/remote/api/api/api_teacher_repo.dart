@@ -1,10 +1,10 @@
 import 'package:admin/data/remote/models/pre_hw_req.dart';
 import 'package:admin/data/remote/models/quiz_hw_res.dart';
 import 'package:admin/data/remote/models/user_res.dart';
-
 import '../../models/pre_hw_res.dart';
-import '../../models/resukt_hw_req.dart';
+import '../../models/result_hw_req.dart';
 import '../../models/result_hw_res.dart';
+import '../../models/user_req.dart';
 
 abstract class TeacherAPIRepo {
   Future<bool?> createUser(UserAPIModel data);
@@ -23,4 +23,6 @@ abstract class TeacherAPIRepo {
   Future<List<PreHWResModel>?> getOnGoingPreHW();
   Future<List<QuizHWAPIModel>?> getAllQuizHWByResultID(String resultID);
   Future<bool?> createResultHWForStudentNoJoin(ResultHWAPIReq data);
+  Future<bool?> updateProfileUser(String keyId, UserAPIReq user);
+
 }

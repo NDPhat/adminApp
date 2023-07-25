@@ -12,6 +12,7 @@ class UserGlobal {
   String? password;
   String? role;
   String? linkImage;
+  String? deleteHash;
 
   UserGlobal({
     this.id,
@@ -21,6 +22,7 @@ class UserGlobal {
     this.dateOfBirth,
     this.gender,
     this.address,
+    this.deleteHash,
     this.otp,
     this.linkImage,
     this.role,

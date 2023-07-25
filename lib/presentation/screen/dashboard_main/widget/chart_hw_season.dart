@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../application/cons/color.dart';
@@ -12,11 +12,9 @@ import '../../../../data/remote/models/result_hw_res.dart';
 import '../../../../main.dart';
 
 class ChartHWSeason extends StatelessWidget {
-  ChartHWSeason({
+  const ChartHWSeason({
     Key? key,
-    required this.size,
   }) : super(key: key);
-  final Size size;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -66,8 +64,8 @@ class ChartHWSeason extends StatelessWidget {
               return Column(
                 children: [
                   SizedBox(
-                    width: size.width,
-                    height: size.height * 0.3,
+                    width:100.w,
+                    height:30.h,
                     child: SfCartesianChart(
                         plotAreaBorderColor: colorMainBlue,
                         plotAreaBorderWidth: 0,

@@ -1,16 +1,15 @@
 import 'package:admin/application/cons/color.dart';
 import 'package:admin/application/cons/text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 class ItemFillter extends StatelessWidget {
   ItemFillter(
       {Key? key,
-      required this.size,
       required this.name,
       required this.onTap,
       required this.onChoose})
       : super(key: key);
-  final Size size;
   final String name;
   bool onChoose = false;
   final VoidCallback onTap;
@@ -19,8 +18,8 @@ class ItemFillter extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
-        width: size.width * 0.2,
-        height: size.height * 0.05,
+        width: 20.w,
+        height: 5.h,
         child: Card(
           color: onChoose == true ? colorErrorPrimary : colorMainBlue,
           child: Center(

@@ -1,7 +1,9 @@
 import 'package:admin/application/cons/text_style.dart';
 import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
 import 'package:admin/data/remote/models/result_hw_res.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../application/cons/color.dart';
 import '../../../application/utils/find_average/get_sign.dart';
@@ -18,26 +20,19 @@ class DetailResultHWItemScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ResultQuizHWAPIModel data =
         ModalRoute.of(context)!.settings.arguments as ResultQuizHWAPIModel;
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
         children: [
-          AppBarWidget(
-              size: size,
-              textTitle: 'Detail answer ${data.name}',
-              onBack: () {
-                Navigator.pop(context);
-              }),
+          AppBarWidget(onBack: () {
+            Navigator.pop(context);
+          }),
           Container(
-            padding: EdgeInsets.only(
-                top: size.height * 0.02,
-                left: size.width * 0.05,
-                right: size.width * 0.05,
-                bottom: size.height * 0.05),
+            padding:
+                EdgeInsets.only(left: 5.w, right: 5.w, top: 2.h, bottom: 2.h),
             child: Column(
               children: [
                 SizedBox(
-                  height: size.height * 0.4,
+                  height: 40.h,
                   child: Column(
                     children: [
                       FutureBuilder<List<QuizHWAPIModel>?>(
@@ -144,9 +139,9 @@ class DetailResultHWItemScreen extends StatelessWidget {
                               return Container();
                             }
                           }),
-                      const Center(
+                      Center(
                         child: Text(
-                          'Detail answer',
+                          'data detail'.tr().toString(),
                           style: s14f500ColorMainTe,
                         ),
                       )
@@ -154,7 +149,7 @@ class DetailResultHWItemScreen extends StatelessWidget {
                   ),
                 ),
                 SizedBox(
-                    height: size.height * 0.4,
+                    height: 40.h,
                     child: FutureBuilder<List<QuizHWAPIModel>?>(
                         future: instance
                             .get<TeacherAPIRepo>()
@@ -163,8 +158,8 @@ class DetailResultHWItemScreen extends StatelessWidget {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
                             return SizedBox(
-                              height: size.height * 0.3,
-                              width: size.width * 0.3,
+                              height: 30.h,
+                              width: 30.w,
                               child: const Center(
                                 child: CircularProgressIndicator(
                                   color: colorMainBlue,
@@ -178,7 +173,6 @@ class DetailResultHWItemScreen extends StatelessWidget {
                                 itemCount: snapshot.data!.length,
                                 itemBuilder: (context, index) {
                                   return AnswerWidget(
-                                    size: size,
                                     quiz: snapshot.data![index].quiz.toString(),
                                     answer:
                                         snapshot.data![index].answer.toString(),

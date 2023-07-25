@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../application/cons/color.dart';
 import '../../application/cons/text_style.dart';
@@ -6,13 +7,11 @@ import '../../application/cons/text_style.dart';
 class AnswerWidget extends StatelessWidget {
   AnswerWidget(
       {Key? key,
-        required this.size,
-        required this.answer,
-        required this.answerSelect,
-        required this.quizInfo,
-        required this.quiz})
+      required this.answer,
+      required this.answerSelect,
+      required this.quizInfo,
+      required this.quiz})
       : super(key: key);
-  final Size size;
   final bool quizInfo;
   final String quiz;
   final String answer;
@@ -25,15 +24,10 @@ class AnswerWidget extends StatelessWidget {
         decoration: BoxDecoration(
           color: quizInfo ? colorBlueQuaternery : colorSystemErrorTer,
         ),
-        padding: EdgeInsets.only(
-            left: size.width * 0.02,
-            right: size.width * 0.02,
-            top: size.height * 0.01,
-            bottom: size.height * 0.02),
+        padding: EdgeInsets.only(left: 2.w, right: 2.w, top: 1.h, bottom: 1.h),
         child:
-        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
           AnswerDetailWidget(
-            size: size,
             quiz: quiz,
             answer: answer,
             answerSelect: answerSelect,
@@ -54,25 +48,21 @@ class AnswerWidget extends StatelessWidget {
 class AnswerDetailWidget extends StatelessWidget {
   AnswerDetailWidget({
     super.key,
-    required this.size,
     required this.answer,
     required this.answerSelect,
     required this.quizInfo,
     required this.quiz,
   });
 
-  final Size size;
   final String answer;
   final String answerSelect;
   final String quiz;
   final bool quizInfo;
 
-
-
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        width: size.width * 0.6,
+        width:60.w,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -81,15 +71,15 @@ class AnswerDetailWidget extends StatelessWidget {
                 radius: 30,
                 child: quizInfo
                     ? const Icon(
-                  (Icons.done),
-                  color: colorMainBlue,
-                  size: 30,
-                )
+                        (Icons.done),
+                        color: colorMainBlue,
+                        size: 30,
+                      )
                     : const Icon(
-                  (Icons.close),
-                  color: colorErrorPrimary,
-                  size: 30,
-                )),
+                        (Icons.close),
+                        color: colorErrorPrimary,
+                        size: 30,
+                      )),
             Column(
               children: [
                 Text(

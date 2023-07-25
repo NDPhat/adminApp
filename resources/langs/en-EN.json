@@ -14,6 +14,7 @@
   "join": "Join",
   "history": "History",
   "done": "Done",
+  "save": "Save",
   "input answer": "Input Answer",
   "truefalse": "True/False",
   "findmissing": "FindMissing",
@@ -41,6 +42,16 @@
   "task":"TASK",
   "score": "SCORE",
   "choose sign": "Choose sign",
-  "choose mode": "Choose mode"
+  "choose mode": "Choose mode",
+  "manager": "Manager",
+  "student": "Student",
+  "week": "Week",
+  "manager student": "Manager student",
+  "search": "Search",
+  "name": "Name",
+  "finish this hw": "FINISH THIS HOME WORK",
+  "skip": "Skip",
+  "data sheet": "Data sheet",
+ "create": "Create"
 
 }

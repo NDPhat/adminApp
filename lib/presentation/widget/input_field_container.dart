@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import '../../application/cons/color.dart';
 import '../../application/cons/text_style.dart';
 
@@ -7,6 +8,7 @@ class InputFieldContainer extends StatelessWidget {
   final double width, height;
   final String? validateText;
   final bool? isHidden;
+  final String? nameTitle;
 
   const InputFieldContainer({
     Key? key,
@@ -14,24 +16,29 @@ class InputFieldContainer extends StatelessWidget {
     required this.width,
     required this.height,
     this.validateText,
+    this.nameTitle,
     this.isHidden,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: width,
-      height: height,
       child: Column(
         children: [
-          SizedBox(height: height * 0.75, child: child),
           SizedBox(
-            height: height * 0.05,
+            height: 3.h,
+            width: width,
+            child: Text(
+              nameTitle ?? "",
+              style: s15f700ColorBlueMa,
+              textAlign: TextAlign.left,
+            ),
           ),
-          SizedBox(
-            height: height * 0.2,
-            child: Visibility(
-              visible: isHidden == null ? false : isHidden!,
+          SizedBox(height: height, width: width, child: child),
+          Visibility(
+            visible: isHidden == null ? false : isHidden!,
+            child: SizedBox(
+              height: 2.h,
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

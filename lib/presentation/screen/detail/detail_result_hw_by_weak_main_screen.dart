@@ -1,6 +1,8 @@
 import 'package:admin/data/remote/models/quiz_hw_res.dart';
 import 'package:admin/presentation/screen/detail/widget/item_detailresult_hw_main.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../application/cons/color.dart';
 import '../../../application/cons/text_style.dart';
@@ -12,7 +14,7 @@ import '../../../data/remote/api/api/api_teacher_repo.dart';
 import '../../../data/remote/models/result_hw_res.dart';
 import '../../../main.dart';
 import '../../widget/app_bar_widget.dart';
-import '../dashboard_main/dashboard_home_page_screen.dart';
+import '../../widget/line_content_item_widget.dart';
 
 class DetailResultHWByWeakMainScreen extends StatelessWidget {
   const DetailResultHWByWeakMainScreen({Key? key}) : super(key: key);
@@ -21,22 +23,16 @@ class DetailResultHWByWeakMainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     ResultQuizHWAPIModel data =
         ModalRoute.of(context)!.settings.arguments as ResultQuizHWAPIModel;
-    Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
         children: [
           AppBarWidget(
-            size: size,
             onBack: () {
               Navigator.pop(context);
             },
-            textTitle: 'Detail Home works weak ${data.week}',
           ),
           Padding(
-            padding: EdgeInsets.only(
-                left: size.width * 0.05,
-                right: size.width * 0.05,
-                top: size.height * 0.02),
+            padding: EdgeInsets.only(left: 5.w, right: 5.w, top: 2.h),
             child: Column(
               children: [
                 FutureBuilder<List<ResultQuizHWAPIModel>?>(
@@ -92,12 +88,12 @@ class DetailResultHWByWeakMainScreen extends StatelessWidget {
                   ),
                 ),
                 LineContentItem(
-                  size: size,
-                  title: 'Detail',
+                  colorBG: colorMainBlue,
+                  title: 'data detail'.tr().toString(),
                   icon: const Icon(Icons.details_outlined),
                 ),
                 SizedBox(
-                  height: size.height * 0.4,
+                  height: 40.h,
                   child: FutureBuilder<List<ResultQuizHWAPIModel>?>(
                       future: instance
                           .get<TeacherAPIRepo>()
@@ -107,8 +103,8 @@ class DetailResultHWByWeakMainScreen extends StatelessWidget {
                         if (snapshot.connectionState ==
                             ConnectionState.waiting) {
                           return SizedBox(
-                            height: size.height * 0.3,
-                            width: size.width * 0.3,
+                            height: 30.h,
+                            width: 30.w,
                             child: const Center(
                               child: CircularProgressIndicator(
                                 color: colorMainBlue,
@@ -123,11 +119,10 @@ class DetailResultHWByWeakMainScreen extends StatelessWidget {
                               snapshot.data!
                                   .sort((a, b) => a.week!.compareTo(b.week!));
                               return ItemDetailRSHWMainScreen(
-                                size: size,
                                 week: '${snapshot.data![index].week}',
                                 name: '${snapshot.data![index].name}',
                                 childRight: SizedBox(
-                                  width: size.width * 0.45,
+                                  width: 45.w,
                                   child: FutureBuilder<List<QuizHWAPIModel>?>(
                                       future: instance
                                           .get<TeacherAPIRepo>()
