@@ -1,9 +1,9 @@
 import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
 import 'package:admin/presentation/screen/create/widget/item_card.dart';
 import 'package:admin/presentation/widget/bg_home_screen.dart';
-import 'package:admin/presentation/widget/rounded_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:sizer/sizer.dart';
 import '../../../application/cons/color.dart';
@@ -21,42 +21,6 @@ class ManagerMainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> showDetailResultHWDialog(PreHWResModel data) {
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-              25,
-            )),
-            backgroundColor: const Color(0xff1542bf),
-            title: FittedBox(
-              child: Text('ENTER HOME WORK WEEK ${data.week}?',
-                  textAlign: TextAlign.center, style: s30f700colorSysWhite),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  Navigator.pushNamed(context, Routers.detailAllResultHW,
-                      arguments: data);
-                },
-                child: const Text('GO', style: s16f700ColorError),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text('EXIT', style: s15f700ColorYellow),
-              ),
-            ],
-          );
-        },
-      );
-    }
-
     Future<void> showPreViewDialog(PreHWResModel data) {
       return showDialog<void>(
         context: context,
@@ -110,25 +74,31 @@ class ManagerMainScreen extends StatelessWidget {
                 SizedBox(
                   height: 2.h,
                 ),
-                SizedBox(
-                  child: Center(
-                      child: RoundedButton(
-                          press: () {
-                            Navigator.pushNamed(context, Routers.managerUser);
-                          },
-                          color: colorMainBlue,
-                          width: 100.w,
-                          height: 8.h,
-                          child: Text(
-                            "Lop ${instance.get<UserGlobal>().lop}",
-                            style: s24f500ColorGreyPri,
-                          ))),
-                ),
+                GestureDetector(
+                    onTap: () {
+                      Navigator.pushNamed(context, Routers.managerUser);
+                    },
+                    child: Container(
+                      width: 100.w,
+                      height: 8.h,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: colorMainBlue),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(25))),
+                      child: Center(
+                        child: Text(
+                          "Lop ${instance.get<UserGlobal>().lop}",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.aBeeZee(
+                              color: colorMainBlue, fontSize: 20),
+                        ),
+                      ),
+                    )),
                 SizedBox(
                   height: 2.h,
                 ),
                 LineContentItem(
-                    colorBG: colorMainBlue,
+                    colorBG: colorErrorPrimary,
                     title: 'home work'.tr().toString(),
                     icon: const Icon(Icons.home_work)),
                 SingleChildScrollView(
@@ -159,14 +129,16 @@ class ManagerMainScreen extends StatelessWidget {
                                     .sort((a, b) => a.week!.compareTo(b.week!));
                                 return ItemCard(
                                   onTap: () {
-                                    showDetailResultHWDialog(
-                                        snapshot.data![index]);
+                                    Navigator.pushNamed(
+                                        context, Routers.detailAllResultHW,
+                                        arguments: snapshot.data![index].week);
                                   },
-                                  backgroundColor: colorMainBlue,
+                                  colorBorder: colorErrorPrimary,
                                   childRight: Center(
                                       child: Text(
                                     'done'.tr().toString(),
-                                    style: s20f700ColorSysWhite,
+                                    style: GoogleFonts.aboreto(
+                                        color: colorErrorPrimary, fontSize: 20),
                                   )),
                                   childCenter: Column(
                                     mainAxisAlignment:
@@ -174,11 +146,15 @@ class ManagerMainScreen extends StatelessWidget {
                                     children: [
                                       Text(
                                         "${"week".tr()} ${snapshot.data![index].week}",
-                                        style: s16f500ColorSysWhite,
+                                        style: GoogleFonts.aboreto(
+                                            color: colorErrorPrimary,
+                                            fontSize: 20),
                                       ),
                                       Text(
                                         "SIGN : ${snapshot.data![index].sign}",
-                                        style: s16f500ColorSysWhite,
+                                        style: GoogleFonts.aboreto(
+                                            color: colorErrorPrimary,
+                                            fontSize: 16),
                                       ),
                                     ],
                                   ),
@@ -228,7 +204,7 @@ class ManagerMainScreen extends StatelessWidget {
                                   PreEventLocal.updatePreGlobal(
                                       snapshot.data![index]);
                                   return ItemCard(
-                                    backgroundColor:
+                                    colorBorder:
                                         findColor(snapshot.data![index].color!),
                                     childCenter: Text(
                                       "WEEK ${snapshot.data![index].week}",

@@ -5,12 +5,12 @@ import 'package:admin/main.dart';
 import 'package:admin/presentation/screen/create/create_main_screen.dart';
 import 'package:admin/presentation/screen/create/widget/create_user_screen.dart';
 import 'package:admin/presentation/screen/detail/detail_pre_hw_screen.dart';
+import 'package:admin/presentation/screen/detail/widget/detail_quiz_hw.dart';
 import 'package:admin/presentation/screen/home/home_screen.dart';
 import 'package:admin/presentation/screen/intro/intro_screen.dart';
 import 'package:admin/presentation/screen/language_screen/language_screen.dart';
 import 'package:admin/presentation/screen/login/login_screen.dart';
 import 'package:admin/presentation/screen/manager/manager_main_screen.dart';
-import 'package:admin/presentation/screen/manager/widget/manager_result_hw_main_screen.dart';
 import 'package:admin/presentation/screen/setting/setting_main_screen.dart';
 import 'package:admin/presentation/screen/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +21,8 @@ import '../screen/create/widget/create_pre_screen.dart';
 import '../screen/dashboard_main/dashboard_home_page_screen.dart';
 import '../screen/detail/detail_result_hw_by_weak_main_screen.dart';
 import '../screen/detail/detail_result_hw_item_screen.dart';
-import '../screen/manager/widget/manager_student_with_page_view_screen.dart';
+import '../screen/manager/widget/manager_hw_screen.dart';
+import '../screen/manager/widget/manager_student_screen.dart';
 import '../screen/profile/profile_screen.dart';
 import '../screen/welcome/welcome_screen.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +33,7 @@ class Routers {
   static const String intro = '/intro';
   static const String splash = '/splash';
   static const String createPre = '/createPre';
+  static const String detailResultHW = '/detailResultHW';
   static const String home = '/home';
   static const String language = '/language';
   static const String setting = '/setting';
@@ -60,10 +62,12 @@ class Routers {
         return const WelcomeScreen();
       case setting:
         return const SettingMainScreen();
+      case detailResultHW:
+        return const DetailQuizHWScreen();
       case language:
         return const LanguageScreen();
       case managerUser:
-        return const ManagerStudentPageView();
+        return const ManagerStudentScreen();
       case splash:
         return const SplashScreen();
       case home:
@@ -71,7 +75,8 @@ class Routers {
       case managerMainScreen:
         return const ManagerMainScreen();
       case intro:
-        return const IntroScreen(); case profile:
+        return const IntroScreen();
+      case profile:
         return const ProfileScreen();
       case createMainScreen:
         return const CreateMainScreen();
@@ -82,7 +87,7 @@ class Routers {
                 ),
             child: CreateUserScreen());
       case detailAllResultHW:
-        return const ManagerResultHWMainScreen();
+        return const ManagerHomeWorkScreen();
       case detailQuizHWByResultID:
         return const DetailResultHWItemScreen();
       case detailResultHWByWeakMainScreen:

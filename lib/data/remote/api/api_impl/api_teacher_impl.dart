@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:admin/data/remote/models/pre_hw_req.dart';
 import 'package:admin/data/remote/models/pre_hw_res.dart';
 import 'package:admin/data/remote/models/quiz_hw_res.dart';
+import 'package:admin/data/remote/models/result_hw_pagi_res.dart';
 import 'package:admin/data/remote/models/result_hw_res.dart';
 import 'package:admin/data/remote/models/user_req.dart';
 import 'package:admin/data/remote/models/user_res.dart';
 import '../../../../application/cons/endpoint.dart';
 import '../../../event_local/update_user_global.dart';
 import '../../models/result_hw_req.dart';
+import '../../models/user_res_with_pagi.dart';
 import '../api/api_teacher_repo.dart';
 import 'package:http/http.dart' as http;
 
@@ -392,6 +394,52 @@ class TeacherAPIImpl extends TeacherAPIRepo {
       return false;
     } catch (_) {
       return false;
+    }
+  }
+
+  @override
+  Future<UserResPagiAPI?> getAllStudentByClassWithPagi(
+      String lop, int page) async {
+    try {
+      final url =
+          "${endpoint}getListUserByClassPagination?lop=$lop&page_num=$page&page_size=5";
+      final req = await http.get(Uri.parse(url), headers: requestHeaders);
+      if (req.statusCode == 200) {
+        Map<String, dynamic> parsed = json.decode(req.body);
+        UserResPagiAPI? result = UserResPagiAPI.fromJson(parsed);
+        return result;
+      } else {
+        Map<String, dynamic> parsed = json.decode(req.body);
+        UserResPagiAPI? result = UserResPagiAPI.fromJson(parsed);
+        return result;
+      }
+    } on SocketException catch (_) {
+      return Future.error('No network found');
+    } catch (_) {
+      return Future.error('Something occurred');
+    }
+  }
+
+  @override
+  Future<ResultHWPagiAPI?> getAllResultQuizHWByWeekAndLopWithPagi(
+      String week, String lop, int page) async {
+    try {
+      final url =
+          "${endpoint}getAllResultQuizHWByWeekAndClassWithPagi?week=$week&lop=$lop&page_num=$page&page_size=5";
+      final req = await http.get(Uri.parse(url), headers: requestHeaders);
+      if (req.statusCode == 200) {
+        Map<String, dynamic> parsed = json.decode(req.body);
+        ResultHWPagiAPI? result = ResultHWPagiAPI.fromJson(parsed);
+        return result;
+      } else {
+        Map<String, dynamic> parsed = json.decode(req.body);
+        ResultHWPagiAPI? result = ResultHWPagiAPI.fromJson(parsed);
+        return result;
+      }
+    } on SocketException catch (_) {
+      return Future.error('No network found');
+    } catch (_) {
+      return Future.error('Something occurred');
     }
   }
 }

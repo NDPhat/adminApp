@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../application/cons/color.dart';
@@ -11,71 +12,75 @@ class ItemAsyncDataCreatePageHome extends StatelessWidget {
     required this.signList,
     required this.childRight,
     required this.timeJoin,
-    required this.onTap,
+    required this.colorBorder,
   }) : super(key: key);
   final String textTitle;
   final List<String> signList;
   final String timeJoin;
+  final Color colorBorder;
   final Widget childRight;
-  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Card(
-        color: colorBGInput,
-        child: Container(
-          decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(25))),
-          padding:
-              EdgeInsets.only(left: 2.h, right: 2.w, top: 1.h, bottom: 1.h),
-          width: 90.w,
-          height: 20.h,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox(
-                width: 30.w,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        textTitle,
-                        style: s16f500ColorGreyTe,
-                      ),
-                    ),
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Sign :$signList',
-                        style: s16f500ColorGreyTe,
-                      ),
-                    ),
-                  ],
+    return Container(
+      decoration: BoxDecoration(
+          color: colorSystemWhite,
+          border: Border.all(color: colorBorder),
+          borderRadius: const BorderRadius.all(Radius.circular(25))),
+      padding:
+          EdgeInsets.only(left: 2.w, right: 2.w, top: 1.h, bottom: 1.h),
+      width: 90.w,
+      height: 20.h,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          SizedBox(
+            height: 18.h,
+            width: 25.w,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    textTitle,
+                    style: GoogleFonts.barlow(
+                        color: colorBorder, fontSize: 20),
+                  ),
                 ),
-              ),
-              SizedBox(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      height: 5.h,
-                      child: Text(
-                        timeJoin,
-                        style: s12f400ColorGreyTe,
-                      ),
-                    ),
-                    SizedBox(height: 13.h, child: childRight)
-                  ],
+                Container(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Sign :$signList',
+                    style: GoogleFonts.barlow(
+                        color: colorBorder, fontSize: 16),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+          SizedBox(
+            width: 60.w,
+            height: 16.h,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Container(
+                  padding: EdgeInsets.only(right: 10.w),
+                  alignment: Alignment.centerRight,
+                  height: 3.w,
+                  width: 65.w,
+                  child: Text(
+                    timeJoin,
+                    style: GoogleFonts.arapey(
+                        color: colorBorder, fontSize: 12),
+                  ),
+                ),
+                SizedBox(height: 13.h, child: childRight)
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

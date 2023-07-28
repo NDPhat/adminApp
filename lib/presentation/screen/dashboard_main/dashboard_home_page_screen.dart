@@ -24,7 +24,7 @@ class DashBoardHomePageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BGHomeScreen(
-          textNow: 'Home',
+          textNow: 'Dashboard',
           colorTextAndIcon: Colors.black,
           child: Expanded(
               child: SingleChildScrollView(
@@ -51,71 +51,84 @@ class DashBoardHomePageScreen extends StatelessWidget {
                     ),
                   ),
                   SingleChildScrollView(
-                    child: SizedBox(
-                      height: 30.h,
-                      child: ListView.builder(
-                        itemCount: 14,
-                        itemBuilder: (context, index) {
-                          return FutureBuilder<List<ResultQuizHWAPIModel>?>(
-                              future: instance
-                                  .get<TeacherAPIRepo>()
-                                  .getAllResultQuizHWByWeekAndLop(
-                                    (index + 1).toString(),
-                                    instance.get<UserGlobal>().lop.toString(),
-                                  ),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return SizedBox(
-                                    height: 30.h,
-                                    width: 30.w,
-                                    child: const Center(
-                                      child: CircularProgressIndicator(
-                                        color: colorMainBlue,
-                                        strokeWidth: 5,
-                                      ),
-                                    ),
-                                  );
-                                }
-                                if (snapshot.hasData &&
-                                    snapshot.data!.isNotEmpty) {
-                                  int totalJ = 0;
-                                  int score = 0;
-                                  for (var element in snapshot.data!) {
-                                    totalJ = totalJ + element.numQ!;
-                                    score = score + element.score!;
-                                  }
-                                  return ItemAsyncDataHWPageHome(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                          context,
-                                          Routers
-                                              .detailResultHWByWeakMainScreen,
-                                          arguments: snapshot.data![index]);
-                                    },
-                                    textTitle: 'WEEK ${index + 1}',
-                                    totalUserJoin:
-                                        snapshot.data!.length.toString(),
-                                    scoreAvg: ((score / totalJ) * 10)
-                                        .toStringAsFixed(2),
-                                    childRight: ChildRightHWByWeek(
-                                      week: (index + 1).toString(),
-                                    ),
-                                    timeNow: DateFormat.yMMMEd()
-                                        .format(DateTime.now()),
-                                  );
-                                }
-                                return Container();
-                              });
-                        },
-                      ),
-                    ),
-                  ),
+                      child: SizedBox(
+                          height: 30.h,
+                          child: CustomScrollView(slivers: [
+                            SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                childCount: 14,
+                                (context, index) {
+                                  return FutureBuilder<
+                                          List<ResultQuizHWAPIModel>?>(
+                                      future: instance
+                                          .get<TeacherAPIRepo>()
+                                          .getAllResultQuizHWByWeekAndLop(
+                                            (index + 1).toString(),
+                                            instance
+                                                .get<UserGlobal>()
+                                                .lop
+                                                .toString(),
+                                          ),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return SizedBox(
+                                            height: 30.h,
+                                            width: 30.w,
+                                            child: const Center(
+                                              child: CircularProgressIndicator(
+                                                color: colorMainBlue,
+                                                strokeWidth: 5,
+                                              ),
+                                            ),
+                                          );
+                                        }
+                                        if (snapshot.hasData &&
+                                            snapshot.data!.isNotEmpty) {
+                                          int totalJ = 0;
+                                          int score = 0;
+                                          for (var element in snapshot.data!) {
+                                            totalJ = totalJ + element.numQ!;
+                                            score = score + element.score!;
+                                          }
+                                          return Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 0.5.h, bottom: 0.5.h),
+                                            child: ItemAsyncDataHWPageHome(
+                                              onTap: () {
+                                                Navigator.pushNamed(
+                                                    context,
+                                                    Routers
+                                                        .detailResultHWByWeakMainScreen,
+                                                    arguments: snapshot
+                                                        .data![index].week);
+                                              },
+                                              textTitle: 'WEEK ${index + 1}',
+                                              totalUserJoin: snapshot
+                                                  .data!.length
+                                                  .toString(),
+                                              scoreAvg: ((score / totalJ) * 10)
+                                                  .toStringAsFixed(2),
+                                              childRight: ChildRightHWByWeek(
+                                                week: (index + 1).toString(),
+                                              ),
+                                              timeSave: DateFormat.yMMMEd()
+                                                  .format(DateTime.now()),
+                                              colorBorder: colorMainBlue,
+                                            ),
+                                          );
+                                        }
+                                        return Container();
+                                      });
+                                },
+                              ),
+                            ),
+                          ]))),
                   SizedBox(
                     height: 2.h,
                   ),
                   const LineContentItem(
-                    colorBG: colorMainBlue,
+                    colorBG: colorErrorPrimary,
                     title: 'Create',
                     icon: Icon(Icons.dashboard),
                   ),
@@ -125,53 +138,61 @@ class DashBoardHomePageScreen extends StatelessWidget {
                   ),
                   const Center(
                     child: LineContentItem(
-                      colorBG: colorMainBlue,
+                      colorBG: colorErrorPrimary,
                       title: 'Sign by week',
                       icon: Icon(Icons.calendar_view_week),
                     ),
                   ),
                   SingleChildScrollView(
-                    child: SizedBox(
-                      height: 30.h,
-                      child: ListView.builder(
-                        itemCount: 14,
-                        itemBuilder: (context, index) {
-                          return FutureBuilder<PreHWResModel?>(
-                              future: instance
-                                  .get<TeacherAPIRepo>()
-                                  .getPreHWByWeek((index + 1).toString()),
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return SizedBox(
-                                    height: 30.h,
-                                    width: 30.w,
-                                    child: const Center(
-                                      child: CircularProgressIndicator(
-                                        color: colorMainBlue,
-                                        strokeWidth: 5,
-                                      ),
-                                    ),
-                                  );
-                                } else if (snapshot.hasData) {
-                                  return ItemAsyncDataCreatePageHome(
-                                    onTap: () {},
-                                    textTitle: 'WEEK ${index + 1}',
-                                    childRight: ChildRightCreateByWeek(
-                                      week: (index + 1).toString(),
-                                    ),
-                                    timeJoin: DateFormat.yMMMEd()
-                                        .format(DateTime.now()),
-                                    signList: snapshot.data!.sign!,
-                                  );
-                                } else {
-                                  return Container();
-                                }
-                              });
-                        },
-                      ),
-                    ),
-                  ),
+                      child: SizedBox(
+                          height: 30.h,
+                          child: CustomScrollView(slivers: [
+                            SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                                childCount: 14,
+                                (context, index) {
+                                  return FutureBuilder<PreHWResModel?>(
+                                      future: instance
+                                          .get<TeacherAPIRepo>()
+                                          .getPreHWByWeek(
+                                              (index + 1).toString()),
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return SizedBox(
+                                            height: 30.h,
+                                            width: 30.w,
+                                            child: const Center(
+                                              child: CircularProgressIndicator(
+                                                color: colorMainBlue,
+                                                strokeWidth: 5,
+                                              ),
+                                            ),
+                                          );
+                                        } else if (snapshot.hasData) {
+                                          return Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 0.5.h, bottom: 0.5.h),
+                                            child: ItemAsyncDataCreatePageHome(
+                                              colorBorder: colorErrorPrimary,
+                                              textTitle: 'WEEK ${index + 1}',
+                                              childRight:
+                                                  ChildRightCreateByWeek(
+                                                week: (index + 1).toString(),
+                                              ),
+                                              timeJoin: DateFormat.yMMMEd()
+                                                  .format(DateTime.now()),
+                                              signList: snapshot.data!.sign!,
+                                            ),
+                                          );
+                                        } else {
+                                          return Container();
+                                        }
+                                      });
+                                },
+                              ),
+                            ),
+                          ])))
                 ],
               ),
             ),

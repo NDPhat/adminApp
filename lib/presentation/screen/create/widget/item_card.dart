@@ -9,46 +9,45 @@ class ItemCard extends StatelessWidget {
   const ItemCard(
       {Key? key,
       required this.childCenter,
-      required this.backgroundColor,
+      required this.colorBorder,
       required this.onTap,
       required this.childRight})
       : super(key: key);
   final Widget childCenter;
   final Widget childRight;
-  final Color backgroundColor;
+  final Color colorBorder;
   final VoidCallback onTap;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onTap,
-      child: Card(
-        color: backgroundColor,
-        child: SizedBox(
-          height: 10.h,
-          child: Row(
-            children: [
-              Container(
-                alignment: Alignment.center,
-                width: 50.w,
-                child: childCenter,
-              ),
-              Expanded(
-                child: Transform.rotate(
-                  angle: math.pi / 2,
-                  child: const Divider(
-                    color: colorSystemWhite,
-                    height: 50,
-                    thickness: 2,
-                  ),
+      child: Container(
+        decoration: BoxDecoration(
+            border: Border.all(color: colorBorder),
+            borderRadius: const BorderRadius.all(Radius.circular(25))),
+        height: 13.h,
+        child: Row(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              width: 60.w,
+              child: childCenter,
+            ),
+            Container(
+              height: 10.h,
+              decoration: BoxDecoration(
+                border: Border(
+                  right: BorderSide(width: 1.5, color: colorBorder),
                 ),
               ),
-              Container(
-                alignment: Alignment.center,
-                width: 30.w,
-                child: childRight,
-              ),
-            ],
-          ),
+            ),
+            Container(
+              alignment: Alignment.center,
+              width: 25.w,
+              height: 10.h,
+              child: childRight,
+            ),
+          ],
         ),
       ),
     );

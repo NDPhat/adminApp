@@ -100,7 +100,7 @@ class _IntroScreenState extends State<IntroScreen> {
                                 padding: EdgeInsets.only(
                                   right: 1.w,
                                 ),
-                                child: DotIndicator(
+                                child: DotIntroIndicator(
                                   isActive: index == _pageIndex,
                                 ),
                               )),
@@ -134,8 +134,8 @@ class _IntroScreenState extends State<IntroScreen> {
   }
 }
 
-class DotIndicator extends StatelessWidget {
-  const DotIndicator({Key? key, this.isActive = false}) : super(key: key);
+class DotIntroIndicator extends StatelessWidget {
+  const DotIntroIndicator({Key? key, this.isActive = false}) : super(key: key);
   final bool isActive;
   @override
   Widget build(BuildContext context) {
