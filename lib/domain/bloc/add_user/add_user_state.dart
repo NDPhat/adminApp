@@ -11,7 +11,6 @@ class AddUserState extends Equatable {
   String birthMess;
   String passMess;
   String addMess;
-  String lopMess;
   String phoneMess;
   String otp;
   String add;
@@ -31,7 +30,6 @@ class AddUserState extends Equatable {
     required this.phone,
     required this.birthDate,
     required this.nameMess,
-    required this.lopMess,
     required this.addMess,
     required this.mailMess,
     required this.status,
@@ -52,12 +50,11 @@ class AddUserState extends Equatable {
         status: AddUserStatus.initial,
         mailMess: "",
         sexMess: "",
-        lopMess: "",
         birthMess: "",
         sex: "Male",
         add: "",
         birthDate: "",
-        lop: "",
+        lop: instance.get<UserGlobal>().lop!,
         linkImage: "",
         password: "",
         phone: "",
@@ -81,7 +78,6 @@ class AddUserState extends Equatable {
         mailMess,
         phoneMess,
         status,
-        lopMess,
         sexMess,
         addMess,
         birthMess,
@@ -128,7 +124,6 @@ class AddUserState extends Equatable {
       phoneMess: phoneMess ?? this.phoneMess,
       addMess: addMess ?? this.addMess,
       sexMess: sexMess ?? this.sexMess,
-      lopMess: lopMess ?? this.lopMess,
       passMess: passMess ?? this.passMess,
       password: password ?? this.password,
       linkImage: linkImage ?? this.linkImage,

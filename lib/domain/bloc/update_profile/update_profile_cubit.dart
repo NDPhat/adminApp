@@ -17,9 +17,8 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
   String phoneErr = "";
   String birthErr = "";
   String addEr = "";
-  UpdateProfileCubit({required TeacherAPIRepo teacherAPIRepo})
-      : teacherAPIRepo = teacherAPIRepo,
-        super(UpdateProfileState.initial());
+  UpdateProfileCubit({required this.teacherAPIRepo})
+      : super(UpdateProfileState.initial());
   void nameChanged(String value) {
     state.fullName = value;
   }
@@ -89,12 +88,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
 
   Future<void> updateProfileUser(
       String linkImage, String deleteHash, File? _imageFile) async {
-    emit(state.copyWith(
-        nameError: "",
-        addError: "",
-        phoneError: "",
-        birthError: "",
-        status: UpdateProfileStatus.onLoading));
+    emit(state.copyWith(status: UpdateProfileStatus.onLoading));
     if (isFormValid()) {
       late UserAPIReq dataNew;
       if (_imageFile != null) {
@@ -117,7 +111,8 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
       bool? updateDone = await teacherAPIRepo.updateProfileUser(
           instance.get<UserGlobal>().id.toString(), dataNew);
       if (updateDone == true) {
-        await teacherAPIRepo.getUserById(instance.get<UserGlobal>().id.toString());
+        await teacherAPIRepo
+            .getUserById(instance.get<UserGlobal>().id.toString());
         emit(state.copyWith(status: UpdateProfileStatus.success));
       } else {
         emit(state.copyWith(status: UpdateProfileStatus.error));

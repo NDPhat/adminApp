@@ -1,5 +1,7 @@
+import '../../data/local/notify/notifi_helper.dart';
 import 'initInstance.dart';
 
-void setUpProject() {
+Future<void> setUpProject() async {
   initLocalRepo();
+  await NotifyHelper().initializeNotification();
 }

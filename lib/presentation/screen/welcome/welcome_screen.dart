@@ -38,7 +38,7 @@ class WelcomeScreen extends StatelessWidget {
                   },
                   animatedTexts: [
                     ColorizeAnimatedText(
-                      'taptostart'.tr().toString(),
+                      'welcome'.tr().toString(),
                       textAlign: TextAlign.center,
                       textStyle: kAnimationTextStyle,
                       colors: kColorizeAnimationColors,

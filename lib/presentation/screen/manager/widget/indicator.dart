@@ -6,24 +6,28 @@ import '../../../../application/cons/color.dart';
 
 class DotIndicator extends StatelessWidget {
   const DotIndicator(
-      {Key? key, required this.pageIndex, required this.colorBorder})
+      {Key? key,
+      required this.pageIndex,
+      required this.colorBorder,
+      required this.totalPage})
       : super(key: key);
   final String pageIndex;
+  final String totalPage;
   final Color colorBorder;
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 8.w,
-      height: 4.h,
+      width: 10.w,
+      height: 5.h,
       decoration: BoxDecoration(
           color: colorSystemWhite,
           border: Border.all(color: colorBorder),
           borderRadius: const BorderRadius.all(Radius.circular(50))),
       child: Center(
         child: Text(
-          pageIndex,
+          "$pageIndex / $totalPage",
           style: GoogleFonts.abel(
-              color: colorBorder, fontSize: 16, fontWeight: FontWeight.bold),
+              color: colorBorder, fontSize: 14, fontWeight: FontWeight.bold),
         ),
       ),
     );

@@ -1,30 +1,49 @@
-import 'package:admin/data/local/models/user_global.dart';
-import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
+import 'package:admin/domain/bloc/data_sheet/data_sheet_cubit.dart';
 import 'package:admin/presentation/navigation/routers.dart';
 import 'package:admin/presentation/screen/dashboard_main/widget/chart_hw_season.dart';
-import 'package:admin/presentation/screen/dashboard_main/widget/chart_sign_season.dart';
-import 'package:admin/presentation/screen/dashboard_main/widget/child_right_create_week.dart';
 import 'package:admin/presentation/screen/dashboard_main/widget/child_right_hw_week.dart';
-import 'package:admin/presentation/screen/dashboard_main/widget/item_async_data_create_main_screen.dart';
 import 'package:admin/presentation/screen/dashboard_main/widget/item_async_data_hw_main_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 import '../../../application/cons/color.dart';
-import '../../../data/remote/models/pre_hw_res.dart';
-import '../../../data/remote/models/result_hw_res.dart';
-import '../../../main.dart';
+import '../../../application/utils/find_average/find_average_score.dart';
+import '../../../domain/bloc/detail_homework/detail_result_hw_cubit.dart';
 import '../../widget/bg_home_screen.dart';
 import '../../widget/line_content_item_widget.dart';
+import '../manager/widget/dot_page_indicator.dart';
+import '../manager/widget/indicator.dart';
 
-class DashBoardHomePageScreen extends StatelessWidget {
-  const DashBoardHomePageScreen({Key? key}) : super(key: key);
+class DataSheetMainScreen extends StatefulWidget {
+  const DataSheetMainScreen({Key? key}) : super(key: key);
+  @override
+  State<DataSheetMainScreen> createState() => DataSheetMainScreenState();
+}
+
+class DataSheetMainScreenState extends State<DataSheetMainScreen> {
+  @override
+  void initState() {
+    super.initState();
+    initPageData();
+  }
+
+  void initPageData() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<DataSheetCubit>().initPage();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BGHomeScreen(
-          textNow: 'Dashboard',
+          onBack: () {
+            Navigator.pushNamed(context, Routers.home);
+          },
+          textNow: 'data sheet'.tr(),
           colorTextAndIcon: Colors.black,
           child: Expanded(
               child: SingleChildScrollView(
@@ -32,65 +51,27 @@ class DashBoardHomePageScreen extends StatelessWidget {
               padding: EdgeInsets.only(left: 5.w, right: 5.w, top: 2.h),
               child: Column(
                 children: [
-                  const Center(
-                    child: LineContentItem(
-                      colorBG: colorMainBlue,
-                      title: 'Home works',
-                      icon: Icon(Icons.book),
-                    ),
-                  ),
                   const ChartHWSeason(),
                   SizedBox(
                     height: 2.h,
                   ),
-                  const Center(
-                    child: LineContentItem(
-                      title: 'Homework by week',
+                  LineContentItem(
                       colorBG: colorMainBlue,
-                      icon: Icon(Icons.calendar_view_week),
-                    ),
-                  ),
-                  SingleChildScrollView(
-                      child: SizedBox(
-                          height: 30.h,
-                          child: CustomScrollView(slivers: [
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                childCount: 14,
-                                (context, index) {
-                                  return FutureBuilder<
-                                          List<ResultQuizHWAPIModel>?>(
-                                      future: instance
-                                          .get<TeacherAPIRepo>()
-                                          .getAllResultQuizHWByWeekAndLop(
-                                            (index + 1).toString(),
-                                            instance
-                                                .get<UserGlobal>()
-                                                .lop
-                                                .toString(),
-                                          ),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return SizedBox(
-                                            height: 30.h,
-                                            width: 30.w,
-                                            child: const Center(
-                                              child: CircularProgressIndicator(
-                                                color: colorMainBlue,
-                                                strokeWidth: 5,
-                                              ),
-                                            ),
-                                          );
-                                        }
-                                        if (snapshot.hasData &&
-                                            snapshot.data!.isNotEmpty) {
-                                          int totalJ = 0;
-                                          int score = 0;
-                                          for (var element in snapshot.data!) {
-                                            totalJ = totalJ + element.numQ!;
-                                            score = score + element.score!;
-                                          }
+                      title: 'detailed data'.tr().toString(),
+                      icon: const Icon(Icons.home_work)),
+                  BlocBuilder<DataSheetCubit, DataSheetState>(
+                      buildWhen: (pre, now) {
+                    return pre.pageNow != now.pageNow || pre.posts != now.posts;
+                  }, builder: (context, state) {
+                    return SingleChildScrollView(
+                        child: SizedBox(
+                            height: 43.h,
+                            child: state.posts!.isNotEmpty
+                                ? CustomScrollView(slivers: [
+                                    SliverList(
+                                      delegate: SliverChildBuilderDelegate(
+                                        childCount: state.posts!.length,
+                                        (context, index) {
                                           return Padding(
                                             padding: EdgeInsets.only(
                                                 top: 0.5.h, bottom: 0.5.h),
@@ -100,103 +81,123 @@ class DashBoardHomePageScreen extends StatelessWidget {
                                                     context,
                                                     Routers
                                                         .detailResultHWByWeakMainScreen,
-                                                    arguments: snapshot
-                                                        .data![index].week);
+                                                    arguments:
+                                                        (index + 1).toString());
                                               },
-                                              textTitle: 'WEEK ${index + 1}',
-                                              totalUserJoin: snapshot
-                                                  .data!.length
+                                              textTitle:
+                                                  'WEEK ${state.posts!.firstWhere((element) => element.week == (index + 1).toString()).week}',
+                                              totalUserJoin: state.posts!
+                                                  .firstWhere((element) =>
+                                                      element.week ==
+                                                      (index + 1).toString())
+                                                  .totalJoin
                                                   .toString(),
-                                              scoreAvg: ((score / totalJ) * 10)
-                                                  .toStringAsFixed(2),
+                                              scoreAvg: state.posts!
+                                                  .firstWhere((element) =>
+                                                      element.week ==
+                                                      (index + 1).toString())
+                                                  .scoreAvg!,
                                               childRight: ChildRightHWByWeek(
                                                 week: (index + 1).toString(),
                                               ),
-                                              timeSave: DateFormat.yMMMEd()
-                                                  .format(DateTime.now()),
+                                              timeSave: state.posts!
+                                                  .firstWhere((element) =>
+                                                      element.week ==
+                                                      (index + 1).toString())
+                                                  .time!,
                                               colorBorder: colorMainBlue,
                                             ),
                                           );
-                                        }
-                                        return Container();
-                                      });
-                                },
-                              ),
-                            ),
-                          ]))),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  const LineContentItem(
-                    colorBG: colorErrorPrimary,
-                    title: 'Create',
-                    icon: Icon(Icons.dashboard),
-                  ),
-                  const ChartCreateSeason(),
-                  SizedBox(
-                    height: 2.h,
-                  ),
-                  const Center(
-                    child: LineContentItem(
-                      colorBG: colorErrorPrimary,
-                      title: 'Sign by week',
-                      icon: Icon(Icons.calendar_view_week),
-                    ),
-                  ),
-                  SingleChildScrollView(
-                      child: SizedBox(
-                          height: 30.h,
-                          child: CustomScrollView(slivers: [
-                            SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                childCount: 14,
-                                (context, index) {
-                                  return FutureBuilder<PreHWResModel?>(
-                                      future: instance
-                                          .get<TeacherAPIRepo>()
-                                          .getPreHWByWeek(
-                                              (index + 1).toString()),
-                                      builder: (context, snapshot) {
-                                        if (snapshot.connectionState ==
-                                            ConnectionState.waiting) {
-                                          return SizedBox(
-                                            height: 30.h,
-                                            width: 30.w,
-                                            child: const Center(
-                                              child: CircularProgressIndicator(
-                                                color: colorMainBlue,
-                                                strokeWidth: 5,
-                                              ),
-                                            ),
-                                          );
-                                        } else if (snapshot.hasData) {
-                                          return Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 0.5.h, bottom: 0.5.h),
-                                            child: ItemAsyncDataCreatePageHome(
-                                              colorBorder: colorErrorPrimary,
-                                              textTitle: 'WEEK ${index + 1}',
-                                              childRight:
-                                                  ChildRightCreateByWeek(
-                                                week: (index + 1).toString(),
-                                              ),
-                                              timeJoin: DateFormat.yMMMEd()
-                                                  .format(DateTime.now()),
-                                              signList: snapshot.data!.sign!,
-                                            ),
-                                          );
-                                        } else {
-                                          return Container();
-                                        }
-                                      });
-                                },
-                              ),
-                            ),
-                          ])))
+                                        },
+                                      ),
+                                    ),
+                                  ])
+                                : const Center(
+                                    child: CircularProgressIndicator(
+                                      color: colorMainBlue,
+                                      strokeWidth: 3,
+                                    ),
+                                  )));
+                  }),
+                  Container(
+                    height: 4.h,
+                    padding: EdgeInsets.only(right: 5.w),
+                    width: 100.w,
+                    child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          /// MINUS
+                          BlocBuilder<DataSheetCubit, DataSheetState>(
+                              buildWhen: (pre, now) {
+                            return pre.pageNow != now.pageNow;
+                          }, builder: (context, state) {
+                            return renderMinusPage(context);
+                          }),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+
+                          /// VALUE
+                          BlocBuilder<DataSheetCubit, DataSheetState>(
+                              buildWhen: (pre, now) {
+                            return pre.pageNow != now.pageNow ||
+                                pre.posts != now.posts;
+                          }, builder: (context, state) {
+                            return renderPageValue(state);
+                          }),
+                          SizedBox(
+                            width: 2.w,
+                          ),
+
+                          ///PLUS
+                          BlocBuilder<DataSheetCubit, DataSheetState>(
+                              buildWhen: (pre, now) {
+                            return pre.pageNow != now.pageNow;
+                          }, builder: (context, state) {
+                            return renderPlusPage(context);
+                          }),
+                        ]),
+                  )
                 ],
               ),
             ),
           ))),
+    );
+  }
+
+  DotPageIndicator renderPlusPage(BuildContext context) {
+    return DotPageIndicator(
+      colorBorder: colorMainBlue,
+      icon: SvgPicture.asset(
+        "assets/icon/next.svg",
+        color: colorMainBlue,
+        fit: BoxFit.cover,
+      ),
+      onTap: () {
+        context.read<DataSheetCubit>().pagePlus();
+      },
+    );
+  }
+
+  DotIndicator renderPageValue(DataSheetState state) {
+    return DotIndicator(
+      totalPage: findLength(state.lengthNow).toString(),
+      colorBorder: colorErrorPrimary,
+      pageIndex: state.pageNow.toString(),
+    );
+  }
+
+  DotPageIndicator renderMinusPage(BuildContext context) {
+    return DotPageIndicator(
+      colorBorder: colorMainBlue,
+      icon: SvgPicture.asset(
+        "assets/icon/back.svg",
+        color: colorMainBlue,
+        fit: BoxFit.cover,
+      ),
+      onTap: () {
+        context.read<DataSheetCubit>().pageMinus();
+      },
     );
   }
 }

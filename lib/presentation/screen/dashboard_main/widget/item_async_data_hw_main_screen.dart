@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
@@ -56,7 +57,7 @@ class ItemAsyncDataHWPageHome extends StatelessWidget {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Total Join : $totalUserJoin',
+                      "${'total join'.tr()} : $totalUserJoin",
                       style:
                           GoogleFonts.barlow(color: colorBorder, fontSize: 16),
                     ),
@@ -64,7 +65,7 @@ class ItemAsyncDataHWPageHome extends StatelessWidget {
                   Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      'Average : $scoreAvg',
+                      "${'average'.tr()} : $scoreAvg",
                       style:
                           GoogleFonts.barlow(color: colorBorder, fontSize: 16),
                     ),

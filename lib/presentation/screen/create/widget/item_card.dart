@@ -25,7 +25,7 @@ class ItemCard extends StatelessWidget {
         decoration: BoxDecoration(
             border: Border.all(color: colorBorder),
             borderRadius: const BorderRadius.all(Radius.circular(25))),
-        height: 13.h,
+        height: 12.h,
         child: Row(
           children: [
             Container(
@@ -34,7 +34,7 @@ class ItemCard extends StatelessWidget {
               child: childCenter,
             ),
             Container(
-              height: 10.h,
+              height: 8.h,
               decoration: BoxDecoration(
                 border: Border(
                   right: BorderSide(width: 1.5, color: colorBorder),
@@ -44,7 +44,7 @@ class ItemCard extends StatelessWidget {
             Container(
               alignment: Alignment.center,
               width: 25.w,
-              height: 10.h,
+              height: 8.h,
               child: childRight,
             ),
           ],

@@ -2,18 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
-class ItemManagerUser extends StatelessWidget {
-  const ItemManagerUser(
+class ItemManager extends StatelessWidget {
+  ItemManager(
       {Key? key,
       required this.lop,
       required this.ten,
       required this.onTap,
       required this.imageLink,
-      required this.colorBorder})
+      required this.colorBorder,
+      required this.childLeft})
       : super(key: key);
-  final String lop, ten, imageLink;
+  final String lop, ten;
+  String imageLink;
   final VoidCallback onTap;
   final Color colorBorder;
+  final Widget childLeft;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +25,7 @@ class ItemManagerUser extends StatelessWidget {
           border: Border.all(color: colorBorder),
           borderRadius: const BorderRadius.all(Radius.circular(25))),
       height: 13.h,
+      width: 90.w,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -37,16 +41,13 @@ class ItemManagerUser extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8), // Border radius
                     child: ClipOval(
-                      child: imageLink != null
-                          ? Image.network(
-                              imageLink,
-                              fit: BoxFit.cover,
-                            )
-                          : Image.asset(
-                              "assets/images/dashboard/profile.png",
-                              fit: BoxFit.cover,
-                            ),
-                    ),
+                        child: imageLink.isNotEmpty
+                            ? Image.network(
+                                imageLink,
+                                fit: BoxFit.cover,
+                              )
+                            : Image.asset(
+                                "assets/images/dashboard/profile.png")),
                   ),
                 ),
                 Column(
@@ -84,14 +85,7 @@ class ItemManagerUser extends StatelessWidget {
           ),
           GestureDetector(
             onTap: onTap,
-            child: SizedBox(
-              width: 20.w,
-              child: Icon(
-                Icons.settings,
-                color: colorBorder,
-                size: 30,
-              ),
-            ),
+            child: SizedBox(width: 20.w, child: childLeft),
           )
         ],
       ),

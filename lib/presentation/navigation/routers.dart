@@ -1,21 +1,34 @@
+import 'package:admin/data/local/repo/notify_task/notoify_task_repo.dart';
 import 'package:admin/data/remote/authen/authen_repo.dart';
+import 'package:admin/data/remote/models/user_res.dart';
+import 'package:admin/domain/bloc/add_notifi/add_notify_cubit.dart';
 import 'package:admin/domain/bloc/add_user/add_user_cubit.dart';
+import 'package:admin/domain/bloc/data_sheet/data_sheet_cubit.dart';
+import 'package:admin/domain/bloc/detail_user/detail_user_cubit.dart';
 import 'package:admin/domain/bloc/login/login_cubit.dart';
+import 'package:admin/domain/bloc/manage_hw/manage_hw_cubit.dart';
+import 'package:admin/domain/bloc/notify_main/notify_main_cubit.dart';
+import 'package:admin/domain/bloc/update_profile/update_profile_cubit.dart';
 import 'package:admin/main.dart';
 import 'package:admin/presentation/screen/create/create_main_screen.dart';
 import 'package:admin/presentation/screen/create/widget/create_user_screen.dart';
 import 'package:admin/presentation/screen/detail/detail_pre_hw_screen.dart';
+import 'package:admin/presentation/screen/detail/detail_student_info_screen.dart';
 import 'package:admin/presentation/screen/detail/widget/detail_quiz_hw.dart';
 import 'package:admin/presentation/screen/home/home_screen.dart';
 import 'package:admin/presentation/screen/intro/intro_screen.dart';
 import 'package:admin/presentation/screen/language_screen/language_screen.dart';
 import 'package:admin/presentation/screen/login/login_screen.dart';
 import 'package:admin/presentation/screen/manager/manager_main_screen.dart';
+import 'package:admin/presentation/screen/profile/widget/my_acc/profile_myaccount.dart';
 import 'package:admin/presentation/screen/setting/setting_main_screen.dart';
+import 'package:admin/presentation/screen/setting/widget/add_notify_screen.dart';
+import 'package:admin/presentation/screen/setting/widget/notify_main.dart';
 import 'package:admin/presentation/screen/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
 import '../../data/remote/api/api/api_teacher_repo.dart';
 import '../../domain/bloc/add_task/add_pre_cubit.dart';
+import '../../domain/bloc/detail_homework/detail_result_hw_cubit.dart';
 import '../../domain/bloc/detail_pre/detail_pre_cubit.dart';
 import '../screen/create/widget/create_pre_screen.dart';
 import '../screen/dashboard_main/dashboard_home_page_screen.dart';
@@ -34,14 +47,18 @@ class Routers {
   static const String splash = '/splash';
   static const String createPre = '/createPre';
   static const String detailResultHW = '/detailResultHW';
+  static const String detailStudent = '/detailStudent';
   static const String home = '/home';
   static const String language = '/language';
   static const String setting = '/setting';
   static const String profile = '/profile';
+  static const String updateProfile = '/updateProfile';
   static const String managerUser = '/managerUser';
   static const String managerMainScreen = '/managerMainScreen';
   static const String createUser = '/createUser';
   static const String createMainScreen = '/createMainScreen';
+  static const String notifyMainScreen = '/notifyMainScreen';
+  static const String addNotify = '/addNotify';
   static const String detailPre = '/detailPre';
   static const String detailAllResultHW = '/detailAllResultHW';
   static const String detailQuizHWByResultID = '/detailQuizHWByResultID';
@@ -86,14 +103,51 @@ class Routers {
                   teacherAPIRepo: instance.get<TeacherAPIRepo>(),
                 ),
             child: CreateUserScreen());
+      case notifyMainScreen:
+        return BlocProvider(
+            create: (context) => NotifyMainCubit(
+                  notifyTaskLocalRepo: instance.get<NotifyTaskLocalRepo>(),
+                ),
+            child: const LocalNotifyMainScreen());
+      case updateProfile:
+        return BlocProvider(
+            create: (context) => UpdateProfileCubit(
+                  teacherAPIRepo: instance.get<TeacherAPIRepo>(),
+                ),
+            child: const UpdateProfileUserScreen());
+      case addNotify:
+        return BlocProvider(
+            create: (context) => AddNotifyCubit(
+                  notifyTaskRepo: instance.get<NotifyTaskLocalRepo>(),
+                ),
+            child: AddNotifyScreen());
       case detailAllResultHW:
-        return const ManagerHomeWorkScreen();
+        return BlocProvider(
+            create: (context) => ManageHWCubit(
+                  teacherAPIRepo: instance.get<TeacherAPIRepo>(),
+                ),
+            child: const ManagerHomeWorkScreen());
+      case detailStudent:
+        return BlocProvider(
+            create: (context) => DetailUserCubit(
+                  teacherAPIRepo: instance.get<TeacherAPIRepo>(),
+                  userAPIModel: settings.arguments! as UserAPIModel,
+                ),
+            child: DetailStudentInfoScreen());
       case detailQuizHWByResultID:
         return const DetailResultHWItemScreen();
       case detailResultHWByWeakMainScreen:
-        return const DetailResultHWByWeakMainScreen();
+        return BlocProvider(
+            create: (context) => DetailResultHWCubit(
+                  teacherAPIRepo: instance.get<TeacherAPIRepo>(),
+                ),
+            child: const DetailResultHWByWeakMainScreen());
       case dashboard:
-        return const DashBoardHomePageScreen();
+        return BlocProvider(
+            create: (context) => DataSheetCubit(
+                  teacherAPIRepo: instance.get<TeacherAPIRepo>(),
+                ),
+            child: const DataSheetMainScreen());
       case createPre:
         return BlocProvider(
             create: (context) => AddPreHWCubit(

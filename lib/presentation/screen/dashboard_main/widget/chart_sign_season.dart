@@ -1,19 +1,12 @@
 import 'package:admin/data/remote/models/pre_hw_res.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
 import '../../../../application/cons/color.dart';
 import '../../../../application/cons/text_style.dart';
-import '../../../../application/utils/find_average/find_average_score.dart';
-import '../../../../application/utils/find_average/get_sign.dart';
 import '../../../../data/local/models/chart_data.dart';
-import '../../../../data/local/models/chart_data_week.dart';
-import '../../../../data/local/models/chart_hw_main_screen.dart';
-import '../../../../data/local/models/user_global.dart';
 import '../../../../data/remote/api/api/api_teacher_repo.dart';
-import '../../../../data/remote/models/result_hw_res.dart';
 import '../../../../main.dart';
 
 class ChartCreateSeason extends StatelessWidget {
@@ -99,9 +92,9 @@ class ChartCreateSeason extends StatelessWidget {
                             ),
                           ]),
                     ),
-                    const Center(
+                     Center(
                       child: Text(
-                        'Data sign by season ',
+                        "detailed sign data".trim(),
                         style: s12f400ColorGreyTe,
                       ),
                     ),

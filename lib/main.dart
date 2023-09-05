@@ -4,6 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:device_preview/device_preview.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:sizer/sizer.dart';
 import 'application/di/setupProject.dart';
 import 'data/local/authen/authen_repo.dart';
@@ -13,6 +14,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   instance.registerLazySingleton<AuthenRepository>(() => AuthenRepository());
+
+  /// PERMISSION LOCAL NOTIFICATION
+  await Permission.notification.isDenied.then((value) {
+    if (value) {
+      Permission.notification.request();
+    }
+  });
+
   setUpProject();
   runApp(DevicePreview(
     builder: (context) => EasyLocalization(

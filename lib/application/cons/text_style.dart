@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'color.dart';
 
 const FontWeight font700 = FontWeight.w700;
 const FontWeight font400 = FontWeight.w400;
 const FontWeight font500 = FontWeight.w500;
+
+/// USE FOR ALERT ACTION
+TextStyle s18GgfaBeeColorMainBlue = GoogleFonts.aBeeZee(
+    color: colorMainBlue, fontSize: 18, fontWeight: FontWeight.bold);
+TextStyle s18GgfaBeeColorErrorPri = GoogleFonts.aBeeZee(
+    color: colorErrorPrimary, fontSize: 18, fontWeight: FontWeight.bold);
+TextStyle s18GgfaBeeColorWhite = GoogleFonts.aBeeZee(
+    color: colorSystemWhite, fontSize: 18, fontWeight: FontWeight.bold);
+
+///USE FOR ALERT CONTENT
+/// NORMAL ALERT
+TextStyle s20GgBarColorMainTeal =
+    GoogleFonts.barlow(color: colorMainTealPri, fontSize: 20);
+
+///ALERT ST WRONG
+TextStyle s20GgBarColorErrorPri =
+    GoogleFonts.barlow(color: colorErrorPrimary, fontSize: 20);
 
 const f700s22ColorGreySe =
     TextStyle(fontWeight: font700, fontSize: 22, color: colorGreySecond);
@@ -75,6 +93,11 @@ const s16f700ColorSysWhite = TextStyle(
   fontWeight: font700,
   fontSize: 16,
   color: colorSystemWhite,
+);
+const s16f700ColorSysYel = TextStyle(
+  fontWeight: font700,
+  fontSize: 16,
+  color: colorSystemYeloow,
 );
 const s16f700ColorError = TextStyle(
   fontWeight: font700,

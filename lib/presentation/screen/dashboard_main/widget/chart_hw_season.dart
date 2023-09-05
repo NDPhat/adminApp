@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
-
 import '../../../../application/cons/color.dart';
 import '../../../../application/cons/text_style.dart';
 import '../../../../application/utils/find_average/find_average_score.dart';
@@ -18,54 +18,38 @@ class ChartHWSeason extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
+      width: 100.w,
+      height: 32.h,
       child: FutureBuilder<List<ResultQuizHWAPIModel>?>(
           future: instance.get<TeacherAPIRepo>().getAllResultQuizHWByLop(
               instance.get<UserGlobal>().lop.toString()),
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-              List<ChartDataHWWeekMainScreen> dataList = [
-                ChartDataHWWeekMainScreen(1, 0, 0, 0, 0),
-                ChartDataHWWeekMainScreen(2, 0, 0, 0, 0),
-                ChartDataHWWeekMainScreen(3, 0, 0, 0, 0),
-                ChartDataHWWeekMainScreen(4, 0, 0, 0, 0),
-                ChartDataHWWeekMainScreen(5, 0, 0, 0, 0),
-                ChartDataHWWeekMainScreen(6, 0, 0, 0, 0),
-                ChartDataHWWeekMainScreen(7, 0, 0, 0, 0),
-                ChartDataHWWeekMainScreen(8, 0, 0, 0, 0),
-                ChartDataHWWeekMainScreen(9, 0, 0, 0, 0),
-                ChartDataHWWeekMainScreen(10, 0, 0, 0, 0),
-                ChartDataHWWeekMainScreen(11, 0, 0, 0, 0),
-                ChartDataHWWeekMainScreen(12, 0, 0, 0, 0),
-                ChartDataHWWeekMainScreen(13, 0, 0, 0, 0),
-                ChartDataHWWeekMainScreen(14, 0, 0, 0, 0),
-              ];
-              int sY = 0;
-              int sTB = 0;
-              int sK = 0;
-              int sG = 0;
-              int week = 0;
+              List<ChartDataHWWeekMainScreen> dataList = [];
+              snapshot.data!.sort(
+                  (a, b) => int.parse(a.week!).compareTo(int.parse(a.week!)));
+              for (int i = 1; i <= int.parse(snapshot.data!.last.week!); i++) {
+                dataList.add(ChartDataHWWeekMainScreen(i, 0, 0, 0, 0));
+              }
               for (int i = 0; i < snapshot.data!.length; i++) {
-                week = int.parse(snapshot.data![i].week.toString());
+                int week = int.parse(snapshot.data![i].week.toString());
                 String dataBack = findAveScore(snapshot.data![i].score!);
                 if (dataBack == "YEU") {
-                  sY++;
-                } else if (dataBack == "KHA") {
-                  sK++;
+                  dataList[week - 1].y++;
                 } else if (dataBack == "TRUNG BINH") {
-                  sTB++;
+                  dataList[week - 1].y1++;
+                } else if (dataBack == "KHA") {
+                  dataList[week - 1].y2++;
                 } else {
-                  sG++;
+                  dataList[week - 1].y3++;
                 }
               }
-              dataList[week - 1].y = sY;
-              dataList[week - 1].y1 = sTB;
-              dataList[week - 1].y2 = sK;
-              dataList[week - 1].y3 = sG;
+
               return Column(
                 children: [
                   SizedBox(
-                    width:100.w,
-                    height:30.h,
+                    width: 100.w,
+                    height: 30.h,
                     child: SfCartesianChart(
                         plotAreaBorderColor: colorMainBlue,
                         plotAreaBorderWidth: 0,
@@ -155,9 +139,12 @@ class ChartHWSeason extends StatelessWidget {
                           ),
                         ]),
                   ),
-                  const Center(
-                    child: Text(
-                      'Data homework by season ',
+                  Container(
+                    width: 100.w,
+                    height: 2.h,
+                    alignment: Alignment.center,
+                    child:  Text(
+                      "detailed homework data".tr(),
                       style: s12f400ColorGreyTe,
                     ),
                   ),

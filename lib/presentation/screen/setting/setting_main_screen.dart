@@ -17,31 +17,25 @@ class SettingMainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BGHomeScreen(
+        onBack: () {
+          Navigator.pushNamed(context, Routers.home);
+        },
         colorTextAndIcon: Colors.black,
         textNow: 'setting'.tr().toString(),
         onPressHome: () {},
         child: Column(
           children: [
-            sizedBox,
-            SettingMenuWidget(
-              title: "mode".tr().toString(),
-              widget: const Icon(
-                LineAwesomeIcons.modx,
-                size: 30,
-                color: colorSystemYeloow,
-              ),
-              textStyle: s16f700ColorGreyTe,
-              onPress: () {},
-            ),
             SizedBox(height: 5.h),
             SettingMenuWidget(
-              title: "localnotifi".tr().toString(),
+              title: "local notification".tr().toString(),
               widget: const Icon(
                 LineAwesomeIcons.bell,
                 size: 30,
                 color: colorErrorPrimary,
               ),
-              onPress: () {},
+              onPress: () {
+                Navigator.pushNamed(context, Routers.notifyMainScreen);
+              },
               textStyle: s16f700ColorGreyTe,
             ),
             SizedBox(height: 5.h),

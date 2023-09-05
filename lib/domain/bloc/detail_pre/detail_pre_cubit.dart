@@ -85,7 +85,7 @@ class DetailPreHWCubit extends Cubit<DetailPreHWState> {
 
   bool weekValidator(String week) {
     if (week.isEmpty) {
-      weekMess = 'This field is empty';
+      weekMess = 'Fill this blank';
       return false;
     } else {
       weekMess = "";
@@ -95,7 +95,7 @@ class DetailPreHWCubit extends Cubit<DetailPreHWState> {
 
   bool numQValidator(String numQ) {
     if (numQ.isEmpty) {
-      numQMess = 'This field is empty';
+      numQMess = 'Fill this blank';
       return false;
     } else {
       numQMess = "";
@@ -105,7 +105,7 @@ class DetailPreHWCubit extends Cubit<DetailPreHWState> {
 
   bool sNumValidator(String sNum) {
     if (sNum.isEmpty) {
-      sNumMess = 'This field is empty';
+      sNumMess = 'Fill this blank';
       return false;
     } else {
       sNumMess = "";
@@ -115,7 +115,7 @@ class DetailPreHWCubit extends Cubit<DetailPreHWState> {
 
   bool eNumValidator(String eNum) {
     if (eNum.isEmpty) {
-      eNumMess = 'This field is empty';
+      eNumMess = 'Fill this blank';
       return false;
     } else {
       eNumMess = "";
@@ -201,6 +201,7 @@ class DetailPreHWCubit extends Cubit<DetailPreHWState> {
               numQ: 0,
               score: 0,
               trueQ: 0,
+              dateSave: formatDateInput.format(DateTime.now()),
               falseQ: 0,
               userId: element.key,
               name: element.name));
@@ -216,8 +217,8 @@ class DetailPreHWCubit extends Cubit<DetailPreHWState> {
         bool? data = await teacherAPIRepo.updatePreHW(
             PreQuizHWReqAPI(
               week: state.week,
-              dstart: state.timeStart + " " + state.dayStart,
-              dend: state.timeEnd + " " + state.dayEnd,
+              dstart: "${state.timeStart} ${state.dayStart}",
+              dend: "${state.timeEnd} ${state.dayEnd}",
               sign: state.sign,
               sNum: int.parse(state.sNum),
               numQ: int.parse(state.numQ),

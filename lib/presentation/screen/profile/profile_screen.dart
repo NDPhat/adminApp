@@ -17,6 +17,9 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BGHomeScreen(
+          onBack: () {
+            Navigator.pushNamed(context, Routers.home);
+          },
           textNow: 'profile'.tr().toString(),
           colorTextAndIcon: Colors.black,
           child: Expanded(
@@ -41,11 +44,13 @@ class ProfileScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8), // Border radius
                             child: ClipOval(
-                                child: Image.asset(
-                              "assets/images/dashboard/profile.png",
+                                child: Image.network(
+                              instance.get<UserGlobal>().linkImage != null
+                                  ? instance.get<UserGlobal>().linkImage!
+                                  : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
                               fit: BoxFit.cover,
-                              height: 100,
                               width: 100,
+                              height: 100,
                             )),
                           ),
                         )),
@@ -76,36 +81,14 @@ class ProfileScreen extends StatelessWidget {
                 /// -- MENU
                 SingleChildScrollView(
                   child: ProfileItemWidget(
-                    title: "myacc".tr().toString(),
+                    title: "my account".tr().toString(),
                     icon: LineAwesomeIcons.user_check,
-                    onPress: () {},
+                    onPress: () {
+                      Navigator.pushNamed(context, Routers.updateProfile);
+                    },
                   ),
                 ),
                 SizedBox(height: 2.h),
-
-                ProfileItemWidget(
-                  title: "setting".tr().toString(),
-                  icon: LineAwesomeIcons.cog,
-                  onPress: () {},
-                ),
-                SizedBox(height: 2.h),
-
-                ProfileItemWidget(
-                  title: "localnotifi".tr().toString(),
-                  icon: LineAwesomeIcons.bell,
-                  onPress: () {},
-                ),
-                SizedBox(height: 2.h),
-                ProfileItemWidget(
-                  title: "logout".tr().toString(),
-                  icon: LineAwesomeIcons.alternate_sign_out,
-                  onPress: () {
-                    instance.get<AuthenRepository>().handleAutoLoginApp(false);
-                    instance.get<AuthenRepository>().handleMailLoginApp("");
-                    instance.get<UserGlobal>().onLogin = false;
-                    Navigator.pushNamed(context, Routers.welCome);
-                  },
-                ),
               ],
             ),
           ))),

@@ -2,6 +2,7 @@ import 'package:admin/data/remote/models/pre_hw_req.dart';
 import 'package:admin/data/remote/models/quiz_hw_res.dart';
 import 'package:admin/data/remote/models/user_res.dart';
 import '../../models/pre_hw_res.dart';
+import '../../models/pre_hw_res_pagi.dart';
 import '../../models/result_hw_pagi_res.dart';
 import '../../models/result_hw_req.dart';
 import '../../models/result_hw_res.dart';
@@ -10,6 +11,7 @@ import '../../models/user_res_with_pagi.dart';
 
 abstract class TeacherAPIRepo {
   Future<bool?> createUser(UserAPIModel data);
+  Future<bool?> deleteUserById(String userID);
   Future<UserAPIModel?> loginWithEmailAndPass(String email, String pass);
   Future<List<UserAPIModel>?> getAllStudentByClass(String lop);
   Future<UserResPagiAPI?> getAllStudentByClassWithPagi(String lop, int page);
@@ -21,9 +23,10 @@ abstract class TeacherAPIRepo {
   Future<List<ResultQuizHWAPIModel>?> getAllResultQuizHWByWeekAndLop(
       String week, String lop);
   Future<ResultHWPagiAPI?> getAllResultQuizHWByWeekAndLopWithPagi(
-      String week, String lop,int page);
+      String week, String lop, int page);
   Future<List<ResultQuizHWAPIModel>?> getAllResultQuizHWByLop(String lop);
   Future<List<PreHWResModel>?> getALlDonePreHW();
+  Future<PreHWResPagiAPI?> getALlDonePreHWWithPagi(int page);
   Future<PreHWResModel?> getPreHWByWeek(String week);
   Future<List<PreHWResModel>?> getOnGoingPreHW();
   Future<List<QuizHWAPIModel>?> getAllQuizHWByResultID(String resultID);

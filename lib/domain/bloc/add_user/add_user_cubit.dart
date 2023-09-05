@@ -1,4 +1,6 @@
+import 'package:admin/data/local/models/user_global.dart';
 import 'package:admin/data/remote/models/user_res.dart';
+import 'package:admin/main.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../../application/utils/status/add_user_status.dart';
@@ -11,7 +13,6 @@ class AddUserCubit extends Cubit<AddUserState> {
   String nameMess = "";
   String emailMess = "";
   String phoneMess = "";
-  String classMess = "";
   String passMess = "";
   String addMess = "";
   String birthMess = "";
@@ -99,26 +100,12 @@ class AddUserCubit extends Cubit<AddUserState> {
     }
   }
 
-  bool checkClass() {
-    if (state.lop.isEmpty) {
-      classMess = " Fill this blank";
-      return false;
-    } else {
-      classMess = "";
-      return true;
-    }
-  }
-
   void phoneChanged(String value) {
     state.phone = value;
   }
 
   void passChanged(String value) {
     state.password = value;
-  }
-
-  void lopChanged(String value) {
-    state.lop = value;
   }
 
   void addChanged(String value) {
@@ -139,7 +126,6 @@ class AddUserCubit extends Cubit<AddUserState> {
         checkName() &
         checkPhone() &
         checkMail() &
-        checkClass() &
         checkPass()) {
       return true;
     }
@@ -167,7 +153,6 @@ class AddUserCubit extends Cubit<AddUserState> {
         emit(state.copyWith(
           status: AddUserStatus.error,
           passMess: passMess,
-          lopMess: classMess,
           mailMess: emailMess,
           addMess: addMess,
           nameMess: nameMess,
@@ -179,7 +164,6 @@ class AddUserCubit extends Cubit<AddUserState> {
       emit(state.copyWith(
         status: AddUserStatus.error,
         passMess: passMess,
-        lopMess: classMess,
         mailMess: emailMess,
         addMess: addMess,
         nameMess: nameMess,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
@@ -41,7 +42,7 @@ class ItemDetailRSHWMainScreen extends StatelessWidget {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    ' Week : $week',
+                    "${'week'.tr()} : $week",
                     style:
                         GoogleFonts.fahkwang(color: colorBorder, fontSize: 20),
                   ),
@@ -49,7 +50,7 @@ class ItemDetailRSHWMainScreen extends StatelessWidget {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Name : $name',
+                    "${'name'.tr()} : $name",
                     style:
                         GoogleFonts.fahkwang(color: colorBorder, fontSize: 16),
                   ),
@@ -57,7 +58,7 @@ class ItemDetailRSHWMainScreen extends StatelessWidget {
                 Container(
                   alignment: Alignment.centerLeft,
                   child: Text(
-                    'Score : $score',
+                    "${'score'.tr()} : $score",
                     style:
                         GoogleFonts.fahkwang(color: colorBorder, fontSize: 16),
                   ),

@@ -1,3 +1,4 @@
+import 'package:admin/presentation/navigation/routers.dart';
 import 'package:admin/presentation/widget/bg_home_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,9 @@ class _LanguageScreenState extends State<LanguageScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BGHomeScreen(
+        onBack: () {
+          Navigator.pushNamed(context, Routers.setting);
+        },
         textNow: "language".tr().toString(),
         onPressHome: () {},
         colorTextAndIcon: Colors.black,

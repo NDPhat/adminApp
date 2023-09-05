@@ -24,7 +24,7 @@ class BoxFieldContainer extends StatelessWidget {
               width: size,
               child: Text(
                 nameTitle,
-                style: s15f700ColorBlueMa,
+                style: s15f700ColorYellow,
                 textAlign: TextAlign.left,
               )),
           const SizedBox(

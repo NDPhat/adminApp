@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:admin/data/remote/models/pre_hw_req.dart';
 import 'package:admin/data/remote/models/pre_hw_res.dart';
+import 'package:admin/data/remote/models/pre_hw_res_pagi.dart';
 import 'package:admin/data/remote/models/quiz_hw_res.dart';
 import 'package:admin/data/remote/models/result_hw_pagi_res.dart';
 import 'package:admin/data/remote/models/result_hw_res.dart';
@@ -440,6 +441,46 @@ class TeacherAPIImpl extends TeacherAPIRepo {
       return Future.error('No network found');
     } catch (_) {
       return Future.error('Something occurred');
+    }
+  }
+
+  @override
+  Future<PreHWResPagiAPI?> getALlDonePreHWWithPagi(int page) async {
+    // TODO: implement getALlDonePreHWWithPagi
+    try {
+      final url =
+          "${endpoint}getAllDonePreHWWithPagi?page_num=$page&page_size=5";
+      final req = await http.get(Uri.parse(url), headers: requestHeaders);
+      if (req.statusCode == 200) {
+        Map<String, dynamic> parsed = json.decode(req.body);
+        PreHWResPagiAPI? result = PreHWResPagiAPI.fromJson(parsed);
+        return result;
+      } else {
+        Map<String, dynamic> parsed = json.decode(req.body);
+        PreHWResPagiAPI? result = PreHWResPagiAPI.fromJson(parsed);
+        return result;
+      }
+    } on SocketException catch (_) {
+      return Future.error('No network found');
+    } catch (_) {
+      return Future.error('Something occurred');
+    }
+  }
+
+  @override
+  Future<bool?> deleteUserById(String userID) async {
+    try {
+      final url = "${endpoint}updateUserById?id=$userID";
+      final req = await http.delete(Uri.parse(url), headers: requestHeaders);
+      if (req.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } on SocketException catch (_) {
+      return null;
+    } catch (_) {
+      return null;
     }
   }
 }

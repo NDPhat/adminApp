@@ -50,17 +50,12 @@ class SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-          width: 100.w,
-          height: 100.h,
-          padding: EdgeInsets.all(5.w),
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage(
-                  'assets/images/welcome/welcome.png',
-                ),
-                fit: BoxFit.fill),
-          )),
-    );
+        body: Center(
+      child: Image.asset(
+        "assets/images/queen_bee_logo.png",
+        height: 40.h,
+        fit: BoxFit.cover,
+      ),
+    ));
   }
 }

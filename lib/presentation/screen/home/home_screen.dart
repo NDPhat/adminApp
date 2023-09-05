@@ -1,4 +1,5 @@
 import 'package:admin/presentation/screen/home/widget/teacher_data.dart';
+import 'package:admin/presentation/widget/rounded_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -19,7 +20,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: colorMainBlueChart,
+      backgroundColor: colorSystemYeloow,
       body: Column(
         children: [
           //we will divide the screen into two parts
@@ -32,39 +33,25 @@ class HomeScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    const Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TeacherName(),
-                        kHalfSizedBox,
-                        Row(
-                          children: [
-                            TeacherClass(teacherClass: 'Class 1A'),
-                            kHalfSizedBox,
-                            TeacherYear(teacherYear: '2023-2024'),
-                          ],
-                        )
-                      ],
-                    ),
-                    kHalfSizedBox,
+                    const TeacherName(),
                     TeacherPicture(
                       picAddress: 'assets/images/profile.png',
                     ),
                   ],
                 ),
                 sizedBox,
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     TeacherDataCard(
-                      title: 'Attendance',
-                      value: '90.02%',
+                      title: 'class'.tr(),
+                      value: instance.get<UserGlobal>().lop!,
                     ),
                     TeacherDataCard(
-                      title: 'Score',
-                      value: 'B',
+                      title: 'year'.tr(),
+                      value: '2023-2024',
                     ),
                   ],
                 )
@@ -90,6 +77,7 @@ class HomeScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         HomeCard(
+                          colorBorder: colorSystemPurple,
                           onPress: () {
                             Navigator.pushNamed(
                                 context, Routers.createMainScreen);
@@ -98,12 +86,13 @@ class HomeScreen extends StatelessWidget {
                           title: 'create'.tr().toString(),
                         ),
                         HomeCard(
+                          colorBorder: colorMainTealPri,
                           onPress: () {
                             Navigator.pushNamed(
                                 context, Routers.managerMainScreen);
                           },
                           icon: 'assets/icon/gallery.svg',
-                          title: 'manager'.tr().toString(),
+                          title: 'management'.tr().toString(),
                         ),
                       ],
                     ),
@@ -111,14 +100,15 @@ class HomeScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         HomeCard(
+                          colorBorder: colorWaringText,
                           onPress: () {
-                            Navigator.pushNamed(
-                                context, Routers.dashboard);
+                            Navigator.pushNamed(context, Routers.dashboard);
                           },
                           icon: 'assets/icon/datesheet.svg',
                           title: 'data sheet'.tr().toString(),
                         ),
                         HomeCard(
+                          colorBorder: colorMainBlue,
                           onPress: () {
                             Navigator.pushNamed(context, Routers.profile);
                           },
@@ -131,6 +121,7 @@ class HomeScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         HomeCard(
+                          colorBorder: colorSystemYeloow,
                           onPress: () {
                             Navigator.pushNamed(context, Routers.setting);
                           },
@@ -138,6 +129,7 @@ class HomeScreen extends StatelessWidget {
                           title: 'setting'.tr().toString(),
                         ),
                         HomeCard(
+                          colorBorder: colorErrorPrimary,
                           onPress: () {
                             instance
                                 .get<AuthenRepository>()
@@ -166,11 +158,13 @@ class HomeCard extends StatelessWidget {
       {Key? key,
       required this.onPress,
       required this.icon,
-      required this.title})
+      required this.title,
+      required this.colorBorder})
       : super(key: key);
   final VoidCallback onPress;
   final String icon;
   final String title;
+  final Color colorBorder;
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -180,7 +174,8 @@ class HomeCard extends StatelessWidget {
         width: 40.w,
         height: 15.h,
         decoration: BoxDecoration(
-          color: colorMainBlueChart,
+          color: colorSystemWhite,
+          border: Border.all(color: colorBorder),
           borderRadius: BorderRadius.circular(kDefaultPadding),
         ),
         child: Column(
@@ -191,10 +186,14 @@ class HomeCard extends StatelessWidget {
               icon,
               height: SizerUtil.deviceType == DeviceType.tablet ? 30.sp : 40.sp,
               width: SizerUtil.deviceType == DeviceType.tablet ? 30.sp : 40.sp,
-              color: colorSystemWhite,
+              color: colorBorder,
             ),
             Text(title,
-                textAlign: TextAlign.center, style: s14f500colorSysWhite),
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontSize: 14,
+                    color: colorBorder,
+                    fontWeight: FontWeight.w700)),
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:async';
+import 'package:admin/presentation/navigation/routers.dart';
 import 'package:admin/presentation/widget/bg_home_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,7 +65,7 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
         ),
       );
     } else {
-      return Image.asset("assets/images/profile.png");
+      return Image.asset("assets/images/dashboard/profile.png");
     }
   }
 
@@ -110,15 +111,15 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(100),
                       border: Border.all(color: colorSystemYeloow)),
-                  child: const Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(
+                      const Icon(
                         LineAwesomeIcons.envira_gallery,
                         color: Colors.black,
                         size: 30,
                       ),
-                      Text('Gallery'),
+                      Text('gallery'.tr()),
                     ],
                   ),
                 ),
@@ -133,15 +134,15 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(100),
                         border: Border.all(color: colorSystemYeloow)),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(
+                        const Icon(
                           LineAwesomeIcons.retro_camera,
                           color: Colors.black,
                           size: 30,
                         ),
-                        Text('Camera'),
+                        Text('camera'.tr()),
                       ],
                     ),
                   ),
@@ -172,7 +173,7 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
           pickedFile = File(picked!.path);
           //cropImage
           final croppedFile = await ImageCropper().cropImage(
-            sourcePath: pickedFile!.path,
+            sourcePath: pickedFile.path,
             cropStyle: CropStyle.circle,
             compressFormat: ImageCompressFormat.jpg,
             aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
@@ -215,6 +216,9 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BGHomeScreen(
+        onBack: () {
+          Navigator.pushNamed(context, Routers.profile);
+        },
         colorTextAndIcon: Colors.black,
         textNow: 'profile'.tr().toString(),
         onPressHome: () {},
@@ -283,8 +287,8 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
                         width: 90.w,
                         height: 8.h,
                         controller: TextEditingController(text: state.fullName),
-                        hintText: 'Your name',
-                        nameTitle: "Your name",
+                        hintText: 'your name'.tr(),
+                        nameTitle: 'your name'.tr(),
                         onChanged: (value) {
                           context.read<UpdateProfileCubit>().nameChanged(value);
                         },
@@ -303,8 +307,8 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
                       return InputFieldWidget(
                         controller: TextEditingController(text: state.lop),
                         readOnly: true,
-                        nameTitle: "Your class",
-                        hintText: 'Class',
+                        nameTitle: "your class".tr(),
+                        hintText: 'your class'.tr(),
                         width: 90.w,
                         height: 8.h,
                         icon: const Icon(
@@ -324,14 +328,14 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton2(
                             isExpanded: true,
-                            hint: const Row(
+                            hint: Row(
                               children: [
-                                Icon(Icons.list,
+                                const Icon(Icons.list,
                                     size: 16, color: colorMainBlue),
                                 Expanded(
                                   child: Text(
-                                    'Choose gender',
-                                    style: TextStyle(
+                                    'choose gender'.tr(),
+                                    style: const TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.bold,
                                         color: colorMainBlue),
@@ -414,8 +418,8 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
                         width: 90.w,
                         height: 8.h,
                         typeText: TextInputType.number,
-                        hintText: 'Your phone',
-                        nameTitle: "Your phone",
+                        hintText: 'your phone'.tr(),
+                        nameTitle: "your phone".tr(),
                         icon: const Icon(
                           LineAwesomeIcons.phone,
                           color: Colors.black,
@@ -435,8 +439,8 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
                         readOnly: true,
                         width: 90.w,
                         height: 8.h,
-                        hintText: 'Your birthDate',
-                        nameTitle: 'Your birthDate',
+                        hintText: 'your birthDay'.tr(),
+                        nameTitle: 'your birthDay'.tr(),
                         isHidden: state.birthDateError != "",
                         validateText: state.birthDateError,
                         icon: const Icon(
@@ -540,8 +544,8 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
                         controller: TextEditingController(text: state.email),
                         width: 90.w,
                         height: 8.h,
-                        hintText: 'Your email',
-                        nameTitle: 'Your email',
+                        hintText: 'your email'.tr(),
+                        nameTitle: 'your email'.tr(),
                         icon: const Icon(
                           LineAwesomeIcons.mail_bulk,
                           color: Colors.black,
@@ -558,8 +562,8 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
                       return InputFieldWidget(
                         width: 90.w,
                         height: 8.h,
-                        hintText: 'Your address',
-                        nameTitle: 'Your address',
+                        hintText: 'your address'.tr(),
+                        nameTitle: 'your address'.tr(),
                         isHidden: state.addError != "",
                         validateText: state.addError,
                         onChanged: (value) {
@@ -585,8 +589,8 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
                                   shape: ShapeBorder.lerp(const StadiumBorder(),
                                       const StadiumBorder(), 100),
                                   backgroundColor: colorSystemWhite,
-                                  title: const Center(
-                                    child: Text('UPDATE SUCCESS',
+                                  title: Center(
+                                    child: Text('update successful'.tr(),
                                         style: s16f700ColorError,
                                         textAlign: TextAlign.center),
                                   ),
@@ -599,9 +603,9 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
                                                     BorderRadius.circular(100),
                                                 border: Border.all(
                                                     color: colorSystemYeloow)),
-                                            child: const Center(
+                                            child: Center(
                                               child: Text(
-                                                'DONE',
+                                                'done'.tr(),
                                                 style: s15f700ColorErrorPri,
                                                 textAlign: TextAlign.center,
                                               ),
@@ -624,7 +628,8 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
                                 .updateProfileUser(
                                     linkImage, deleteHash, _imageFile);
                           },
-                          color: colorMainBlue,
+                          color: colorSystemWhite,
+                          colorBorder: colorSystemYeloow,
                           width: 80.w,
                           height: 8.h,
                           child: state.status == UpdateProfileStatus.onLoading
@@ -632,14 +637,14 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
                                   height: 10.h,
                                   child: const Center(
                                     child: CircularProgressIndicator(
-                                      color: colorSystemWhite,
+                                      color: colorSystemYeloow,
                                       strokeWidth: 3,
                                     ),
                                   ),
                                 )
                               : Text(
                                   'go'.tr().toString(),
-                                  style: s16f700ColorSysWhite,
+                                  style: s16f700ColorSysYel,
                                 ));
                     })
                   ],

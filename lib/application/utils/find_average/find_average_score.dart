@@ -13,3 +13,12 @@ String findAveScore(int score) {
   }
   return "KHA";
 }
+
+int findLength(int length) {
+  if (length % 5 > 0) {
+    length = length ~/ 5 + 1;
+  } else {
+    length = length ~/ 5;
+  }
+  return length;
+}

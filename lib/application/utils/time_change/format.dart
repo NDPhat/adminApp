@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 final formatDateView = DateFormat("yyyy-MM-dd");
 final formatDateInput = DateFormat("yyyy-MM-dd");
+final formatDateInputNotify = DateFormat('MM/dd/yyyy');
 final formatTimeInput = DateFormat('HH:mm ');
 
 double convertTimeDayToDouble(TimeOfDay myTime) =>

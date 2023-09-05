@@ -5,13 +5,24 @@ Color findColor(String color) {
   switch (color) {
     case "yellow":
       return colorSystemYeloow;
-      break;
     case "red":
       return colorErrorPrimary;
-      break;
     case "blue":
       return colorMainBlue;
-      break;
+  }
+  return colorMainBlue;
+}
+
+Color findColorByScore(String text) {
+  switch (text) {
+    case "KHA":
+      return colorMainBlue;
+    case "TRUNG BINH":
+      return colorSystemYeloow;
+    case "YEU":
+      return colorErrorPrimary;
+    case "GIOI":
+      return colorMainTealPri;
   }
   return colorMainBlue;
 }

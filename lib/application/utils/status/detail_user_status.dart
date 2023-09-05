@@ -1,0 +1,1 @@
+enum DetailUserStatus { initial,successUpdate,successDelete,sameWeek,error,submit,updating,deleting}

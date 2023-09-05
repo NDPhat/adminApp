@@ -141,7 +141,7 @@ class DetailResultHWItemScreen extends StatelessWidget {
                           }),
                       Center(
                         child: Text(
-                          'data detail'.tr().toString(),
+                          'detailed data'.tr().toString(),
                           style: s14f500ColorMainTe,
                         ),
                       )

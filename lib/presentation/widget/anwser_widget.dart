@@ -7,7 +7,7 @@ import '../../application/cons/constants.dart';
 import '../../application/cons/text_style.dart';
 
 class AnswerWidget extends StatelessWidget {
-  AnswerWidget(
+  const AnswerWidget(
       {Key? key,
       required this.answer,
       required this.answerSelect,
@@ -24,6 +24,7 @@ class AnswerWidget extends StatelessWidget {
     return Column(
       children: [
         Container(
+          width: 80.w,
           decoration: BoxDecoration(
               border: Border.all(
                   color: quizInfo ? colorMainTealPri : colorErrorPrimary),
@@ -56,7 +57,7 @@ class AnswerWidget extends StatelessWidget {
 }
 
 class AnswerDetailWidget extends StatelessWidget {
-  AnswerDetailWidget({
+  const AnswerDetailWidget({
     super.key,
     required this.answer,
     required this.answerSelect,

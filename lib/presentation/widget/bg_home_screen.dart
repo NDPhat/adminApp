@@ -13,6 +13,7 @@ class BGHomeScreen extends StatelessWidget {
     required this.child,
     this.homeIcon,
     required this.textNow,
+    required this.onBack,
     this.onPressHome,
     required this.colorTextAndIcon,
   }) : super(key: key);
@@ -20,6 +21,7 @@ class BGHomeScreen extends StatelessWidget {
   String textNow;
   Widget? homeIcon;
   VoidCallback? onPressHome;
+  VoidCallback onBack;
   Color colorTextAndIcon;
   @override
   Widget build(BuildContext context) {
@@ -34,9 +36,7 @@ class BGHomeScreen extends StatelessWidget {
                 alignment: Alignment.centerLeft,
                 width: 100.w,
                 child: IconButton(
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
+                    onPressed: onBack,
                     icon: Icon(
                       Icons.keyboard_backspace,
                       size: 30,

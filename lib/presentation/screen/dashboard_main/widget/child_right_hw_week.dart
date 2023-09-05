@@ -68,7 +68,7 @@ class ChildRightHWByWeek extends StatelessWidget {
                     ),
                     series: <ChartSeries<ChartDataMSByWeek, String>>[
                       ColumnSeries<ChartDataMSByWeek, String>(
-                        color: colorErrorPrimary,
+                        color: colorMainBlue,
                         isVisible: true,
                         dataSource: dataList,
                         xValueMapper: (ChartDataMSByWeek chart, _) =>

@@ -19,31 +19,6 @@ class TeacherName extends StatelessWidget {
   }
 }
 
-class TeacherClass extends StatelessWidget {
-  const TeacherClass({Key? key, required this.teacherClass}) : super(key: key);
-  final String teacherClass;
-  @override
-  Widget build(BuildContext context) {
-    return Text(teacherClass, style: s16f700ColorSysWhite);
-  }
-}
-
-class TeacherYear extends StatelessWidget {
-  const TeacherYear({Key? key, required this.teacherYear}) : super(key: key);
-
-  final String teacherYear;
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: 30.w,
-      height: SizerUtil.deviceType == DeviceType.tablet ? 4.h : 3.h,
-      child: Center(
-        child: Text(teacherYear, style: s16f700ColorSysWhite),
-      ),
-    );
-  }
-}
-
 class TeacherPicture extends StatelessWidget {
   TeacherPicture({Key? key, required this.picAddress}) : super(key: key);
   final String picAddress;

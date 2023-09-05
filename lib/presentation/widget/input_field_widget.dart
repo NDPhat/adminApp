@@ -18,20 +18,20 @@ class InputFieldWidget extends StatelessWidget {
   bool? readOnly;
   InputFieldWidget(
       {Key? key,
-        this.hintText,
-        required this.width,
-        required this.height,
-        this.validateText,
-        this.isHidden,
-        this.icon,
-        this.readOnly,
-        this.typeText,
-        this.maxLength,
-        this.onChanged,
-        this.nameTitle,
-        this.iconRight,
-        this.controller,
-        this.showValue})
+      this.hintText,
+      required this.width,
+      required this.height,
+      this.validateText,
+      this.isHidden,
+      this.icon,
+      this.readOnly,
+      this.typeText,
+      this.maxLength,
+      this.onChanged,
+      this.nameTitle,
+      this.iconRight,
+      this.controller,
+      this.showValue})
       : super(key: key);
 
   @override
@@ -45,20 +45,29 @@ class InputFieldWidget extends StatelessWidget {
         child: TextField(
           readOnly: readOnly == null ? false : readOnly!,
           textInputAction: TextInputAction.next,
-          style: s16f700ColorGreyTe,
+          style: s16f700ColorSysYel,
           controller: controller != null ? controller : null,
           keyboardType: typeText == null ? null : typeText,
           maxLength: maxLength == null ? null : maxLength,
           obscureText: showValue ?? false,
           decoration: InputDecoration(
             prefixIcon: icon ?? null,
-            hintText: hintText,
-            counterText: "",
-            suffixIcon: iconRight ?? null,
-            fillColor: colorBGInput,
+            prefixIconColor: colorSystemYeloow,
+            suffixIconColor: colorSystemYeloow,
+            enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15.0),
+                borderSide: const BorderSide(color: colorSystemYeloow)),
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(20),
-                borderSide: BorderSide(color: Colors.black)),
+                borderSide: const BorderSide(color: colorSystemYeloow)),
+            focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(20),
+                borderSide: const BorderSide(color: colorSystemYeloow)),
+            hintText: hintText,
+            hintStyle: s14f500ColorYel,
+            counterText: "",
+            suffixIcon: iconRight ?? null,
+            fillColor: colorSystemWhite,
             filled: true,
           ),
           onChanged: onChanged,

@@ -81,7 +81,7 @@ class AddPreHWCubit extends Cubit<AddPreHWState> {
 
   bool weekValidator(String week) {
     if (week.isEmpty) {
-      weekMess = 'This field is empty';
+      weekMess = 'Fill this blank';
       return false;
     } else {
       weekMess = "";
@@ -91,7 +91,7 @@ class AddPreHWCubit extends Cubit<AddPreHWState> {
 
   bool numQValidator(String numQ) {
     if (numQ.isEmpty) {
-      numQMess = 'This field is empty';
+      numQMess = 'Fill this blank';
       return false;
     } else {
       numQMess = "";
@@ -101,7 +101,7 @@ class AddPreHWCubit extends Cubit<AddPreHWState> {
 
   bool sNumValidator(String sNum) {
     if (sNum.isEmpty) {
-      sNumMess = 'This field is empty';
+      sNumMess = 'Fill this blank';
       return false;
     } else {
       sNumMess = "";
@@ -111,7 +111,7 @@ class AddPreHWCubit extends Cubit<AddPreHWState> {
 
   bool eNumValidator(String eNum) {
     if (eNum.isEmpty) {
-      eNumMess = 'This field is empty';
+      eNumMess = 'Fill this blank';
       return false;
     } else {
       eNumMess = "";
