@@ -1,5 +1,5 @@
 import 'package:admin/application/cons/text_style.dart';
-import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
+import 'package:admin/data/remote/api/api/result_hw_repo.dart';
 import 'package:admin/data/remote/models/result_hw_res.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +18,8 @@ class DetailResultHWItemScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ResultQuizHWAPIModel data =
-        ModalRoute.of(context)!.settings.arguments as ResultQuizHWAPIModel;
+    ResultHWAPIModel data =
+        ModalRoute.of(context)!.settings.arguments as ResultHWAPIModel;
     return Scaffold(
       body: Column(
         children: [
@@ -37,7 +37,7 @@ class DetailResultHWItemScreen extends StatelessWidget {
                     children: [
                       FutureBuilder<List<QuizHWAPIModel>?>(
                           future: instance
-                              .get<TeacherAPIRepo>()
+                              .get<ResultHWAPIRepo>()
                               .getAllQuizHWByResultID(data.key.toString()),
                           builder: (context, snapshotChild) {
                             if (snapshotChild.hasData) {
@@ -152,7 +152,7 @@ class DetailResultHWItemScreen extends StatelessWidget {
                     height: 40.h,
                     child: FutureBuilder<List<QuizHWAPIModel>?>(
                         future: instance
-                            .get<TeacherAPIRepo>()
+                            .get<ResultHWAPIRepo>()
                             .getAllQuizHWByResultID(data.key.toString()),
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==

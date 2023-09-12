@@ -1,10 +1,10 @@
+import 'package:admin/data/remote/api/api/pre_hw_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 import '../../../../application/cons/color.dart';
 import '../../../../data/local/models/chart_data.dart';
-import '../../../../data/remote/api/api/api_teacher_repo.dart';
 import '../../../../data/remote/models/pre_hw_res.dart';
 import '../../../../main.dart';
 
@@ -19,8 +19,8 @@ class ChildRightCreateByWeek extends StatelessWidget {
     return SizedBox(
         width: 50.w,
         height: 10.h,
-        child: FutureBuilder<PreHWResModel?>(
-            future: instance.get<TeacherAPIRepo>().getPreHWByWeek(week),
+        child: FutureBuilder<PreHWAPIModel?>(
+            future: instance.get<PreHWAPIRepo>().getPreHWByWeek(week),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 int signAddTrue = 0;

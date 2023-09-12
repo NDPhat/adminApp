@@ -1,17 +1,17 @@
 import 'package:admin/data/remote/models/pre_hw_res.dart';
 
-class PreHWResPagiAPI {
-  List<PreHWResModel>? data;
+class PreHWAPIResPagi {
+  List<PreHWAPIModel>? data;
   int? total;
   int? count;
 
-  PreHWResPagiAPI({this.data, this.total, this.count});
+  PreHWAPIResPagi({this.data, this.total, this.count});
 
-  PreHWResPagiAPI.fromJson(Map<String, dynamic> json) {
+  PreHWAPIResPagi.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = <PreHWResModel>[];
+      data = <PreHWAPIModel>[];
       json['data'].forEach((v) {
-        data!.add( PreHWResModel.fromJson(v));
+        data!.add( PreHWAPIModel.fromJson(v));
       });
     }
     total = json['total'];

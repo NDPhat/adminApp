@@ -1,5 +1,5 @@
 
-class PreQuizHWReqAPI {
+class PreHWAPIReq {
   String? week;
   int? numQ;
   List<String>? sign;
@@ -11,7 +11,7 @@ class PreQuizHWReqAPI {
   String? status;
   String? color;
 
-  PreQuizHWReqAPI(
+  PreHWAPIReq(
       {this.week,
         this.numQ,
         this.sign,
@@ -23,7 +23,7 @@ class PreQuizHWReqAPI {
         this.status,
         this.color});
 
-  PreQuizHWReqAPI.fromJson(Map<String, dynamic> json) {
+  PreHWAPIReq.fromJson(Map<String, dynamic> json) {
     week = json['week'];
     numQ = json['numQ'];
     sign = json['sign'].cast<String>();

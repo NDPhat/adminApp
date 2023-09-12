@@ -1,4 +1,4 @@
-import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
+import 'package:admin/data/remote/api/api/result_hw_repo.dart';
 import 'package:admin/data/remote/models/quiz_hw_res.dart';
 import 'package:admin/presentation/widget/bg_home_screen.dart';
 import 'package:admin/presentation/widget/bg_listview_item.dart';
@@ -35,7 +35,7 @@ class DetailQuizHWScreen extends StatelessWidget {
             padding: EdgeInsets.only(top: 10.h),
             child: FutureBuilder<List<QuizHWAPIModel>?>(
                 future:
-                    instance.get<TeacherAPIRepo>().getAllQuizHWByResultID(id),
+                    instance.get<ResultHWAPIRepo>().getAllQuizHWByResultID(id),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return SizedBox(

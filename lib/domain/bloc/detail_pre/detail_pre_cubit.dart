@@ -1,4 +1,6 @@
-import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
+import 'package:admin/data/remote/api/api/pre_hw_repo.dart';
+import 'package:admin/data/remote/api/api/result_hw_repo.dart';
+import 'package:admin/data/remote/api/api/user_repo.dart';
 import 'package:admin/data/remote/models/pre_hw_req.dart';
 import 'package:admin/data/remote/models/result_hw_res.dart';
 import 'package:admin/main.dart';
@@ -20,11 +22,15 @@ class DetailPreHWCubit extends Cubit<DetailPreHWState> {
   String numQMess = "";
   String weekMess = "";
 
-  final TeacherAPIRepo teacherAPIRepo;
+  final PreHWAPIRepo preHWAPIRepo;
+  final UserAPIRepo userAPIRepo;
+  final ResultHWAPIRepo resultHWAPIRepo;
 
-  DetailPreHWCubit({required TeacherAPIRepo teacherAPIRepo})
-      : teacherAPIRepo = teacherAPIRepo,
-        super(DetailPreHWState.initial());
+  DetailPreHWCubit(
+      {required this.preHWAPIRepo,
+      required this.resultHWAPIRepo,
+      required this.userAPIRepo})
+      : super(DetailPreHWState.initial());
 
   void colorChange(String color) {
     emit(state.copyWith(color: color, status: AddPreHWStatus.initial));
@@ -137,8 +143,8 @@ class DetailPreHWCubit extends Cubit<DetailPreHWState> {
     emit(state.copyWith(status: AddPreHWStatus.submit));
     if (isFormValid()) {
       try {
-        bool? data = await teacherAPIRepo.updatePreHW(
-            PreQuizHWReqAPI(
+        bool? data = await preHWAPIRepo.updatePreHW(
+            PreHWAPIReq(
               week: state.week,
               dstart: "${state.timeStart.trim()} ${state.dayStart.trim()}",
               dend: "${state.timeEnd.trim()} ${state.dayEnd.trim()}",
@@ -166,74 +172,72 @@ class DetailPreHWCubit extends Cubit<DetailPreHWState> {
     }
   }
 
-  Future<void> getALlListStudentDoNotJoinHW(String lop, String week) async {
-    try {
-      List<UserAPIModel>? dataUserRes =
-          await teacherAPIRepo.getAllStudentByClass(lop);
-      List<ResultQuizHWAPIModel>? dataRS =
-          await teacherAPIRepo.getAllResultQuizHWByWeekAndLop(week, lop);
-      List<DataUser> dataUserNotJoin = [];
-      List<DataUser> dataUserLocal = [];
-      List<DataUser> dataUserJoin = [];
-      dataUserRes!.forEach((element) {
-        dataUserLocal.add(DataUser(key: element.key!, name: element.name!));
-      });
-      dataRS!.forEach((element) {
-        dataUserJoin.add(DataUser(key: element.userId!, name: element.name!));
-      });
-      for (final e in dataUserLocal) {
-        bool found = false;
-        for (final f in dataUserJoin) {
-          if (e.key == f.key) {
-            found = true;
-            break;
-          }
-        }
-        if (!found) {
-          dataUserNotJoin.add(e);
+  getALlListStudentDoNotJoinHW(String lop, String week) async {
+    List<UserAPIModel>? dataUserRes =
+        await userAPIRepo.getAllStudentByClass(lop);
+    List<ResultHWAPIModel>? dataRS =
+        await resultHWAPIRepo.getAllResultQuizHWByWeekAndLop(week, lop);
+    List<DataUser> dataUserLocal = [];
+    List<DataUser> dataUserJoin = [];
+    List<DataUser> dataUserNotJoin = [];
+
+    dataUserRes!.forEach((element) {
+      dataUserLocal.add(DataUser(key: element.key!, name: element.fullName!));
+    });
+    dataRS!.forEach((element) {
+      dataUserJoin.add(DataUser(key: element.userId!, name: element.name!));
+    });
+    for (final e in dataUserLocal) {
+      bool found = false;
+      for (final f in dataUserJoin) {
+        if (e.key == f.key) {
+          found = true;
+          break;
         }
       }
-      if (dataUserNotJoin != null) {
-        dataUserNotJoin.forEach((element) async {
-          await teacherAPIRepo.createResultHWForStudentNoJoin(ResultHWAPIReq(
-              week: week,
-              lop: lop,
-              numQ: 0,
-              score: 0,
-              trueQ: 0,
-              dateSave: formatDateInput.format(DateTime.now()),
-              falseQ: 0,
-              userId: element.key,
-              name: element.name));
-        });
+      if (!found) {
+        dataUserNotJoin.add(e);
       }
-    } on Exception catch (e) {}
+    }
+    if (dataUserNotJoin.isNotEmpty) {
+      dataUserNotJoin.forEach((element) async {
+        resultHWAPIRepo.createResultHWForStudentNoJoin(ResultHWAPIReq(
+            week: week,
+            lop: lop,
+            numQ: 10,
+            score: 0,
+            trueQ: 0,
+            status: "DONE",
+            dateSave: formatDateInput.format(DateTime.now()),
+            falseQ: 0,
+            userId: element.key,
+            name: element.name));
+      });
+    }
   }
 
   Future<void> updatePreHWToDone(String key, String week, String lop) async {
     emit(state.copyWith(status: AddPreHWStatus.updating));
     if (isFormValid()) {
-      try {
-        bool? data = await teacherAPIRepo.updatePreHW(
-            PreQuizHWReqAPI(
-              week: state.week,
-              dstart: "${state.timeStart} ${state.dayStart}",
-              dend: "${state.timeEnd} ${state.dayEnd}",
-              sign: state.sign,
-              sNum: int.parse(state.sNum),
-              numQ: int.parse(state.numQ),
-              eNum: int.parse(state.eNum),
-              color: state.color,
-              status: "DONE",
-            ),
-            key);
-        if (data == true) {
-          await getALlListStudentDoNotJoinHW(lop, week);
-          emit(state.copyWith(status: AddPreHWStatus.success));
-        } else {
-          emit(state.copyWith(status: AddPreHWStatus.error));
-        }
-      } on Exception catch (e) {}
+      getALlListStudentDoNotJoinHW(lop, week);
+      bool? data = await preHWAPIRepo.updatePreHW(
+          PreHWAPIReq(
+            week: state.week,
+            dstart: "${state.timeStart} ${state.dayStart}",
+            dend: "${state.timeEnd} ${state.dayEnd}",
+            sign: state.sign,
+            sNum: int.parse(state.sNum),
+            numQ: int.parse(state.numQ),
+            eNum: int.parse(state.eNum),
+            color: state.color,
+            status: "DONE",
+          ),
+          key);
+      if (data == true) {
+        emit(state.copyWith(status: AddPreHWStatus.success));
+      } else {
+        emit(state.copyWith(status: AddPreHWStatus.error));
+      }
     } else {
       emit(state.copyWith(
           status: AddPreHWStatus.error,

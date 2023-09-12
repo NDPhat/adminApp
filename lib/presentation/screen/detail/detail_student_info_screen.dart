@@ -97,7 +97,7 @@ class DetailStudentInfoScreen extends StatelessWidget {
     final List<String> genders = ["Male", "Female"];
     UserAPIModel? user =
         ModalRoute.of(context)!.settings.arguments as UserAPIModel;
-    String birthDate = user.birthDate!;
+    String birthDate = user.birthDay!;
     return Scaffold(
       backgroundColor: colorSystemYeloow,
       body: BGHomeScreen(
@@ -129,7 +129,7 @@ class DetailStudentInfoScreen extends StatelessWidget {
                         width: 40.w,
                         child: StudentPic(
                           picAddress:
-                              user.linkImage ?? 'assets/images/profile.png',
+                              user.linkImage,
                         ),
                       ),
                     ],
@@ -227,7 +227,7 @@ class DetailStudentInfoScreen extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              StudentName(name: user.name!),
+              StudentName(name: user.fullName!),
               SizedBox(
                 width: 5.w,
               ),

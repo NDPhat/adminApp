@@ -1,4 +1,7 @@
 import 'package:admin/data/local/repo/notify_task/notoify_task_repo.dart';
+import 'package:admin/data/remote/api/api/pre_hw_repo.dart';
+import 'package:admin/data/remote/api/api/result_hw_repo.dart';
+import 'package:admin/data/remote/api/api/user_repo.dart';
 import 'package:admin/data/remote/authen/authen_repo.dart';
 import 'package:admin/data/remote/models/user_res.dart';
 import 'package:admin/domain/bloc/add_notifi/add_notify_cubit.dart';
@@ -7,6 +10,7 @@ import 'package:admin/domain/bloc/data_sheet/data_sheet_cubit.dart';
 import 'package:admin/domain/bloc/detail_user/detail_user_cubit.dart';
 import 'package:admin/domain/bloc/login/login_cubit.dart';
 import 'package:admin/domain/bloc/manage_hw/manage_hw_cubit.dart';
+import 'package:admin/domain/bloc/manage_main/manage_cubit.dart';
 import 'package:admin/domain/bloc/notify_main/notify_main_cubit.dart';
 import 'package:admin/domain/bloc/update_profile/update_profile_cubit.dart';
 import 'package:admin/main.dart';
@@ -26,8 +30,7 @@ import 'package:admin/presentation/screen/setting/widget/add_notify_screen.dart'
 import 'package:admin/presentation/screen/setting/widget/notify_main.dart';
 import 'package:admin/presentation/screen/splash/splash_screen.dart';
 import 'package:flutter/material.dart';
-import '../../data/remote/api/api/api_teacher_repo.dart';
-import '../../domain/bloc/add_task/add_pre_cubit.dart';
+import '../../domain/bloc/add_pre_hw/add_pre_cubit.dart';
 import '../../domain/bloc/detail_homework/detail_result_hw_cubit.dart';
 import '../../domain/bloc/detail_pre/detail_pre_cubit.dart';
 import '../screen/create/widget/create_pre_screen.dart';
@@ -90,7 +93,11 @@ class Routers {
       case home:
         return const HomeScreen();
       case managerMainScreen:
-        return const ManagerMainScreen();
+        return BlocProvider(
+            create: (context) => ManageCubit(
+                  preHWAPIRepo: instance.get<PreHWAPIRepo>(),
+                ),
+            child: const ManagerMainScreen());
       case intro:
         return const IntroScreen();
       case profile:
@@ -100,7 +107,7 @@ class Routers {
       case createUser:
         return BlocProvider(
             create: (context) => AddUserCubit(
-                  teacherAPIRepo: instance.get<TeacherAPIRepo>(),
+                  userAPIRepo: instance.get<UserAPIRepo>(),
                 ),
             child: CreateUserScreen());
       case notifyMainScreen:
@@ -112,7 +119,7 @@ class Routers {
       case updateProfile:
         return BlocProvider(
             create: (context) => UpdateProfileCubit(
-                  teacherAPIRepo: instance.get<TeacherAPIRepo>(),
+                  userAPIRepo: instance.get<UserAPIRepo>(),
                 ),
             child: const UpdateProfileUserScreen());
       case addNotify:
@@ -124,46 +131,49 @@ class Routers {
       case detailAllResultHW:
         return BlocProvider(
             create: (context) => ManageHWCubit(
-                  teacherAPIRepo: instance.get<TeacherAPIRepo>(),
+                  resultHWAPIRepo: instance.get<ResultHWAPIRepo>(),
+                  userAPIRepo: instance.get<UserAPIRepo>(),
                 ),
             child: const ManagerHomeWorkScreen());
       case detailStudent:
         return BlocProvider(
             create: (context) => DetailUserCubit(
-                  teacherAPIRepo: instance.get<TeacherAPIRepo>(),
+                  userAPIRepo: instance.get<UserAPIRepo>(),
                   userAPIModel: settings.arguments! as UserAPIModel,
                 ),
-            child: DetailStudentInfoScreen());
+            child: const DetailStudentInfoScreen());
       case detailQuizHWByResultID:
         return const DetailResultHWItemScreen();
       case detailResultHWByWeakMainScreen:
         return BlocProvider(
             create: (context) => DetailResultHWCubit(
-                  teacherAPIRepo: instance.get<TeacherAPIRepo>(),
+                  resultHWAPIRepo: instance.get<ResultHWAPIRepo>(),
                 ),
             child: const DetailResultHWByWeakMainScreen());
       case dashboard:
         return BlocProvider(
             create: (context) => DataSheetCubit(
-                  teacherAPIRepo: instance.get<TeacherAPIRepo>(),
+                  resultHWAPIRepo: instance.get<ResultHWAPIRepo>(),
                 ),
             child: const DataSheetMainScreen());
       case createPre:
         return BlocProvider(
             create: (context) => AddPreHWCubit(
-                  teacherAPIRepo: instance.get<TeacherAPIRepo>(),
+                  preHWAPIRepo: instance.get<PreHWAPIRepo>(),
                 ),
             child: CreatePreHomeWorkScreen());
       case detailPre:
         return BlocProvider(
             create: (context) => DetailPreHWCubit(
-                  teacherAPIRepo: instance.get<TeacherAPIRepo>(),
+                  preHWAPIRepo: instance.get<PreHWAPIRepo>(),
+                  resultHWAPIRepo: instance.get<ResultHWAPIRepo>(),
+                  userAPIRepo: instance.get<UserAPIRepo>(),
                 ),
             child: DetailPreHomeWorkScreen());
       case login:
         return BlocProvider(
             create: (context) => LoginCubit(
-                teacherAPIRepo: instance.get<TeacherAPIRepo>(),
+                userAPIRepo: instance.get<UserAPIRepo>(),
                 authenRepository: instance.get<AuthenRepository>()),
             child: const LoginApp());
       default:

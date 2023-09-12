@@ -2,12 +2,10 @@ import 'package:admin/presentation/navigation/routers.dart';
 import 'package:admin/presentation/widget/bg_home_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:sizer/sizer.dart';
 import '../../../application/cons/color.dart';
 import '../../../application/cons/text_style.dart';
 import '../../widget/bg_listview_item.dart';
-import '../../widget/line_content_item_widget.dart';
 import '../../widget/rounded_button.dart';
 
 class CreateMainScreen extends StatelessWidget {

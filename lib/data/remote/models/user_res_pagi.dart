@@ -1,17 +1,17 @@
 import 'package:admin/data/remote/models/user_res.dart';
 
-class UserResPagiAPI {
+class UserAPIResPagi {
   List<UserAPIModel>? data;
   int? total;
   int? count;
 
-  UserResPagiAPI({this.data, this.total, this.count});
+  UserAPIResPagi({this.data, this.total, this.count});
 
-  UserResPagiAPI.fromJson(Map<String, dynamic> json) {
+  UserAPIResPagi.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
       data = <UserAPIModel>[];
       json['data'].forEach((v) {
-        data!.add( UserAPIModel.fromJson(v));
+        data!.add(UserAPIModel.fromJson(v));
       });
     }
     total = json['total'];

@@ -1,3 +1,4 @@
+import 'package:admin/data/remote/api/api/result_hw_repo.dart';
 import 'package:admin/data/remote/models/quiz_hw_res.dart';
 import 'package:admin/presentation/screen/detail/widget/item_detailresult_hw_main.dart';
 import 'package:admin/presentation/widget/bg_home_screen.dart';
@@ -13,9 +14,6 @@ import '../../../application/utils/find_average/find_average_score.dart';
 import '../../../application/utils/find_average/get_sign.dart';
 import '../../../data/local/models/chart_data.dart';
 import '../../../data/local/models/chart_data_week.dart';
-import '../../../data/local/models/user_global.dart';
-import '../../../data/remote/api/api/api_teacher_repo.dart';
-import '../../../data/remote/models/result_hw_res.dart';
 import '../../../domain/bloc/detail_homework/detail_result_hw_cubit.dart';
 import '../../../main.dart';
 import '../../widget/rounded_button.dart';
@@ -182,7 +180,7 @@ class DetailResultHWByWeakMainScreenState
                                         child: FutureBuilder<
                                                 List<QuizHWAPIModel>?>(
                                             future: instance
-                                                .get<TeacherAPIRepo>()
+                                                .get<ResultHWAPIRepo>()
                                                 .getAllQuizHWByResultID(state
                                                     .posts![index].key
                                                     .toString()),

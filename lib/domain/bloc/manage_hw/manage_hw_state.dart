@@ -3,8 +3,8 @@ part of 'manage_hw_cubit.dart';
 class ManageHWState extends Equatable {
   int pageNow;
   int lengthNow;
-  List<ResultQuizHWAPIModel>? searchList;
-  List<ResultQuizHWAPIModel>? nativeList;
+  List<ResultHWAPIModel>? searchList;
+  List<ResultHWAPIModel>? nativeList;
   Map<String, String> imageList;
 
   ManageHWState(
@@ -33,8 +33,8 @@ class ManageHWState extends Equatable {
   ManageHWState copyWith(
       {int? pageNow,
       int? lengthNow,
-      List<ResultQuizHWAPIModel>? searchList,
-      List<ResultQuizHWAPIModel>? nativeList,
+      List<ResultHWAPIModel>? searchList,
+      List<ResultHWAPIModel>? nativeList,
       Map<String, String>? imageList
 
       // auth.user? user,

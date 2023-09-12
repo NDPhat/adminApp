@@ -1,3 +1,4 @@
+import 'package:admin/data/remote/api/api/result_hw_repo.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
@@ -7,7 +8,6 @@ import '../../../../application/cons/text_style.dart';
 import '../../../../application/utils/find_average/find_average_score.dart';
 import '../../../../data/local/models/chart_hw_main_screen.dart';
 import '../../../../data/local/models/user_global.dart';
-import '../../../../data/remote/api/api/api_teacher_repo.dart';
 import '../../../../data/remote/models/result_hw_res.dart';
 import '../../../../main.dart';
 
@@ -20,8 +20,8 @@ class ChartHWSeason extends StatelessWidget {
     return SizedBox(
       width: 100.w,
       height: 32.h,
-      child: FutureBuilder<List<ResultQuizHWAPIModel>?>(
-          future: instance.get<TeacherAPIRepo>().getAllResultQuizHWByLop(
+      child: FutureBuilder<List<ResultHWAPIModel>?>(
+          future: instance.get<ResultHWAPIRepo>().getAllResultQuizHWByLop(
               instance.get<UserGlobal>().lop.toString()),
           builder: (context, snapshot) {
             if (snapshot.hasData && snapshot.data!.isNotEmpty) {

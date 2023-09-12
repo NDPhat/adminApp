@@ -5,7 +5,7 @@ class DetailResultHWState extends Equatable {
   int lengthNow;
   bool scoreChoose;
   bool nameChoose;
-  List<ResultQuizHWAPIModel>? posts;
+  List<ResultHWAPIModel>? posts;
   List<ChartData>? dataListChart;
   DetailResultHWState(
       {required this.pageNow,
@@ -37,7 +37,7 @@ class DetailResultHWState extends Equatable {
     int? lengthNow,
     bool? scoreChoose,
     bool? nameChoose,
-    List<ResultQuizHWAPIModel>? posts,
+    List<ResultHWAPIModel>? posts,
     List<ChartData>? dataListChart,
 
     // auth.user? user,

@@ -61,7 +61,7 @@ class CreateUserScreen extends StatelessWidget {
         colorTextAndIcon: Colors.black,
         child: Container(
           height: 90.h,
-          padding: EdgeInsets.only( left: 5.w, right: 5.w,bottom: 2.h),
+          padding: EdgeInsets.only(left: 5.w, right: 5.w, bottom: 2.h),
           child: SingleChildScrollView(
             reverse: true,
             child: Column(
@@ -389,7 +389,7 @@ class CreateUserScreen extends StatelessWidget {
                               height: 10.h,
                               child: const Center(
                                 child: CircularProgressIndicator(
-                                  color: colorSystemWhite,
+                                  color: colorSystemYeloow,
                                   strokeWidth: 3,
                                 ),
                               ),

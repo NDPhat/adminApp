@@ -1,3 +1,4 @@
+import 'package:admin/data/remote/api/api/result_hw_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
@@ -6,7 +7,6 @@ import '../../../../application/cons/color.dart';
 import '../../../../application/utils/find_average/find_average_score.dart';
 import '../../../../data/local/models/chart_hw_by_week_main_screen.dart';
 import '../../../../data/local/models/user_global.dart';
-import '../../../../data/remote/api/api/api_teacher_repo.dart';
 import '../../../../data/remote/models/result_hw_res.dart';
 import '../../../../main.dart';
 
@@ -23,9 +23,9 @@ class ChildRightHWByWeek extends StatelessWidget {
     return SizedBox(
         width: deTail == null ? 50.w : 100.w,
         height: deTail == null ? 10.h : 30.h,
-        child: FutureBuilder<List<ResultQuizHWAPIModel>?>(
+        child: FutureBuilder<List<ResultHWAPIModel>?>(
             future: instance
-                .get<TeacherAPIRepo>()
+                .get<ResultHWAPIRepo>()
                 .getAllResultQuizHWByWeekAndLop(
                     week, instance.get<UserGlobal>().lop.toString()),
             builder: (context, snapshot) {

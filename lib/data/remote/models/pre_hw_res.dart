@@ -1,17 +1,17 @@
-class PreHWResAPI {
+class PreHWAPIRes {
   int? iCount;
   Null? nLast;
-  List<PreHWResModel>? lItems;
+  List<PreHWAPIModel>? lItems;
 
-  PreHWResAPI({this.iCount, this.nLast, this.lItems});
+  PreHWAPIRes({this.iCount, this.nLast, this.lItems});
 
-  PreHWResAPI.fromJson(Map<String, dynamic> json) {
+  PreHWAPIRes.fromJson(Map<String, dynamic> json) {
     iCount = json['_count'];
     nLast = json['_last'];
     if (json['_items'] != null) {
-      lItems = <PreHWResModel>[];
+      lItems = <PreHWAPIModel>[];
       json['_items'].forEach((v) {
-        lItems!.add(new PreHWResModel.fromJson(v));
+        lItems!.add(new PreHWAPIModel.fromJson(v));
       });
     }
   }
@@ -27,7 +27,7 @@ class PreHWResAPI {
   }
 }
 
-class PreHWResModel {
+class PreHWAPIModel {
   String? color;
   String? dend;
   String? dstart;
@@ -40,7 +40,7 @@ class PreHWResModel {
   String? week;
   String? lop;
 
-  PreHWResModel(
+  PreHWAPIModel(
       {this.color,
       this.dend,
       this.dstart,
@@ -53,7 +53,7 @@ class PreHWResModel {
       this.status,
       this.week});
 
-  PreHWResModel.fromJson(Map<String, dynamic> json) {
+  PreHWAPIModel.fromJson(Map<String, dynamic> json) {
     color = json['color'];
     dend = json['dend'];
     dstart = json['dstart'];

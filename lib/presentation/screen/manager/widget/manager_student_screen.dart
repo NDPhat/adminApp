@@ -1,6 +1,6 @@
 import 'package:admin/application/cons/constants.dart';
 import 'package:admin/data/local/models/user_global.dart';
-import 'package:admin/data/remote/models/user_res_with_pagi.dart';
+import 'package:admin/data/remote/api/api/user_repo.dart';
 import 'package:admin/presentation/navigation/routers.dart';
 import 'package:admin/presentation/widget/bg_home_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -11,8 +11,8 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:sizer/sizer.dart';
 import '../../../../application/cons/color.dart';
 import '../../../../application/cons/text_style.dart';
-import '../../../../data/remote/api/api/api_teacher_repo.dart';
 import '../../../../data/remote/models/user_res.dart';
+import '../../../../data/remote/models/user_res_pagi.dart';
 import '../../../../main.dart';
 import '../../../widget/item_manager_user.dart';
 import 'dot_page_indicator.dart';
@@ -31,7 +31,7 @@ class _ManagerStudentScreenState extends State<ManagerStudentScreen> {
   bool hasNextPage = true;
   List<UserAPIModel>? posts = [];
   List<UserAPIModel>? searchPosts = [];
-  UserResPagiAPI? data;
+  UserAPIResPagi? data;
   int length = 1;
 
   @override
@@ -43,7 +43,7 @@ class _ManagerStudentScreenState extends State<ManagerStudentScreen> {
 
   void getMore() async {
     posts!.clear();
-    data = await instance.get<TeacherAPIRepo>().getAllStudentByClassWithPagi(
+    data = await instance.get<UserAPIRepo>().getAllStudentByClassWithPagi(
         instance.get<UserGlobal>().lop.toString(), page);
     final List<UserAPIModel>? fetchedPosts = data!.data;
     if (fetchedPosts!.isNotEmpty) {
@@ -61,7 +61,7 @@ class _ManagerStudentScreenState extends State<ManagerStudentScreen> {
     setState(() {
       isFirstLoadRunning = true;
     });
-    data = await instance.get<TeacherAPIRepo>().getAllStudentByClassWithPagi(
+    data = await instance.get<UserAPIRepo>().getAllStudentByClassWithPagi(
         instance.get<UserGlobal>().lop.toString(), page);
     final List<UserAPIModel>? fetchedPosts = data!.data;
     length = data!.total!;
@@ -88,8 +88,8 @@ class _ManagerStudentScreenState extends State<ManagerStudentScreen> {
       results = posts;
     } else {
       results = posts!
-          .where(
-              (user) => user.name!.toLowerCase().contains(value.toLowerCase()))
+          .where((user) =>
+              user.fullName!.toLowerCase().contains(value.toLowerCase()))
           .toList();
       // we use the toLowerCase() method to make it case-insensitive
     }
@@ -182,7 +182,7 @@ class _ManagerStudentScreenState extends State<ManagerStudentScreen> {
               padding: EdgeInsets.only(bottom: 0.5.h, top: 0.5.h),
               child: ItemManager(
                   lop: searchPosts![index].lop!,
-                  ten: searchPosts![index].name!,
+                  ten: searchPosts![index].fullName!,
                   childLeft: const Icon(
                     Icons.settings,
                     color: colorMainTealPri,
@@ -192,7 +192,7 @@ class _ManagerStudentScreenState extends State<ManagerStudentScreen> {
                     Navigator.pushNamed(context, Routers.detailStudent,
                         arguments: searchPosts![index]);
                   },
-                  imageLink: searchPosts![index].linkImage!,
+                  imageLink: searchPosts![index].linkImage,
                   colorBorder: colorMainTealPri),
             );
           }))

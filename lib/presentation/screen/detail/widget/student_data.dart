@@ -41,7 +41,7 @@ class StudentYear extends StatelessWidget {
 
 class StudentPic extends StatelessWidget {
   const StudentPic({Key? key, required this.picAddress}) : super(key: key);
-  final String picAddress;
+  final String ?  picAddress;
   @override
   Widget build(BuildContext context) {
     return CircleAvatar(
@@ -52,13 +52,11 @@ class StudentPic extends StatelessWidget {
         child: ClipOval(
             child: picAddress != null
                 ? Image.network(
-                    picAddress,
+                    picAddress!,
                     fit: BoxFit.cover,
                   )
                 : Image.asset(
-                    picAddress,
-                    fit: BoxFit.cover,
-                  )),
+                "assets/images/dashboard/profile.png")),
       ),
     );
   }

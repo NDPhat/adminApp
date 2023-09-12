@@ -13,7 +13,7 @@ class ItemManager extends StatelessWidget {
       required this.childLeft})
       : super(key: key);
   final String lop, ten;
-  String imageLink;
+  String? imageLink;
   final VoidCallback onTap;
   final Color colorBorder;
   final Widget childLeft;
@@ -41,9 +41,9 @@ class ItemManager extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8), // Border radius
                     child: ClipOval(
-                        child: imageLink.isNotEmpty
+                        child: imageLink != null
                             ? Image.network(
-                                imageLink,
+                                imageLink!,
                                 fit: BoxFit.cover,
                               )
                             : Image.asset(

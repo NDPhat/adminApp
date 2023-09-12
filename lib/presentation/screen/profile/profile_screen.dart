@@ -3,7 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../../application/cons/color.dart';
-import '../../../data/local/authen/authen_repo.dart';
 import '../../../data/local/models/user_global.dart';
 import '../../../main.dart';
 import '../../navigation/routers.dart';

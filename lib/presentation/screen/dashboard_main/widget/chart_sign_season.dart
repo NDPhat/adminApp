@@ -1,12 +1,12 @@
+import 'package:admin/data/local/models/user_global.dart';
+import 'package:admin/data/remote/api/api/pre_hw_repo.dart';
 import 'package:admin/data/remote/models/pre_hw_res.dart';
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../../../../application/cons/color.dart';
 import '../../../../application/cons/text_style.dart';
 import '../../../../data/local/models/chart_data.dart';
-import '../../../../data/remote/api/api/api_teacher_repo.dart';
 import '../../../../main.dart';
 
 class ChartCreateSeason extends StatelessWidget {
@@ -16,8 +16,10 @@ class ChartCreateSeason extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-        child: FutureBuilder<List<PreHWResModel>?>(
-            future: instance.get<TeacherAPIRepo>().getALlDonePreHW(),
+        child: FutureBuilder<List<PreHWAPIModel>?>(
+            future: instance
+                .get<PreHWAPIRepo>()
+                .getALlDonePreHW(instance.get<UserGlobal>().lop!),
             builder: (context, snapshot) {
               if (snapshot.hasData && snapshot.data!.isNotEmpty) {
                 int signAddTrue = 0;
@@ -92,7 +94,7 @@ class ChartCreateSeason extends StatelessWidget {
                             ),
                           ]),
                     ),
-                     Center(
+                    Center(
                       child: Text(
                         "detailed sign data".trim(),
                         style: s12f400ColorGreyTe,

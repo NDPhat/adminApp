@@ -65,7 +65,8 @@ dependencies:
   image_cropper:
   awesome_dialog: ^3.1.0
   date_picker_timeline:
-
+  connectivity_plus: 4.0.2
+  get: 4.6.5
 
 dev_dependencies:
   flutter_test:

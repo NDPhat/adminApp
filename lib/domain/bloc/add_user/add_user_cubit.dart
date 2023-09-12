@@ -1,11 +1,12 @@
 import 'package:admin/data/local/models/user_global.dart';
-import 'package:admin/data/remote/models/user_res.dart';
+import 'package:admin/data/remote/api/api/user_repo.dart';
 import 'package:admin/main.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import '../../../application/utils/status/add_user_status.dart';
-import '../../../data/remote/api/api/api_teacher_repo.dart';
 import 'dart:math' as math;
+
+import '../../../data/remote/models/user_res.dart';
 
 part 'add_user_state.dart';
 
@@ -17,10 +18,8 @@ class AddUserCubit extends Cubit<AddUserState> {
   String addMess = "";
   String birthMess = "";
 
-  final TeacherAPIRepo teacherAPIRepo;
-  AddUserCubit({required TeacherAPIRepo teacherAPIRepo})
-      : teacherAPIRepo = teacherAPIRepo,
-        super(AddUserState.initial());
+  final UserAPIRepo userAPIRepo;
+  AddUserCubit({required this.userAPIRepo}) : super(AddUserState.initial());
   void nameChanged(String value) {
     state.name = value;
   }
@@ -136,16 +135,16 @@ class AddUserCubit extends Cubit<AddUserState> {
     emit(state.copyWith(status: AddUserStatus.submit));
     if (isFormValid()) {
       int otp = math.Random().nextInt(50000) + 10000;
-      bool? user = await teacherAPIRepo.createUser(UserAPIModel(
+      bool? user = await userAPIRepo.createUser(UserAPIModel(
           email: state.email,
           lop: state.lop,
-          add: state.add,
-          birthDate: state.birthDate,
+          address: state.add,
+          birthDay: state.birthDate,
           password: state.password,
           sex: state.sex,
           role: "user",
-          otp: otp.toString(),
-          name: state.name,
+          otpCode: otp.toString(),
+          fullName: state.name,
           phone: state.phone));
       if (user == true) {
         emit(state.copyWith(status: AddUserStatus.success));

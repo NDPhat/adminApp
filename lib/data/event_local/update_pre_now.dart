@@ -4,7 +4,7 @@ import '../../main.dart';
 import '../local/models/pre_global.dart';
 
 class PreEventLocal {
-  static void updatePreGlobal(PreHWResModel a) {
+  static void updatePreGlobal(PreHWAPIModel a) {
     instance.get<PreGlobal>().key = a.key;
     instance.get<PreGlobal>().sign = a.sign;
     instance.get<PreGlobal>().numQ = a.numQ;

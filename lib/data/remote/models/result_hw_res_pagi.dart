@@ -1,17 +1,17 @@
 import 'package:admin/data/remote/models/result_hw_res.dart';
 
-class ResultHWPagiAPI {
-  List<ResultQuizHWAPIModel>? data;
+class ResultHWAPIResPagi {
+  List<ResultHWAPIModel>? data;
   int? total;
   int? count;
 
-  ResultHWPagiAPI({this.data, this.total, this.count});
+  ResultHWAPIResPagi({this.data, this.total, this.count});
 
-  ResultHWPagiAPI.fromJson(Map<String, dynamic> json) {
+  ResultHWAPIResPagi.fromJson(Map<String, dynamic> json) {
     if (json['data'] != null) {
-      data = <ResultQuizHWAPIModel>[];
+      data = <ResultHWAPIModel>[];
       json['data'].forEach((v) {
-        data!.add( ResultQuizHWAPIModel.fromJson(v));
+        data!.add(ResultHWAPIModel.fromJson(v));
       });
     }
     total = json['total'];

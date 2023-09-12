@@ -1,5 +1,4 @@
 import 'package:admin/presentation/screen/home/widget/teacher_data.dart';
-import 'package:admin/presentation/widget/rounded_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -9,9 +8,8 @@ import '../../../../application/cons/color.dart';
 import '../../../../application/cons/constants.dart';
 
 import '../../../../main.dart';
-import '../../../application/cons/text_style.dart';
-import '../../../data/local/authen/authen_repo.dart';
 import '../../../data/local/models/user_global.dart';
+import '../../../data/remote/authen/authen_repo.dart';
 import '../../navigation/routers.dart';
 
 class HomeScreen extends StatelessWidget {

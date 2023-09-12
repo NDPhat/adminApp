@@ -1,8 +1,8 @@
-import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
+import 'package:admin/data/remote/api/api/user_repo.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
-import '../../../data/local/authen/authen_repo.dart';
 import '../../../data/local/models/user_global.dart';
+import '../../../data/remote/authen/authen_repo.dart';
 import '../../../main.dart';
 import '../../navigation/routers.dart';
 
@@ -38,7 +38,7 @@ class SplashScreenState extends State<SplashScreen> {
       if (isUserSignIn == true) {
         String email =
             await instance.get<AuthenRepository>().getMailHandleAutoLoginApp();
-        await instance.get<TeacherAPIRepo>().getUserByEmail(email);
+        await instance.get<UserAPIRepo>().getUserByEmail(email);
         Navigator.pushNamed(context, Routers.home);
       } else {
         Navigator.pushNamed(context, Routers.welCome);

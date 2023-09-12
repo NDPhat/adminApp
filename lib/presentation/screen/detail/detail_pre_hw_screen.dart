@@ -27,6 +27,8 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    PreHWAPIModel data =
+        ModalRoute.of(context)!.settings.arguments as PreHWAPIModel;
     Future<void> showUpdateFailDialog() {
       return AwesomeDialog(
         context: context,
@@ -52,48 +54,26 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
           title: 'update successful'.tr(),
           descTextStyle: s20GgBarColorMainTeal,
           btnOkOnPress: () {
-            Navigator.pushNamed(context, Routers.createMainScreen);
+            Navigator.pushNamed(context, Routers.managerMainScreen);
           }).show();
     }
 
-    PreHWResModel data =
-        ModalRoute.of(context)!.settings.arguments as PreHWResModel;
     Future<void> showUpdateHWDiaLog() {
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext contextBuild) {
-          return BlocProvider.value(
-              value: BlocProvider.of<DetailPreHWCubit>(context),
-              child: AlertDialog(
-                actions: [
-                  AnimatedButton(
-                    text: 'finish this home work'.tr(),
-                    buttonTextStyle: s18GgfaBeeColorWhite,
-                    color: colorErrorPrimary,
-                    pressEvent: () {
-                      AwesomeDialog(
-                              context: context,
-                              dialogType: DialogType.success,
-                              headerAnimationLoop: false,
-                              animType: AnimType.topSlide,
-                              dismissOnTouchOutside: false,
-                              closeIcon:
-                                  const Icon(Icons.close_fullscreen_outlined),
-                              btnOkOnPress: () {
-                                context
-                                    .read<DetailPreHWCubit>()
-                                    .updatePreHWToDone(
-                                        data.key!, data.week!, data.lop!);
-                              },
-                              btnCancelOnPress: () {})
-                          .show();
-                    },
-                  )
-                ],
-              ));
-        },
-      );
+      return AwesomeDialog(
+              context: context,
+              dialogType: DialogType.question,
+              headerAnimationLoop: false,
+              animType: AnimType.topSlide,
+              title: 'finish this home work'.tr(),
+              dismissOnTouchOutside: false,
+              closeIcon: const Icon(Icons.close_fullscreen_outlined),
+              btnOkOnPress: () {
+                context
+                    .read<DetailPreHWCubit>()
+                    .updatePreHWToDone(data.key!, data.week!, data.lop!);
+              },
+              btnCancelOnPress: () {})
+          .show();
     }
 
     return Scaffold(
@@ -102,11 +82,12 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
         onBack: () {
           Navigator.pop(context);
         },
-        textNow: "update home work".tr(),
+        textNow: "home work".tr(),
         onPressHome: () {},
         colorTextAndIcon: Colors.black,
-        child: Padding(
-          padding: EdgeInsets.only(left: 5.w, right: 5.w),
+        child: Container(
+          height: 90.h,
+          padding: EdgeInsets.only(top: 2.h, left: 5.w, right: 5.w),
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -117,6 +98,7 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                   return InputFieldWidget(
                     typeText: TextInputType.number,
                     hintText: 'enter week'.tr(),
+                    nameTitle: "week".tr(),
                     readOnly: data.status == "EXPIRED" ? true : false,
                     onChanged: (value) {
                       context.read<DetailPreHWCubit>().weekChanged(value);
@@ -129,56 +111,50 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                   );
                 }),
                 SizedBox(
+                  height: 1.h,
+                ),
+                BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
+                    buildWhen: (pre, now) {
+                  return pre.numQMess != now.numQMess;
+                }, builder: (context, state) {
+                  return InputFieldWidget(
+                    hintText: "number of questions".tr(),
+                    nameTitle: "number of questions".tr(),
+                    readOnly: data.status == "EXPIRED" ? true : false,
+                    controller:
+                        TextEditingController(text: state.numQ.toString()),
+                    typeText: TextInputType.number,
+                    onChanged: (value) {
+                      context.read<DetailPreHWCubit>().numQChanged(value);
+                    },
+                    validateText: state.numQMess,
+                    isHidden: state.numQMess != "",
+                    width: 90.w,
+                    height: 8.h,
+                  );
+                }),
+                SizedBox(
                   height: 2.h,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
-                        buildWhen: (pre, now) {
-                      return pre.numQMess != now.numQMess;
-                    }, builder: (context, state) {
-                      return InputFieldWidget(
-                        hintText: 'number quiz'.tr(),
-                        readOnly: data.status == "EXPIRED" ? true : false,
-                        controller:
-                            TextEditingController(text: state.numQ.toString()),
-                        typeText: TextInputType.number,
-                        onChanged: (value) {
-                          context.read<DetailPreHWCubit>().numQChanged(value);
-                        },
-                        validateText: state.numQMess,
-                        isHidden: state.numQMess != "",
-                        width: 40.w,
-                        height: 8.h,
-                      );
-                    }),
-                    BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
-                        buildWhen: (pre, now) {
-                      return pre.sign != now.sign;
-                    }, builder: (context, state) {
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: 3.h),
-                        child: SizedBox(
-                          width: 40.w,
-                          height: 8.h,
-                          child: DropDownMultiSelect(
-                            readOnly: true,
-                            icon: const Icon(Icons.arrow_drop_down_outlined),
-                            options: signList,
-                            selectedValues: state.sign,
-                            onChanged: (value) {
-                              context
-                                  .read<DetailPreHWCubit>()
-                                  .signChanged(value);
-                            },
-                            whenEmpty: 'sign'.tr(),
-                          ),
-                        ),
-                      );
-                    }),
-                  ],
-                ),
+                BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
+                    buildWhen: (pre, now) {
+                  return pre.sign != now.sign;
+                }, builder: (context, state) {
+                  return SizedBox(
+                    width: 90.w,
+                    height: 8.h,
+                    child: DropDownMultiSelect(
+                      readOnly: true,
+                      icon: const Icon(Icons.arrow_drop_down_outlined),
+                      options: signList,
+                      selectedValues: state.sign,
+                      onChanged: (value) {
+                        context.read<DetailPreHWCubit>().signChanged(value);
+                      },
+                      whenEmpty: 'sign'.tr(),
+                    ),
+                  );
+                }),
                 SizedBox(
                   height: 2.h,
                 ),
@@ -191,6 +167,7 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                     }, builder: (context, state) {
                       return InputFieldWidget(
                         hintText: 'start number'.tr(),
+                        nameTitle: 'start number'.tr(),
                         readOnly: data.status == "EXPIRED" ? true : false,
                         controller:
                             TextEditingController(text: state.sNum.toString()),
@@ -210,6 +187,7 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                     }, builder: (context, state) {
                       return InputFieldWidget(
                         hintText: 'end number'.tr(),
+                        nameTitle: 'end number'.tr(),
                         readOnly: data.status == "EXPIRED" ? true : false,
                         onChanged: (value) {
                           context.read<DetailPreHWCubit>().eNumChanged(value);
@@ -390,16 +368,11 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                 SizedBox(
                   height: 2.h,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    bottom: 1.h,
-                  ),
-                  child: SizedBox(
-                    width: 100.w,
-                    child: Text(
-                      'color'.tr(),
-                      style: s15f700ColorBlueMa,
-                    ),
+                SizedBox(
+                  width: 100.w,
+                  child: Text(
+                    'color'.tr(),
+                    style: s15f700ColorBlueMa,
                   ),
                 ),
                 Row(
@@ -595,7 +568,8 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                                   .updatePreHW(data.key!);
                             }
                           },
-                          color: colorMainBlue,
+                          color: colorSystemWhite,
+                          colorBorder: colorMainBlue,
                           width: 40.w,
                           height: 8.h,
                           child: data.status == "GOING"
@@ -604,18 +578,18 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                                       height: 10.h,
                                       child: const Center(
                                         child: CircularProgressIndicator(
-                                          color: colorSystemWhite,
+                                          color: colorMainBlue,
                                           strokeWidth: 2,
                                         ),
                                       ),
                                     )
                                   : Text(
                                       'save'.tr().toString(),
-                                      style: s14f500colorSysWhite,
+                                      style: s16f700ColorBlueMa,
                                     ))
                               : Text(
                                   'done'.tr().toString(),
-                                  style: s14f500colorSysWhite,
+                                  style: s16f700ColorBlueMa,
                                 ));
                     }),
                   ],
@@ -637,7 +611,8 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                       press: () {
                         showUpdateHWDiaLog();
                       },
-                      color: colorErrorPrimary,
+                      color: colorSystemWhite,
+                      colorBorder: colorErrorPrimary,
                       width: 90.w,
                       height: 8.h,
                       child: state.status == AddPreHWStatus.updating
@@ -645,14 +620,14 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                               height: 5.h,
                               child: const Center(
                                 child: CircularProgressIndicator(
-                                  color: colorSystemWhite,
+                                  color: colorErrorPrimary,
                                   strokeWidth: 3,
                                 ),
                               ),
                             )
                           : const Text(
                               'DONE TASK',
-                              style: s14f500colorSysWhite,
+                              style: s16f700ColorError,
                             ));
                 }),
               ],

@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
+import 'package:admin/data/remote/api/api/user_repo.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,12 +12,12 @@ import '../../../main.dart';
 part 'update_profile_state.dart';
 
 class UpdateProfileCubit extends Cubit<UpdateProfileState> {
-  final TeacherAPIRepo teacherAPIRepo;
+  final UserAPIRepo userAPIRepo;
   String nameError = "";
   String phoneErr = "";
   String birthErr = "";
   String addEr = "";
-  UpdateProfileCubit({required this.teacherAPIRepo})
+  UpdateProfileCubit({required this.userAPIRepo})
       : super(UpdateProfileState.initial());
   void nameChanged(String value) {
     state.fullName = value;
@@ -93,26 +93,25 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
       late UserAPIReq dataNew;
       if (_imageFile != null) {
         dataNew = UserAPIReq(
-            add: state.address,
+            address: state.address,
             phone: state.phone,
-            name: state.fullName,
-            birthDate: state.birthDate,
+            fullName: state.fullName,
+            birthDay: state.birthDate,
             deleteHash: deleteHash,
             linkImage: linkImage,
             sex: state.sex);
       } else {
         dataNew = UserAPIReq(
-            add: state.address,
+            address: state.address,
             phone: state.phone,
-            name: state.fullName,
-            birthDate: state.birthDate,
+            fullName: state.fullName,
+            birthDay: state.birthDate,
             sex: state.sex);
       }
-      bool? updateDone = await teacherAPIRepo.updateProfileUser(
+      bool? updateDone = await userAPIRepo.updateProfileUser(
           instance.get<UserGlobal>().id.toString(), dataNew);
       if (updateDone == true) {
-        await teacherAPIRepo
-            .getUserById(instance.get<UserGlobal>().id.toString());
+        await userAPIRepo.getUserById(instance.get<UserGlobal>().id.toString());
         emit(state.copyWith(status: UpdateProfileStatus.success));
       } else {
         emit(state.copyWith(status: UpdateProfileStatus.error));

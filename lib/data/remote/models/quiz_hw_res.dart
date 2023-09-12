@@ -1,11 +1,11 @@
-class QuizHWAPIResponse {
+class QuizHWAPIRes {
   int? iCount;
   Null? nLast;
   List<QuizHWAPIModel>? lItems;
 
-  QuizHWAPIResponse({this.iCount, this.nLast, this.lItems});
+  QuizHWAPIRes({this.iCount, this.nLast, this.lItems});
 
-  QuizHWAPIResponse.fromJson(Map<String, dynamic> json) {
+  QuizHWAPIRes.fromJson(Map<String, dynamic> json) {
     iCount = json['_count'];
     nLast = json['_last'];
     if (json['_items'] != null) {

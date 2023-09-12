@@ -8,6 +8,7 @@ class ResultHWAPIReq {
   int? falseQ;
   String? lop;
   String? dateSave;
+  String? status;
 
   ResultHWAPIReq(
       {this.week,
@@ -18,7 +19,8 @@ class ResultHWAPIReq {
       this.trueQ,
       this.falseQ,
       this.lop,
-      this.dateSave});
+      this.dateSave,
+      this.status});
 
   ResultHWAPIReq.fromJson(Map<String, dynamic> json) {
     week = json['week'];
@@ -30,6 +32,7 @@ class ResultHWAPIReq {
     falseQ = json['falseQ'];
     lop = json['lop'];
     dateSave = json['dateSave'];
+    status = json['status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -43,6 +46,7 @@ class ResultHWAPIReq {
     data['falseQ'] = this.falseQ;
     data['lop'] = this.lop;
     data['dateSave'] = this.dateSave;
+    data['status'] = this.status;
     return data;
   }
 }

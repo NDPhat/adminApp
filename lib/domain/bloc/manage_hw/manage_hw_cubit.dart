@@ -1,24 +1,25 @@
-import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
+import 'package:admin/data/remote/api/api/result_hw_repo.dart';
+import 'package:admin/data/remote/api/api/user_repo.dart';
 import 'package:admin/data/remote/models/result_hw_res.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../application/utils/find_average/find_average_score.dart';
-import '../../../data/local/models/chart_data.dart';
 import '../../../data/local/models/user_global.dart';
-import '../../../data/remote/models/result_hw_pagi_res.dart';
+import '../../../data/remote/models/result_hw_res_pagi.dart';
 import '../../../data/remote/models/user_res.dart';
 import '../../../main.dart';
 
 part 'manage_hw_state.dart';
 
 class ManageHWCubit extends Cubit<ManageHWState> {
-  final TeacherAPIRepo teacherAPIRepo;
-  ManageHWCubit({required this.teacherAPIRepo})
+  final ResultHWAPIRepo resultHWAPIRepo;
+  final UserAPIRepo userAPIRepo;
+  ManageHWCubit({required this.resultHWAPIRepo, required this.userAPIRepo})
       : super(ManageHWState.initial());
 
   Future<void> pagePlus(String week) async {
     if (state.pageNow < findLength((state.lengthNow))) {
-      List<ResultQuizHWAPIModel>? dataList = [];
+      List<ResultHWAPIModel>? dataList = [];
       int pageNow = state.pageNow;
       pageNow = pageNow + 1;
       state.pageNow = pageNow;
@@ -32,11 +33,10 @@ class ManageHWCubit extends Cubit<ManageHWState> {
 
   Future<void> initPage(String week) async {
     Map<String, String> imageList = await getImageLink();
-    late ResultHWPagiAPI? dataPagination;
-    List<ResultQuizHWAPIModel>? dataList = [];
-    dataPagination = await instance
-        .get<TeacherAPIRepo>()
-        .getAllResultQuizHWByWeekAndLopWithPagi(
+    late ResultHWAPIResPagi? dataPagination;
+    List<ResultHWAPIModel>? dataList = [];
+    dataPagination =
+        await resultHWAPIRepo.getAllResultQuizHWByWeekAndLopWithPagi(
             week, instance.get<UserGlobal>().lop.toString(), state.pageNow);
     dataList = dataPagination!.data;
     int length = dataPagination.total!;
@@ -51,12 +51,11 @@ class ManageHWCubit extends Cubit<ManageHWState> {
     }
   }
 
-  Future<List<ResultQuizHWAPIModel>?> getBackList(String week) async {
-    late ResultHWPagiAPI? dataPagination;
-    List<ResultQuizHWAPIModel>? dataList = [];
-    dataPagination = await instance
-        .get<TeacherAPIRepo>()
-        .getAllResultQuizHWByWeekAndLopWithPagi(
+  Future<List<ResultHWAPIModel>?> getBackList(String week) async {
+    late ResultHWAPIResPagi? dataPagination;
+    List<ResultHWAPIModel>? dataList = [];
+    dataPagination =
+        await resultHWAPIRepo.getAllResultQuizHWByWeekAndLopWithPagi(
             week, instance.get<UserGlobal>().lop.toString(), state.pageNow);
     dataList = dataPagination!.data;
     if (dataList!.isNotEmpty) {
@@ -65,12 +64,11 @@ class ManageHWCubit extends Cubit<ManageHWState> {
     return null;
   }
 
-  Future<List<ResultQuizHWAPIModel>?> getMoreData(String week) async {
-    late ResultHWPagiAPI? dataPagination;
-    List<ResultQuizHWAPIModel>? dataList = [];
-    dataPagination = await instance
-        .get<TeacherAPIRepo>()
-        .getAllResultQuizHWByWeekAndLopWithPagi(
+  Future<List<ResultHWAPIModel>?> getMoreData(String week) async {
+    late ResultHWAPIResPagi? dataPagination;
+    List<ResultHWAPIModel>? dataList = [];
+    dataPagination =
+        await resultHWAPIRepo.getAllResultQuizHWByWeekAndLopWithPagi(
             week, instance.get<UserGlobal>().lop.toString(), state.pageNow);
     dataList = dataPagination!.data;
     if (dataList!.isNotEmpty) {
@@ -80,7 +78,7 @@ class ManageHWCubit extends Cubit<ManageHWState> {
   }
 
   void onSearchChange(String value) {
-    List<ResultQuizHWAPIModel> results = [];
+    List<ResultHWAPIModel> results = [];
     if (value.isEmpty) {
       // if the search field is empty or only contains white-space, we'll display all users
       results = [...state.nativeList!];
@@ -97,18 +95,19 @@ class ManageHWCubit extends Cubit<ManageHWState> {
 
   Future<Map<String, String>> getImageLink() async {
     Map<String, String> imageList = {};
-    List<UserAPIModel>? dataUser = await instance
-        .get<TeacherAPIRepo>()
+    List<UserAPIModel>? dataUser = await userAPIRepo
         .getAllStudentByClass(instance.get<UserGlobal>().lop.toString());
     dataUser!.forEach((element) {
-      imageList.putIfAbsent(element.key!, () => element.linkImage!);
+      if (element.linkImage != null) {
+        imageList.putIfAbsent(element.key!, () => element.linkImage!);
+      }
     });
     return imageList;
   }
 
   Future<void> pageMinus(String week) async {
     if (state.pageNow != 1) {
-      List<ResultQuizHWAPIModel>? dataList = [];
+      List<ResultHWAPIModel>? dataList = [];
       int pageNow = state.pageNow;
       pageNow = pageNow - 1;
       state.pageNow = pageNow;

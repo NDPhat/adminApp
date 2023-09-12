@@ -4,9 +4,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:sizer/sizer.dart';
-
 import '../../../application/cons/color.dart';
-import '../../../application/cons/constants.dart';
 import '../../../application/cons/text_style.dart';
 import '../../navigation/routers.dart';
 

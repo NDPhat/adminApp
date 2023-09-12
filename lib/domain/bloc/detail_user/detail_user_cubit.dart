@@ -1,9 +1,9 @@
+import 'package:admin/data/remote/api/api/user_repo.dart';
 import 'package:admin/data/remote/models/user_req.dart';
 import 'package:admin/data/remote/models/user_res.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../application/utils/status/detail_user_status.dart';
-import '../../../data/remote/api/api/api_teacher_repo.dart';
 part 'detail_user_state.dart';
 
 class DetailUserCubit extends Cubit<DetailUserState> {
@@ -15,12 +15,12 @@ class DetailUserCubit extends Cubit<DetailUserState> {
   String addMess = "";
   String birthMess = "";
 
-  final TeacherAPIRepo teacherAPIRepo;
+  final UserAPIRepo userAPIRepo;
   final UserAPIModel userAPIModel;
-  DetailUserCubit({required this.teacherAPIRepo, required this.userAPIModel})
+  DetailUserCubit({required this.userAPIRepo, required this.userAPIModel})
       : super(DetailUserState(
             userAPIModel: userAPIModel,
-            name: userAPIModel.name!,
+            name: userAPIModel.fullName!,
             email: userAPIModel.email!,
             nameMess: "",
             status: DetailUserStatus.initial,
@@ -29,8 +29,8 @@ class DetailUserCubit extends Cubit<DetailUserState> {
             lopMess: "",
             birthMess: "",
             sex: userAPIModel.sex!,
-            add: userAPIModel.add!,
-            birthDate: userAPIModel.birthDate!,
+            add: userAPIModel.address!,
+            birthDate: userAPIModel.birthDay!,
             lop: userAPIModel.lop!,
             phone: userAPIModel.phone!,
             addMess: '',
@@ -56,7 +56,7 @@ class DetailUserCubit extends Cubit<DetailUserState> {
   bool isEmailValid(email) {
     String p =
         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
-    RegExp regExp = new RegExp(p);
+    RegExp regExp = RegExp(p);
 
     return regExp.hasMatch(email);
   }
@@ -149,14 +149,14 @@ class DetailUserCubit extends Cubit<DetailUserState> {
   Future<void> updateUser(String key) async {
     emit(state.copyWith(status: DetailUserStatus.updating));
     if (isFormValid()) {
-      bool? update = await teacherAPIRepo.updateProfileUser(
+      bool? update = await userAPIRepo.updateProfileUser(
           key,
           UserAPIReq(
-              name: state.name,
+              fullName: state.name,
               sex: state.sex,
-              birthDate: state.birthDate,
+              birthDay: state.birthDate,
               phone: state.phone,
-              add: state.add));
+              address: state.add));
       if (update == true) {
         emit(state.copyWith(
           status: DetailUserStatus.successUpdate,
@@ -181,7 +181,7 @@ class DetailUserCubit extends Cubit<DetailUserState> {
 
   Future<void> deleteUser(String userID) async {
     emit(state.copyWith(status: DetailUserStatus.deleting));
-    teacherAPIRepo.deleteUserById(userID);
+    userAPIRepo.deleteUserById(userID);
     emit(state.copyWith(
       status: DetailUserStatus.successDelete,
     ));

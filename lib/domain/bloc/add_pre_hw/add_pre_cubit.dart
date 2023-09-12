@@ -1,10 +1,9 @@
 import 'package:admin/data/local/models/user_global.dart';
-import 'package:admin/data/remote/api/api/api_teacher_repo.dart';
+import 'package:admin/data/remote/api/api/pre_hw_repo.dart';
 import 'package:admin/data/remote/models/pre_hw_req.dart';
-import 'package:admin/data/remote/models/pre_hw_res.dart';
 import 'package:admin/main.dart';
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 import '../../../application/utils/status/add_pre_hw.dart';
@@ -18,10 +17,8 @@ class AddPreHWCubit extends Cubit<AddPreHWState> {
   String numQMess = "";
   String weekMess = "";
 
-  final TeacherAPIRepo teacherAPIRepo;
-  AddPreHWCubit({required TeacherAPIRepo teacherAPIRepo})
-      : teacherAPIRepo = teacherAPIRepo,
-        super(AddPreHWState.initial());
+  final PreHWAPIRepo preHWAPIRepo;
+  AddPreHWCubit({required this.preHWAPIRepo}) : super(AddPreHWState.initial());
   void colorChange(String color) {
     emit(state.copyWith(color: color, status: AddPreHWStatus.initial));
   }
@@ -133,7 +130,7 @@ class AddPreHWCubit extends Cubit<AddPreHWState> {
     emit(state.copyWith(status: AddPreHWStatus.submit));
     if (isFormValid()) {
       try {
-        int? data = await teacherAPIRepo.createPreHW(PreQuizHWReqAPI(
+        int? data = await preHWAPIRepo.createPreHW(PreHWAPIReq(
           week: state.week,
           dstart: "${state.timeStart.trim()} ${state.dayStart.trim()}",
           dend: "${state.timeEnd.trim()} ${state.dayEnd.trim()}",
@@ -162,5 +159,4 @@ class AddPreHWCubit extends Cubit<AddPreHWState> {
           eNumMess: eNumMess));
     }
   }
-
 }

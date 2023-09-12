@@ -124,7 +124,7 @@ class _ManagerHomeWorkScreenState extends State<ManagerHomeWorkScreen> {
                                             state.searchList![index].key);
                                   },
                                   imageLink: state.imageList[
-                                      state.searchList![index].userId]!,
+                                      state.searchList![index].userId],
                                   colorBorder: colorMainTealPri),
                             );
                           }))

@@ -7,13 +7,12 @@ import 'package:device_preview/device_preview.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sizer/sizer.dart';
 import 'application/di/setupProject.dart';
-import 'data/local/authen/authen_repo.dart';
+import 'package:get/get.dart';
 
 GetIt instance = GetIt.instance;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  instance.registerLazySingleton<AuthenRepository>(() => AuthenRepository());
 
   /// PERMISSION LOCAL NOTIFICATION
   await Permission.notification.isDenied.then((value) {
@@ -22,7 +21,9 @@ void main() async {
     }
   });
 
+  ///INIT DB AND DECLARE VARIABLE
   setUpProject();
+
   runApp(DevicePreview(
     builder: (context) => EasyLocalization(
         supportedLocales: const [
@@ -45,7 +46,7 @@ class AdminApp extends StatelessWidget {
         onTap: () {
           FocusManager.instance.primaryFocus?.unfocus();
         },
-        child: MaterialApp(
+        child: GetMaterialApp(
           builder: DevicePreview.appBuilder,
           debugShowCheckedModeBanner: false,
           initialRoute: Routers.splash,

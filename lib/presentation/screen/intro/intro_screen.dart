@@ -1,10 +1,10 @@
-import 'package:admin/presentation/navigation/routers.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 import '../../../application/cons/color.dart';
 import '../../../application/cons/text_style.dart';
 import '../../../data/local/models/on_board.dart';
+import '../../navigation/routers.dart';
 import '../../widget/rounded_button.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -18,12 +18,14 @@ class _IntroScreenState extends State<IntroScreen> {
   late PageController _pageController;
   final List<Onboard> listOnboard = <Onboard>[];
 
-  String titlePageIntro1 = 'Math tracker';
-  String titlePageIntro2 = 'Math trends';
-  String titlePageIntro3 = 'Math reminder';
-  String bodyPageIntro1 = 'Without mathematics, there’s nothing you can do.';
-  String bodyPageIntro2 = 'Everything around you is mathematics.';
-  String bodyPageIntro3 = 'Everything around you is numbers.';
+  String titlePageIntro1 = 'About teacher';
+  String titlePageIntro2 = 'About math';
+  String titlePageIntro3 = 'Our application';
+  String bodyPageIntro1 =
+      "A teacher's job is to take a bunch of live wires and see that they are well-grounded.";
+  String bodyPageIntro2 =
+      'Without mathematics,there’s nothing you can do.Everything around you is mathematics.Everything around you is numbers.';
+  String bodyPageIntro3 = 'Our application fully meets these requirements.';
   int _pageIndex = 0;
   @override
   void initState() {
@@ -64,7 +66,7 @@ class _IntroScreenState extends State<IntroScreen> {
               child: GestureDetector(
                 child: Text(
                   'skip'.tr().toString(),
-                  style: s16f700ColorGreyTe,
+                  style: s16f700ColorMainTealPri,
                 ),
                 onTap: () {
                   Navigator.pushNamed(context, Routers.welCome);
@@ -73,7 +75,8 @@ class _IntroScreenState extends State<IntroScreen> {
             ),
             Column(
               children: [
-                SizedBox(
+                Container(
+                  padding: EdgeInsets.only(top: 5.h),
                   height: 80.h,
                   width: 100.w,
                   child: PageView.builder(
@@ -100,7 +103,7 @@ class _IntroScreenState extends State<IntroScreen> {
                                 padding: EdgeInsets.only(
                                   right: 1.w,
                                 ),
-                                child: DotIntroIndicator(
+                                child: DotIndicator(
                                   isActive: index == _pageIndex,
                                 ),
                               )),
@@ -115,13 +118,12 @@ class _IntroScreenState extends State<IntroScreen> {
                               curve: Curves.ease);
                         }
                       },
-                      color: colorMainBlue,
+                      colorBorder: colorSystemYeloow,
+                      color: colorSystemWhite,
                       width: 36.w,
                       height: 5.h,
-                      child: Text(
-                        "go".tr().toString(),
-                        style: s20f700ColorSysWhite,
-                      ),
+                      child:
+                          Text("go".tr().toString(), style: s16f700ColorSysYel),
                     )
                   ],
                 )
@@ -134,8 +136,8 @@ class _IntroScreenState extends State<IntroScreen> {
   }
 }
 
-class DotIntroIndicator extends StatelessWidget {
-  const DotIntroIndicator({Key? key, this.isActive = false}) : super(key: key);
+class DotIndicator extends StatelessWidget {
+  const DotIndicator({Key? key, this.isActive = false}) : super(key: key);
   final bool isActive;
   @override
   Widget build(BuildContext context) {
@@ -143,7 +145,7 @@ class DotIntroIndicator extends StatelessWidget {
       width: isActive ? 7.w : 5.w,
       height: 1.h,
       decoration: BoxDecoration(
-          color: isActive ? colorMainBlue : colorGreyTetiary,
+          color: isActive ? colorWaringText : colorMainTealPri,
           borderRadius: const BorderRadius.all(Radius.circular(20))),
     );
   }
@@ -165,13 +167,16 @@ class IntroBody extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: 40.h,
-          child: Image.asset(
-            pathImage,
+          child: Center(
+            child: Image.asset(
+              pathImage,
+              height: 35.h,
+              fit: BoxFit.fill,
+            ),
           ),
         ),
         SizedBox(
-          height: 6.h,
+          height: 8.h,
         ),
         SizedBox(
           width: 87.5.w,
@@ -182,8 +187,8 @@ class IntroBody extends StatelessWidget {
                 height: 4.h,
                 alignment: Alignment.bottomCenter,
                 child: Container(
-                  height: 2.h,
-                  color: colorBlueQuaternery,
+                  height: 1.7.h,
+                  color: colorMainTealPri,
                 ),
               ),
               Container(
@@ -192,17 +197,29 @@ class IntroBody extends StatelessWidget {
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
-                  style: s22f700colorGreyPri,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                    color: colorWaringText,
+                  ),
                 ),
               ),
             ],
           ),
         ),
         SizedBox(
-          height: 2.h,
+          height: 4.h,
         ),
         SizedBox(
-          child: Text(subtitle, style: s14f400ColorGreyTe),
+          child: Text(
+            subtitle,
+            style: const TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w500,
+              color: colorWaringText,
+            ),
+            textAlign: TextAlign.center,
+          ),
         ),
       ],
     );
