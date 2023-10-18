@@ -32,146 +32,6 @@ class DetailPreHWCubit extends Cubit<DetailPreHWState> {
       required this.userAPIRepo})
       : super(DetailPreHWState.initial());
 
-  void colorChange(String color) {
-    emit(state.copyWith(color: color, status: AddPreHWStatus.initial));
-  }
-
-  void emitStartTimeChange(String time) {
-    emit(state.copyWith(timeStart: time));
-  }
-
-  void emitEndTimeChange(String time) {
-    emit(state.copyWith(timeEnd: time));
-  }
-
-  void dayEndChange(String time) {
-    emit(state.copyWith(dayEnd: time));
-  }
-
-  void dayStartChange(String time) {
-    emit(state.copyWith(dayStart: time));
-  }
-
-  void weekChanged(String value) {
-    state.week = value;
-  }
-
-  void numQChanged(String value) {
-    state.numQ = value;
-  }
-
-  void sNumChanged(String value) {
-    state.sNum = value;
-  }
-
-  void eNumChanged(String value) {
-    state.eNum = value;
-  }
-
-  void signChanged(List<String> value) {
-    state.sign = value;
-  }
-
-  void clearOldDataErrorForm() {
-    emit(state.copyWith(status: AddPreHWStatus.initial));
-  }
-
-  void clearForm() {
-    emit(state.copyWith(
-      color: 'blue',
-      numQ: '',
-      week: '',
-      numQMess: '',
-      weekMess: '',
-      timeStart: DateFormat('hh:mm aa').format(DateTime.now()),
-      timeEnd: DateFormat('hh:mm aa').format(DateTime.now()),
-      status: AddPreHWStatus.initial,
-    ));
-  }
-
-  bool weekValidator(String week) {
-    if (week.isEmpty) {
-      weekMess = 'Fill this blank';
-      return false;
-    } else {
-      weekMess = "";
-      return true;
-    }
-  }
-
-  bool numQValidator(String numQ) {
-    if (numQ.isEmpty) {
-      numQMess = 'Fill this blank';
-      return false;
-    } else {
-      numQMess = "";
-      return true;
-    }
-  }
-
-  bool sNumValidator(String sNum) {
-    if (sNum.isEmpty) {
-      sNumMess = 'Fill this blank';
-      return false;
-    } else {
-      sNumMess = "";
-      return true;
-    }
-  }
-
-  bool eNumValidator(String eNum) {
-    if (eNum.isEmpty) {
-      eNumMess = 'Fill this blank';
-      return false;
-    } else {
-      eNumMess = "";
-      return true;
-    }
-  }
-
-  bool isFormValid() {
-    if (numQValidator(state.numQ) &
-        weekValidator(state.week) &
-        sNumValidator(state.sNum) &
-        eNumValidator(state.eNum)) {
-      return true;
-    }
-    return false;
-  }
-
-  Future<void> updatePreHW(String key) async {
-    emit(state.copyWith(status: AddPreHWStatus.submit));
-    if (isFormValid()) {
-      try {
-        bool? data = await preHWAPIRepo.updatePreHW(
-            PreHWAPIReq(
-              week: state.week,
-              dstart: "${state.timeStart.trim()} ${state.dayStart.trim()}",
-              dend: "${state.timeEnd.trim()} ${state.dayEnd.trim()}",
-              sign: state.sign,
-              sNum: int.parse(state.sNum),
-              numQ: int.parse(state.numQ),
-              eNum: int.parse(state.eNum),
-              color: state.color,
-              status: state.statusPre,
-            ),
-            key);
-        if (data == true) {
-          emit(state.copyWith(status: AddPreHWStatus.success));
-        } else {
-          emit(state.copyWith(status: AddPreHWStatus.error));
-        }
-      } on Exception catch (e) {}
-    } else {
-      emit(state.copyWith(
-          status: AddPreHWStatus.error,
-          weekMess: weekMess,
-          sNumMess: sNumMess,
-          numQMess: numQMess,
-          eNumMess: eNumMess));
-    }
-  }
-
   getALlListStudentDoNotJoinHW(String lop, String week) async {
     List<UserAPIModel>? dataUserRes =
         await userAPIRepo.getAllStudentByClass(lop);
@@ -218,33 +78,24 @@ class DetailPreHWCubit extends Cubit<DetailPreHWState> {
 
   Future<void> updatePreHWToDone(String key, String week, String lop) async {
     emit(state.copyWith(status: AddPreHWStatus.updating));
-    if (isFormValid()) {
-      getALlListStudentDoNotJoinHW(lop, week);
-      bool? data = await preHWAPIRepo.updatePreHW(
-          PreHWAPIReq(
-            week: state.week,
-            dstart: "${state.timeStart} ${state.dayStart}",
-            dend: "${state.timeEnd} ${state.dayEnd}",
-            sign: state.sign,
-            sNum: int.parse(state.sNum),
-            numQ: int.parse(state.numQ),
-            eNum: int.parse(state.eNum),
-            color: state.color,
-            status: "DONE",
-          ),
-          key);
-      if (data == true) {
-        emit(state.copyWith(status: AddPreHWStatus.success));
-      } else {
-        emit(state.copyWith(status: AddPreHWStatus.error));
-      }
+    getALlListStudentDoNotJoinHW(lop, week);
+    bool? data = await preHWAPIRepo.updatePreHW(
+        PreHWAPIReq(
+          week: state.week,
+          dstart: "${state.timeStart} ${state.dayStart}",
+          dend: "${state.timeEnd} ${state.dayEnd}",
+          sign: state.sign,
+          sNum: int.parse(state.sNum),
+          numQ: int.parse(state.numQ),
+          eNum: int.parse(state.eNum),
+          color: state.color,
+          status: "DONE",
+        ),
+        key);
+    if (data == true) {
+      emit(state.copyWith(status: AddPreHWStatus.success));
     } else {
-      emit(state.copyWith(
-          status: AddPreHWStatus.error,
-          weekMess: weekMess,
-          sNumMess: sNumMess,
-          numQMess: numQMess,
-          eNumMess: eNumMess));
+      emit(state.copyWith(status: AddPreHWStatus.error));
     }
   }
 }

@@ -12,18 +12,12 @@ import 'package:sizer/sizer.dart';
 import '../../../../application/cons/color.dart';
 import '../../../../application/cons/text_style.dart';
 import '../../../../application/utils/status/add_pre_hw.dart';
-import '../../../../application/utils/time_change/format.dart';
-import 'package:flutter_holo_date_picker/flutter_holo_date_picker.dart';
 import '../../widget/box_field.dart';
 import '../../widget/rounded_button.dart';
 
 class DetailPreHomeWorkScreen extends StatelessWidget {
   DetailPreHomeWorkScreen({Key? key}) : super(key: key);
-  final f = DateFormat('MM/dd/yyyy');
-  final l = DateFormat('hh:mm aa');
-  String startTime = DateFormat('hh:mm aa').format(DateTime.now());
   List<String> signList = ['+', '-', 'x', '/'];
-  List<String> selectedSignList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -91,21 +85,16 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
-                    buildWhen: (pre, now) {
-                  return pre.weekMess != now.weekMess;
+                BlocSelector<DetailPreHWCubit, DetailPreHWState, String>(
+                    selector: (state) {
+                  return state.week;
                 }, builder: (context, state) {
                   return InputFieldWidget(
                     typeText: TextInputType.number,
                     hintText: 'enter week'.tr(),
                     nameTitle: "week".tr(),
-                    readOnly: data.status == "EXPIRED" ? true : false,
-                    onChanged: (value) {
-                      context.read<DetailPreHWCubit>().weekChanged(value);
-                    },
-                    controller: TextEditingController(text: state.week),
-                    validateText: state.weekMess,
-                    isHidden: state.weekMess != "",
+                    readOnly: true,
+                    controller: TextEditingController(text: state),
                     width: 90.w,
                     height: 8.h,
                   );
@@ -113,22 +102,16 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                 SizedBox(
                   height: 1.h,
                 ),
-                BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
-                    buildWhen: (pre, now) {
-                  return pre.numQMess != now.numQMess;
+                BlocSelector<DetailPreHWCubit, DetailPreHWState, String>(
+                    selector: (state) {
+                  return state.numQ;
                 }, builder: (context, state) {
                   return InputFieldWidget(
                     hintText: "number of questions".tr(),
                     nameTitle: "number of questions".tr(),
-                    readOnly: data.status == "EXPIRED" ? true : false,
-                    controller:
-                        TextEditingController(text: state.numQ.toString()),
+                    readOnly: true,
+                    controller: TextEditingController(text: state.toString()),
                     typeText: TextInputType.number,
-                    onChanged: (value) {
-                      context.read<DetailPreHWCubit>().numQChanged(value);
-                    },
-                    validateText: state.numQMess,
-                    isHidden: state.numQMess != "",
                     width: 90.w,
                     height: 8.h,
                   );
@@ -136,9 +119,9 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                 SizedBox(
                   height: 2.h,
                 ),
-                BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
-                    buildWhen: (pre, now) {
-                  return pre.sign != now.sign;
+                BlocSelector<DetailPreHWCubit, DetailPreHWState, List<String>>(
+                    selector: (state) {
+                  return state.sign;
                 }, builder: (context, state) {
                   return SizedBox(
                     width: 90.w,
@@ -147,10 +130,8 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                       readOnly: true,
                       icon: const Icon(Icons.arrow_drop_down_outlined),
                       options: signList,
-                      selectedValues: state.sign,
-                      onChanged: (value) {
-                        context.read<DetailPreHWCubit>().signChanged(value);
-                      },
+                      selectedValues: state,
+                      onChanged: (value) {},
                       whenEmpty: 'sign'.tr(),
                     ),
                   );
@@ -161,41 +142,31 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
-                        buildWhen: (pre, now) {
-                      return pre.sNumMess != now.sNumMess;
+                    BlocSelector<DetailPreHWCubit, DetailPreHWState, String>(
+                        selector: (state) {
+                      return state.sNum;
                     }, builder: (context, state) {
                       return InputFieldWidget(
                         hintText: 'start number'.tr(),
                         nameTitle: 'start number'.tr(),
-                        readOnly: data.status == "EXPIRED" ? true : false,
+                        readOnly: true,
                         controller:
-                            TextEditingController(text: state.sNum.toString()),
+                            TextEditingController(text: state.toString()),
                         typeText: TextInputType.number,
-                        onChanged: (value) {
-                          context.read<DetailPreHWCubit>().sNumChanged(value);
-                        },
-                        validateText: state.sNumMess,
-                        isHidden: state.sNumMess != "",
                         width: 40.w,
                         height: 8.h,
                       );
                     }),
-                    BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
-                        buildWhen: (pre, now) {
-                      return pre.eNumMess != now.eNumMess;
+                    BlocSelector<DetailPreHWCubit, DetailPreHWState, String>(
+                        selector: (state) {
+                      return state.eNum;
                     }, builder: (context, state) {
                       return InputFieldWidget(
                         hintText: 'end number'.tr(),
                         nameTitle: 'end number'.tr(),
-                        readOnly: data.status == "EXPIRED" ? true : false,
-                        onChanged: (value) {
-                          context.read<DetailPreHWCubit>().eNumChanged(value);
-                        },
+                        readOnly: true,
                         controller:
-                            TextEditingController(text: state.eNum.toString()),
-                        validateText: state.eNumMess,
-                        isHidden: state.eNumMess != "",
+                            TextEditingController(text: state.toString()),
                         typeText: TextInputType.number,
                         width: 40.w,
                         height: 8.h,
@@ -209,61 +180,28 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
-                        buildWhen: (pre, now) {
-                      return pre.dayStart != now.dayStart;
+                    BlocSelector<DetailPreHWCubit, DetailPreHWState, String>(
+                        selector: (state) {
+                      return state.dayStart;
                     }, builder: (context, state) {
                       return BoxField(
-                        hintText: state.dayStart,
+                        hintText: state,
                         nameTitle: 'start day'.tr(),
                         size: 42.w,
                         icon: const Icon(Icons.calendar_month),
-                        onTapped: () async {
-                          var datePicked =
-                              await DatePicker.showSimpleDatePicker(
-                            context,
-                            initialDate: DateTime.now(),
-                            dateFormat: "yyyy-MM-dd",
-                            locale: DateTimePickerLocale.es,
-                            looping: true,
-                          );
-                          if (datePicked != null) {
-                            context.read<DetailPreHWCubit>().dayStartChange(
-                                (formatDateInput.format(datePicked)));
-                          } else {
-                            context.read<DetailPreHWCubit>().dayStartChange(
-                                formatDateInput.format(DateTime.now()));
-                          }
-                        },
+                        onTapped: () async {},
                       );
                     }),
-                    BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
-                        buildWhen: (pre, now) {
-                      return pre.timeStart != now.timeStart;
+                    BlocSelector<DetailPreHWCubit, DetailPreHWState, String>(
+                        selector: (state) {
+                      return state.timeStart;
                     }, builder: (context, state) {
                       return BoxField(
-                          hintText: state.timeStart,
+                          hintText: state,
                           nameTitle: 'start time'.tr(),
                           size: 42.w,
                           icon: const Icon(Icons.timer),
-                          onTapped: () async {
-                            var timePic = await showTimePicker(
-                                initialEntryMode: TimePickerEntryMode.inputOnly,
-                                context: context,
-                                initialTime: TimeOfDay(
-                                    hour: int.parse(
-                                        state.timeStart.split(":")[0]),
-                                    minute: int.parse(state.timeStart
-                                        .split(":")[1]
-                                        .split(" ")[0])));
-                            context
-                                .read<DetailPreHWCubit>()
-                                .emitStartTimeChange((timePic ??
-                                        TimeOfDay(
-                                            hour: DateTime.now().hour,
-                                            minute: DateTime.now().minute))
-                                    .format(context));
-                          });
+                          onTapped: () async {});
                     }),
                   ],
                 ),
@@ -273,95 +211,28 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
-                        buildWhen: (pre, now) {
-                      return pre.dayEnd != now.dayEnd;
+                    BlocSelector<DetailPreHWCubit, DetailPreHWState, String>(
+                        selector: (state) {
+                      return state.dayEnd;
                     }, builder: (context, state) {
                       return BoxField(
-                        hintText: state.dayEnd,
+                        hintText: state,
                         nameTitle: 'end day'.tr(),
                         size: 42.w,
                         icon: const Icon(Icons.calendar_month),
-                        onTapped: () async {
-                          var datePicked =
-                              await DatePicker.showSimpleDatePicker(
-                            context,
-                            initialDate: DateTime.now(),
-                            dateFormat: "yyyy-MM-dd",
-                            locale: DateTimePickerLocale.es,
-                            looping: true,
-                          );
-                          if (datePicked != null) {
-                            context.read<DetailPreHWCubit>().dayEndChange(
-                                (formatDateInput.format(datePicked)));
-                          } else {
-                            context.read<DetailPreHWCubit>().dayEndChange(
-                                formatDateInput.format(DateTime.now()));
-                          }
-                        },
+                        onTapped: () async {},
                       );
                     }),
-                    BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
-                        buildWhen: (pre, now) {
-                      return pre.timeEnd != now.timeEnd;
+                    BlocSelector<DetailPreHWCubit, DetailPreHWState, String>(
+                        selector: (state) {
+                      return state.timeEnd;
                     }, builder: (context, state) {
                       return BoxField(
-                          hintText: state.timeEnd,
+                          hintText: state,
                           nameTitle: 'end time'.tr(),
                           size: 42.w,
                           icon: const Icon(Icons.timer),
-                          onTapped: () async {
-                            var timePic = await showTimePicker(
-                                initialEntryMode: TimePickerEntryMode.inputOnly,
-                                context: context,
-                                initialTime: TimeOfDay(
-                                    hour:
-                                        int.parse(state.timeEnd.split(":")[0]),
-                                    minute: int.parse(state.timeEnd
-                                        .split(":")[1]
-                                        .split(" ")[0])));
-                            //compare timeEnd va timeStart
-                            if (convertTimeDayToDouble(timePic ??
-                                    TimeOfDay(
-                                        hour: DateTime.now().hour,
-                                        minute: DateTime.now().minute)) <
-                                convertTimeDayToDouble(
-                                    convertToTimeOfDay(state.timeStart))) {
-                              AlertDialog(
-                                content: Text(
-                                  "end time must be greater than start time !!"
-                                      .tr(),
-                                  textAlign: TextAlign.center,
-                                  style: s20f700ColorErrorPro,
-                                ),
-                                actions: <Widget>[
-                                  RoundedButton(
-                                    press: () {
-                                      Navigator.pop(context);
-                                    },
-                                    color: colorMainBlue,
-                                    width: 100.w,
-                                    height: 8.h,
-                                    child: Text('go'.tr()),
-                                  )
-                                ],
-                              );
-                              context
-                                  .read<DetailPreHWCubit>()
-                                  .emitEndTimeChange((TimeOfDay(
-                                          hour: DateTime.now().hour,
-                                          minute: DateTime.now().minute + 10))
-                                      .format(context));
-                            } else {
-                              context
-                                  .read<DetailPreHWCubit>()
-                                  .emitEndTimeChange((timePic ??
-                                          TimeOfDay(
-                                              hour: DateTime.now().hour,
-                                              minute: DateTime.now().minute))
-                                      .format(context));
-                            }
-                          });
+                          onTapped: () async {});
                     }),
                   ],
                 ),
@@ -383,69 +254,50 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
-                              buildWhen: (pre, now) {
-                            return pre.color != now.color;
+                          BlocSelector<DetailPreHWCubit, DetailPreHWState,
+                              String>(selector: (state) {
+                            return state.color;
                           }, builder: (context, state) {
-                            return GestureDetector(
-                              onTap: () {
-                                context
-                                    .read<DetailPreHWCubit>()
-                                    .colorChange("blue");
-                              },
-                              child: CircleAvatar(
-                                  backgroundColor: colorMainBlue,
-                                  radius: 15,
-                                  child: state.color == "blue"
-                                      ? const Icon(
-                                          (Icons.done),
-                                          color: colorSystemWhite,
-                                          size: 16,
-                                        )
-                                      : Container()),
-                            );
+                            return CircleAvatar(
+                                backgroundColor: colorMainBlue,
+                                radius: 15,
+                                child: state == "blue"
+                                    ? const Icon(
+                                        (Icons.done),
+                                        color: colorSystemWhite,
+                                        size: 16,
+                                      )
+                                    : Container());
                           }),
-                          BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
-                              buildWhen: (pre, now) {
-                            return pre.color != now.color;
+                          BlocSelector<DetailPreHWCubit, DetailPreHWState,
+                              String>(selector: (state) {
+                            return state.color;
                           }, builder: (context, state) {
-                            return GestureDetector(
-                              onTap: () {
-                                context
-                                    .read<DetailPreHWCubit>()
-                                    .colorChange("yellow");
-                              },
-                              child: CircleAvatar(
-                                  backgroundColor: colorSystemYeloow,
-                                  radius: 15,
-                                  child: state.color == "yellow"
-                                      ? const Icon(
-                                          (Icons.done),
-                                          color: colorSystemWhite,
-                                          size: 16,
-                                        )
-                                      : Container()),
-                            );
+                            return CircleAvatar(
+                                backgroundColor: colorSystemYeloow,
+                                radius: 15,
+                                child: state == "yellow"
+                                    ? const Icon(
+                                        (Icons.done),
+                                        color: colorSystemWhite,
+                                        size: 16,
+                                      )
+                                    : Container());
                           }),
-                          BlocBuilder<DetailPreHWCubit, DetailPreHWState>(
-                              builder: (context, state) {
-                            return GestureDetector(
-                              onTap: () {
-                                context
-                                    .read<DetailPreHWCubit>()
-                                    .colorChange("red");
-                              },
-                              child: CircleAvatar(
-                                  backgroundColor: colorErrorPrimary,
-                                  radius: 15,
-                                  child: state.color == "red"
-                                      ? const Icon(
-                                          (Icons.done),
-                                          color: colorSystemWhite,
-                                          size: 16,
-                                        )
-                                      : Container()),
-                            );
+                          BlocSelector<DetailPreHWCubit, DetailPreHWState,
+                              String>(selector: (state) {
+                            return state.color;
+                          }, builder: (context, state) {
+                            return CircleAvatar(
+                                backgroundColor: colorErrorPrimary,
+                                radius: 15,
+                                child: state == "red"
+                                    ? const Icon(
+                                        (Icons.done),
+                                        color: colorSystemWhite,
+                                        size: 16,
+                                      )
+                                    : Container());
                           }),
                         ],
                       ),
@@ -453,183 +305,36 @@ class DetailPreHomeWorkScreen extends StatelessWidget {
                     BlocConsumer<DetailPreHWCubit, DetailPreHWState>(
                         listener: (context, state) {
                       if (state.status == AddPreHWStatus.error) {
-                        showDialog(
-                            context: context,
-                            builder: (ctx) => Center(
-                                    child: AlertDialog(
-                                  shape: ShapeBorder.lerp(const StadiumBorder(),
-                                      const StadiumBorder(), 100),
-                                  backgroundColor: colorSystemWhite,
-                                  title: const Center(
-                                    child: Text('UPDATE FAIL',
-                                        style: s16f700ColorError,
-                                        textAlign: TextAlign.center),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                        child: Container(
-                                            padding: const EdgeInsets.all(15),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(100),
-                                                border: Border.all(
-                                                    color: colorSystemYeloow)),
-                                            child: const Center(
-                                              child: Text(
-                                                'BACK',
-                                                style: s15f700ColorErrorPri,
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            )),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        }),
-                                  ],
-                                )));
-                        context
-                            .read<DetailPreHWCubit>()
-                            .clearOldDataErrorForm();
+                        showUpdateFailDialog();
                       } else if (state.status == AddPreHWStatus.success) {
-                        showDialog(
-                            context: context,
-                            builder: (ctx) => Center(
-                                    child: AlertDialog(
-                                  shape: ShapeBorder.lerp(const StadiumBorder(),
-                                      const StadiumBorder(), 100),
-                                  backgroundColor: colorSystemWhite,
-                                  title: const Center(
-                                    child: Text('DONE!!',
-                                        style: s16f700ColorError,
-                                        textAlign: TextAlign.center),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                        child: Container(
-                                            padding: const EdgeInsets.all(15),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(100),
-                                                border: Border.all(
-                                                    color: colorSystemYeloow)),
-                                            child: const Center(
-                                              child: Text(
-                                                'BACK',
-                                                style: s15f700ColorErrorPri,
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            )),
-                                        onPressed: () {
-                                          Navigator.pushNamed(
-                                              context, Routers.dashboard);
-                                        }),
-                                  ],
-                                )));
-                      } else if (state.status == AddPreHWStatus.sameWeek) {
-                        showDialog(
-                            context: context,
-                            builder: (ctx) => Center(
-                                    child: AlertDialog(
-                                  shape: ShapeBorder.lerp(const StadiumBorder(),
-                                      const StadiumBorder(), 100),
-                                  backgroundColor: colorSystemWhite,
-                                  title: const Center(
-                                    child: Text('WEEK DA TON TAI!!',
-                                        style: s16f700ColorError,
-                                        textAlign: TextAlign.center),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                        child: Container(
-                                            padding: const EdgeInsets.all(15),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(100),
-                                                border: Border.all(
-                                                    color: colorSystemYeloow)),
-                                            child: const Center(
-                                              child: Text(
-                                                'BACK',
-                                                style: s15f700ColorErrorPri,
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            )),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        }),
-                                  ],
-                                )));
+                        showUpdateDoneDialog();
                       }
                     }, builder: (context, state) {
                       return RoundedButton(
                           press: () {
-                            if (data.status == "GOING") {
-                              context
-                                  .read<DetailPreHWCubit>()
-                                  .updatePreHW(data.key!);
-                            }
+                            showUpdateHWDiaLog();
                           },
                           color: colorSystemWhite,
-                          colorBorder: colorMainBlue,
+                          colorBorder: colorErrorPrimary,
                           width: 40.w,
                           height: 8.h,
-                          child: data.status == "GOING"
-                              ? (state.status == AddPreHWStatus.submit
-                                  ? SizedBox(
-                                      height: 10.h,
-                                      child: const Center(
-                                        child: CircularProgressIndicator(
-                                          color: colorMainBlue,
-                                          strokeWidth: 2,
-                                        ),
-                                      ),
-                                    )
-                                  : Text(
-                                      'save'.tr().toString(),
-                                      style: s16f700ColorBlueMa,
-                                    ))
-                              : Text(
-                                  'done'.tr().toString(),
-                                  style: s16f700ColorBlueMa,
+                          child: state.status == AddPreHWStatus.updating
+                              ? SizedBox(
+                                  height: 5.h,
+                                  child: const Center(
+                                    child: CircularProgressIndicator(
+                                      color: colorErrorPrimary,
+                                      strokeWidth: 3,
+                                    ),
+                                  ),
+                                )
+                              : const Text(
+                                  'DONE TASK',
+                                  style: s16f700ColorError,
                                 ));
                     }),
                   ],
                 ),
-                SizedBox(
-                  height: 4.h,
-                ),
-                // update status to done
-                BlocConsumer<DetailPreHWCubit, DetailPreHWState>(
-                    listener: (context, state) {
-                  if (state.status == AddPreHWStatus.error) {
-                    showUpdateFailDialog();
-                    context.read<DetailPreHWCubit>().clearOldDataErrorForm();
-                  } else if (state.status == AddPreHWStatus.success) {
-                    showUpdateDoneDialog();
-                  }
-                }, builder: (context, state) {
-                  return RoundedButton(
-                      press: () {
-                        showUpdateHWDiaLog();
-                      },
-                      color: colorSystemWhite,
-                      colorBorder: colorErrorPrimary,
-                      width: 90.w,
-                      height: 8.h,
-                      child: state.status == AddPreHWStatus.updating
-                          ? SizedBox(
-                              height: 5.h,
-                              child: const Center(
-                                child: CircularProgressIndicator(
-                                  color: colorErrorPrimary,
-                                  strokeWidth: 3,
-                                ),
-                              ),
-                            )
-                          : const Text(
-                              'DONE TASK',
-                              style: s16f700ColorError,
-                            ));
-                }),
               ],
             ),
           ),

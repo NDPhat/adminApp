@@ -79,15 +79,28 @@ class ProfileScreen extends StatelessWidget {
 
                 /// -- MENU
                 SingleChildScrollView(
-                  child: ProfileItemWidget(
-                    title: "my account".tr().toString(),
-                    icon: LineAwesomeIcons.user_check,
-                    onPress: () {
-                      Navigator.pushNamed(context, Routers.updateProfile);
-                    },
+                  child: Column(
+                    children: [
+                      ProfileItemWidget(
+                        title: "my account".tr().toString(),
+                        icon: LineAwesomeIcons.user_check,
+                        onPress: () {
+                          Navigator.pushNamed(context, Routers.updateProfile);
+                        },
+                      ),
+                      SizedBox(
+                        height: 2.h,
+                      ),
+                      ProfileItemWidget(
+                        title: "update password".tr().toString(),
+                        icon: LineAwesomeIcons.key,
+                        onPress: () {
+                          Navigator.pushNamed(context, Routers.updatePass);
+                        },
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 2.h),
               ],
             ),
           ))),

@@ -12,6 +12,7 @@ import 'package:admin/domain/bloc/login/login_cubit.dart';
 import 'package:admin/domain/bloc/manage_hw/manage_hw_cubit.dart';
 import 'package:admin/domain/bloc/manage_main/manage_cubit.dart';
 import 'package:admin/domain/bloc/notify_main/notify_main_cubit.dart';
+import 'package:admin/domain/bloc/update_pass/update_pass_cubit.dart';
 import 'package:admin/domain/bloc/update_profile/update_profile_cubit.dart';
 import 'package:admin/main.dart';
 import 'package:admin/presentation/screen/create/create_main_screen.dart';
@@ -25,6 +26,7 @@ import 'package:admin/presentation/screen/language_screen/language_screen.dart';
 import 'package:admin/presentation/screen/login/login_screen.dart';
 import 'package:admin/presentation/screen/manager/manager_main_screen.dart';
 import 'package:admin/presentation/screen/profile/widget/my_acc/profile_myaccount.dart';
+import 'package:admin/presentation/screen/profile/widget/update_pass/change_pass_word_screen.dart';
 import 'package:admin/presentation/screen/setting/setting_main_screen.dart';
 import 'package:admin/presentation/screen/setting/widget/add_notify_screen.dart';
 import 'package:admin/presentation/screen/setting/widget/notify_main.dart';
@@ -55,6 +57,7 @@ class Routers {
   static const String language = '/language';
   static const String setting = '/setting';
   static const String profile = '/profile';
+  static const String updatePass = '/updatePass';
   static const String updateProfile = '/updateProfile';
   static const String managerUser = '/managerUser';
   static const String managerMainScreen = '/managerMainScreen';
@@ -110,6 +113,12 @@ class Routers {
                   userAPIRepo: instance.get<UserAPIRepo>(),
                 ),
             child: CreateUserScreen());
+      case updatePass:
+        return BlocProvider(
+            create: (context) => UpdatePassCubit(
+                  userRepo: instance.get<UserAPIRepo>(),
+                ),
+            child: const ChangePassWordScreen());
       case notifyMainScreen:
         return BlocProvider(
             create: (context) => NotifyMainCubit(

@@ -1,4 +1,3 @@
-
 import 'package:admin/data/remote/models/user_res.dart';
 import '../../models/user_req.dart';
 import '../../models/user_res_pagi.dart';
@@ -12,4 +11,5 @@ abstract class UserAPIRepo {
   Future<UserAPIModel?> getUserById(String id);
   Future<UserAPIModel?> getUserByEmail(String email);
   Future<bool?> updateProfileUser(String keyId, UserAPIReq user);
+  Future<bool> updatePassWord(String email, UserAPIModel user);
 }
