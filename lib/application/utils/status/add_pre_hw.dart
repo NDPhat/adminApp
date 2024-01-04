@@ -1,1 +1,1 @@
-enum AddPreHWStatus { initial,success,sameWeek,error,submit,updating}
+enum AddPreHWStatus { initial,success,sameWeek,error,submit,updating,notDoneWeek}

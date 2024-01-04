@@ -24,6 +24,8 @@ class InputFieldContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
             height: 3.h,

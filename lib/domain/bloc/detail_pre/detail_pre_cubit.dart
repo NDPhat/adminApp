@@ -11,6 +11,7 @@ import '../../../application/utils/status/add_pre_hw.dart';
 import '../../../application/utils/time_change/format.dart';
 import '../../../data/local/models/dataUser.dart';
 import '../../../data/local/models/pre_global.dart';
+import '../../../data/remote/models/pre_hw_res.dart';
 import '../../../data/remote/models/result_hw_req.dart';
 import '../../../data/remote/models/user_res.dart';
 
@@ -36,7 +37,7 @@ class DetailPreHWCubit extends Cubit<DetailPreHWState> {
     List<UserAPIModel>? dataUserRes =
         await userAPIRepo.getAllStudentByClass(lop);
     List<ResultHWAPIModel>? dataRS =
-        await resultHWAPIRepo.getAllResultQuizHWByWeekAndLop(week, lop);
+        await resultHWAPIRepo.getAllResultQuizHWByWeekAndLop(week, lop,"get");
     List<DataUser> dataUserLocal = [];
     List<DataUser> dataUserJoin = [];
     List<DataUser> dataUserNotJoin = [];
@@ -64,7 +65,7 @@ class DetailPreHWCubit extends Cubit<DetailPreHWState> {
         resultHWAPIRepo.createResultHWForStudentNoJoin(ResultHWAPIReq(
             week: week,
             lop: lop,
-            numQ: 10,
+            numQ: 11,
             score: 0,
             trueQ: 0,
             status: "DONE",

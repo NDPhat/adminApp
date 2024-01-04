@@ -25,6 +25,7 @@ import 'package:admin/presentation/screen/intro/intro_screen.dart';
 import 'package:admin/presentation/screen/language_screen/language_screen.dart';
 import 'package:admin/presentation/screen/login/login_screen.dart';
 import 'package:admin/presentation/screen/manager/manager_main_screen.dart';
+import 'package:admin/presentation/screen/manager/widget/manager_hw_ongoing.dart';
 import 'package:admin/presentation/screen/profile/widget/my_acc/profile_myaccount.dart';
 import 'package:admin/presentation/screen/profile/widget/update_pass/change_pass_word_screen.dart';
 import 'package:admin/presentation/screen/setting/setting_main_screen.dart';
@@ -60,6 +61,7 @@ class Routers {
   static const String updatePass = '/updatePass';
   static const String updateProfile = '/updateProfile';
   static const String managerUser = '/managerUser';
+  static const String managerHWOnGoing = '/managerHWOnGoing';
   static const String managerMainScreen = '/managerMainScreen';
   static const String createUser = '/createUser';
   static const String createMainScreen = '/createMainScreen';
@@ -144,6 +146,13 @@ class Routers {
                   userAPIRepo: instance.get<UserAPIRepo>(),
                 ),
             child: const ManagerHomeWorkScreen());
+      case managerHWOnGoing:
+        return BlocProvider(
+            create: (context) => ManageHWCubit(
+              resultHWAPIRepo: instance.get<ResultHWAPIRepo>(),
+              userAPIRepo: instance.get<UserAPIRepo>(),
+            ),
+            child: const ManagerHomeWorkOnGoingScreen());
       case detailStudent:
         return BlocProvider(
             create: (context) => DetailUserCubit(

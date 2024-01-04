@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:admin/data/remote/api/api/pre_hw_repo.dart';
+import 'package:admin/data/remote/models/pre_hw_res.dart';
 import 'package:admin/data/remote/models/quiz_hw_res.dart';
 import 'package:admin/data/remote/models/result_hw_res.dart';
+import 'package:admin/main.dart';
 import '../../../../application/cons/endpoint.dart';
 import '../../models/result_hw_req.dart';
 import 'package:http/http.dart' as http;
@@ -56,7 +59,7 @@ class ResultHWAPIRepoImpl extends ResultHWAPIRepo {
 
   @override
   Future<List<ResultHWAPIModel>?> getAllResultQuizHWByWeekAndLop(
-      String week, String lop) async {
+      String week, String lop, String key) async {
     try {
       final url =
           "${endpoint}getAllResultQuizHWByWeekAndClass?week=$week&lop=$lop";
@@ -64,12 +67,28 @@ class ResultHWAPIRepoImpl extends ResultHWAPIRepo {
       if (req.statusCode == 200) {
         Map<String, dynamic> parsed = json.decode(req.body);
         List<ResultHWAPIModel>? result = ResultHWAPIRes.fromJson(parsed).lItems;
-        return result;
+        if (key != "mark") {
+          List<ResultHWAPIModel>? data = [];
+          result!.forEach((element) {
+            if (element.numQ == 11) {
+              data.add(element);
+            }
+          });
+          return data;
+        } else {
+          return result;
+        }
       } else {
         // log(req.body);
         Map<String, dynamic> parsed = json.decode(req.body);
         List<ResultHWAPIModel>? result = ResultHWAPIRes.fromJson(parsed).lItems;
-        return result;
+        List<ResultHWAPIModel>? data = [];
+        result!.forEach((element) {
+          if (element.numQ == 11) {
+            data.add(element);
+          }
+        });
+        return data;
       }
     } on SocketException catch (_) {
       return null;
@@ -81,17 +100,30 @@ class ResultHWAPIRepoImpl extends ResultHWAPIRepo {
   @override
   Future<List<ResultHWAPIModel>?> getAllResultQuizHWByLop(String lop) async {
     try {
+
       final url = "${endpoint}getAllResultQuizHWByLop?lop=$lop";
       final req = await http.get(Uri.parse(url), headers: requestHeaders);
       if (req.statusCode == 200) {
         Map<String, dynamic> parsed = json.decode(req.body);
         List<ResultHWAPIModel>? result = ResultHWAPIRes.fromJson(parsed).lItems;
-        return result;
+        List<ResultHWAPIModel>? data = [];
+        result!.forEach((element) {
+          if (element.numQ == 11) {
+            data.add(element);
+          }
+        });
+        return data;
       } else {
         // log(req.body);
         Map<String, dynamic> parsed = json.decode(req.body);
         List<ResultHWAPIModel>? result = ResultHWAPIRes.fromJson(parsed).lItems;
-        return result;
+        List<ResultHWAPIModel>? data = [];
+        result!.forEach((element) {
+          if (element.numQ == 11) {
+            data.add(element);
+          }
+        });
+        return data;
       }
     } on SocketException catch (_) {
       return null;
@@ -138,6 +170,65 @@ class ResultHWAPIRepoImpl extends ResultHWAPIRepo {
       return Future.error('No network found');
     } catch (_) {
       return Future.error('Something occurred');
+    }
+  }
+
+  @override
+  Future<List<ResultHWAPIModel>?> getAllResultQuizHWByLopAndDoneWeek(
+      String lop) async {
+    try {
+      List<PreHWAPIModel>? preHW =
+          await instance.get<PreHWAPIRepo>().getALlDonePreHW(lop);
+      List<ResultHWAPIModel>? totalList = [];
+      preHW!.forEach((element) async {
+        final url =
+            "${endpoint}getAllResultQuizHWByWeekAndClass?week=${element.week}&lop=$lop";
+        final req = await http.get(Uri.parse(url), headers: requestHeaders);
+        if (req.statusCode == 200) {
+          Map<String, dynamic> parsed = json.decode(req.body);
+          List<ResultHWAPIModel>? result =
+              ResultHWAPIRes.fromJson(parsed).lItems;
+          result!.forEach((element) {
+            if (element.numQ == 11) {
+              totalList.add(element);
+            }
+          });
+        } else {
+          // log(req.body);
+          Map<String, dynamic> parsed = json.decode(req.body);
+          List<ResultHWAPIModel>? result =
+              ResultHWAPIRes.fromJson(parsed).lItems;
+          result!.forEach((element) {
+            if (element.numQ == 11) {
+              totalList.add(element);
+            }
+          });
+        }
+      });
+      return totalList;
+    } on SocketException catch (_) {
+      return null;
+    } catch (_) {
+      return null;
+    }
+  }
+
+  @override
+  Future<bool?> updateStatusMarkScore(ResultHWAPIModel data) async {
+    try {
+      final url = "${endpoint}updateResultQuizHWById?id=${data.key!}";
+      final res = await http.patch(Uri.parse(url),
+          headers: requestHeaders, body: jsonEncode(data.toJson()));
+      if (res.statusCode == 200) {
+        return true;
+      } else {
+        // log(req.body);
+        return false;
+      }
+    } on SocketException catch (_) {
+      return false;
+    } catch (_) {
+      return false;
     }
   }
 }

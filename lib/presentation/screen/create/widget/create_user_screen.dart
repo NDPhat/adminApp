@@ -53,353 +53,355 @@ class CreateUserScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      body: BGHomeScreen(
-        textNow: "create student".tr(),
-        onBack: () {
-          Navigator.pushNamed(context, Routers.createMainScreen);
-        },
-        colorTextAndIcon: Colors.black,
-        child: Container(
-          height: 90.h,
-          padding: EdgeInsets.only(left: 5.w, right: 5.w, bottom: 2.h),
-          child: SingleChildScrollView(
-            reverse: true,
-            child: Column(
-              children: [
-                // -- IMAGE with ICON
-                BlocBuilder<AddUserCubit, AddUserState>(buildWhen: (pre, now) {
-                  return pre.nameMess != now.nameMess;
-                }, builder: (context, state) {
-                  return InputFieldWidget(
-                    width: 90.w,
-                    height: 8.h,
-                    hintText: 'enter name'.tr(),
-                    nameTitle: "name".tr(),
-                    onChanged: (value) {
-                      context.read<AddUserCubit>().nameChanged(value);
-                    },
-                    icon: const Icon(
-                      LineAwesomeIcons.user,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                    isHidden: state.nameMess != "",
-                    validateText: state.nameMess,
-                  );
-                }),
+      body: SingleChildScrollView(
+        child: BGHomeScreen(
+          textNow: "create student".tr(),
+          onBack: () {
+            Navigator.pushNamed(context, Routers.createMainScreen);
+          },
+          colorTextAndIcon: Colors.black,
+          child: Container(
+            height: 90.h,
+            padding: EdgeInsets.only(left: 5.w, right: 5.w, bottom: 2.h),
+            child: SingleChildScrollView(
+              reverse: true,
+              child: Column(
+                children: [
+                  // -- IMAGE with ICON
+                  BlocBuilder<AddUserCubit, AddUserState>(buildWhen: (pre, now) {
+                    return pre.nameMess != now.nameMess;
+                  }, builder: (context, state) {
+                    return InputFieldWidget(
+                      width: 90.w,
+                      height: 8.h,
+                      hintText: 'enter name'.tr(),
+                      nameTitle: "name".tr(),
+                      onChanged: (value) {
+                        context.read<AddUserCubit>().nameChanged(value);
+                      },
+                      icon: const Icon(
+                        LineAwesomeIcons.user,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                      isHidden: state.nameMess != "",
+                      validateText: state.nameMess,
+                    );
+                  }),
 
-                ///Mail
-                SizedBox(height: 1.h),
-                BlocBuilder<AddUserCubit, AddUserState>(buildWhen: (pre, now) {
-                  return pre.mailMess != now.mailMess;
-                }, builder: (context, state) {
-                  return InputFieldWidget(
-                    width: 90.w,
-                    height: 8.h,
-                    hintText: 'enter email'.tr(),
-                    nameTitle: "email".tr(),
-                    onChanged: (value) {
-                      context.read<AddUserCubit>().mailChanged(value);
-                    },
-                    icon: const Icon(
-                      Icons.email_outlined,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                    isHidden: state.mailMess != "",
-                    validateText: state.mailMess,
-                  );
-                }),
-                SizedBox(height: 1.h),
+                  ///Mail
+                  SizedBox(height: 1.h),
+                  BlocBuilder<AddUserCubit, AddUserState>(buildWhen: (pre, now) {
+                    return pre.mailMess != now.mailMess;
+                  }, builder: (context, state) {
+                    return InputFieldWidget(
+                      width: 90.w,
+                      height: 8.h,
+                      hintText: 'enter email'.tr(),
+                      nameTitle: "email".tr(),
+                      onChanged: (value) {
+                        context.read<AddUserCubit>().mailChanged(value);
+                      },
+                      icon: const Icon(
+                        Icons.email_outlined,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                      isHidden: state.mailMess != "",
+                      validateText: state.mailMess,
+                    );
+                  }),
+                  SizedBox(height: 1.h),
 
-                ///PASS
-                BlocBuilder<AddUserCubit, AddUserState>(buildWhen: (pre, now) {
-                  return pre.passMess != now.passMess;
-                }, builder: (context, state) {
-                  return InputFieldWidget(
-                    width: 90.w,
-                    height: 8.h,
-                    nameTitle: "password".tr(),
-                    hintText: 'enter password'.tr(),
-                    onChanged: (value) {
-                      context.read<AddUserCubit>().passChanged(value);
-                    },
-                    icon: const Icon(
-                      Icons.password,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                    isHidden: state.passMess != "",
-                    validateText: state.passMess,
-                  );
-                }),
+                  ///PASS
+                  BlocBuilder<AddUserCubit, AddUserState>(buildWhen: (pre, now) {
+                    return pre.passMess != now.passMess;
+                  }, builder: (context, state) {
+                    return InputFieldWidget(
+                      width: 90.w,
+                      height: 8.h,
+                      nameTitle: "password".tr(),
+                      hintText: 'enter password'.tr(),
+                      onChanged: (value) {
+                        context.read<AddUserCubit>().passChanged(value);
+                      },
+                      icon: const Icon(
+                        Icons.password,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                      isHidden: state.passMess != "",
+                      validateText: state.passMess,
+                    );
+                  }),
 
-                ///SEX
-                SizedBox(height: 1.h),
-                BlocBuilder<AddUserCubit, AddUserState>(buildWhen: (pre, now) {
-                  return pre.sex != now.sex;
-                }, builder: (context, state) {
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 18),
-                    child: DropdownButtonHideUnderline(
-                      child: DropdownButton2(
-                        isExpanded: true,
-                        hint: Row(
-                          children: [
-                            const Icon(Icons.list,
-                                size: 16, color: colorMainBlue),
-                            const SizedBox(
-                              width: 4,
-                            ),
-                            Expanded(
-                              child: Text(
-                                'choose gender'.tr(),
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: colorMainBlue),
+                  ///SEX
+                  SizedBox(height: 1.h),
+                  BlocBuilder<AddUserCubit, AddUserState>(buildWhen: (pre, now) {
+                    return pre.sex != now.sex;
+                  }, builder: (context, state) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 18),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton2(
+                          isExpanded: true,
+                          hint: Row(
+                            children: [
+                              const Icon(Icons.list,
+                                  size: 16, color: colorMainBlue),
+                              const SizedBox(
+                                width: 4,
                               ),
-                            ),
-                          ],
-                        ),
-                        items: genders
-                            .map((item) => DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
+                              Expanded(
+                                child: Text(
+                                  'choose gender'.tr(),
+                                  style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
-                                      color: colorMainBlue,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ))
-                            .toList(),
-                        value: state.sex,
-                        onChanged: (value) {
-                          context
-                              .read<AddUserCubit>()
-                              .sexChanged(value ?? "Male");
-                        },
-                        buttonStyleData: ButtonStyleData(
-                          width: 90.w,
-                          height: 8.h,
-                          padding: const EdgeInsets.only(left: 14, right: 14),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14),
-                            border: Border.all(
-                              color: Colors.black26,
-                            ),
-                            color: colorSystemWhite,
-                          ),
-                          elevation: 2,
-                        ),
-                        iconStyleData: const IconStyleData(
-                          icon: Icon(
-                            Icons.arrow_forward_ios_outlined,
-                          ),
-                          iconSize: 14,
-                          iconEnabledColor: colorMainBlue,
-                          iconDisabledColor: Colors.grey,
-                        ),
-                        dropdownStyleData: DropdownStyleData(
-                          maxHeight: 100,
-                          width: 45.w,
-                          padding: null,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(14),
-                            color: colorSystemWhite,
-                          ),
-                          elevation: 8,
-                        ),
-                        menuItemStyleData: const MenuItemStyleData(
-                          height: 40,
-                          padding: EdgeInsets.only(left: 14, right: 14),
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-
-                ///PHONE
-                SizedBox(height: 1.h),
-                BlocBuilder<AddUserCubit, AddUserState>(buildWhen: (pre, now) {
-                  return pre.phoneMess != now.phoneMess;
-                }, builder: (context, state) {
-                  return InputFieldWidget(
-                    onChanged: (value) {
-                      context.read<AddUserCubit>().phoneChanged(value);
-                    },
-                    width: 90.w,
-                    height: 8.h,
-                    nameTitle: "phone".tr(),
-                    hintText: 'enter phone'.tr(),
-                    icon: const Icon(
-                      LineAwesomeIcons.phone,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                    isHidden: state.phoneMess != "",
-                    validateText: state.phoneMess,
-                  );
-                }),
-
-                ///DATE OF BIRTH
-                SizedBox(height: 1.h),
-                BlocBuilder<AddUserCubit, AddUserState>(buildWhen: (pre, now) {
-                  return pre.birthMess != now.birthMess ||
-                      pre.birthDate != now.birthDate;
-                }, builder: (context, state) {
-                  return InputFieldWidget(
-                    readOnly: true,
-                    width: 90.w,
-                    height: 8.h,
-                    nameTitle: "birthday".tr(),
-                    hintText: 'enter birthDay'.tr(),
-                    controller: TextEditingController(text: state.birthDate),
-                    isHidden: state.birthMess != "",
-                    validateText: state.birthMess,
-                    icon: const Icon(
-                      LineAwesomeIcons.birthday_cake,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                    iconRight: IconButton(
-                        onPressed: () {
-                          showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(25)),
-                              ),
-                              builder: (_) {
-                                return BlocProvider.value(
-                                    value:
-                                        BlocProvider.of<AddUserCubit>(context),
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                        left: 5.w,
-                                        right: 5.w,
-                                      ),
-                                      child: SizedBox(
-                                        height: 30.h,
-                                        child: Column(
-                                          children: [
-                                            SizedBox(
-                                              height: 23.h,
-                                              child: MyScrollDatePicker(
-                                                  widthScreen: 100.w,
-                                                  scrollViewOptions:
-                                                      const DatePickerScrollViewOptions(
-                                                    year:
-                                                        ScrollViewDetailOptions(
-                                                            margin:
-                                                                EdgeInsets.all(
-                                                                    10)),
-                                                    month:
-                                                        ScrollViewDetailOptions(
-                                                            margin:
-                                                                EdgeInsets.all(
-                                                                    10)),
-                                                    day:
-                                                        ScrollViewDetailOptions(
-                                                            margin:
-                                                                EdgeInsets.all(
-                                                                    10)),
-                                                  ),
-                                                  maximumDate: DateTime.now(),
-                                                  selectedDate: DateTime.now(),
-                                                  locale: const Locale('en'),
-                                                  onDateTimeChanged:
-                                                      (DateTime value) {
-                                                    final f = DateFormat(
-                                                        'yyyy-MM-dd');
-                                                    context
-                                                        .read<AddUserCubit>()
-                                                        .birthChanged(f
-                                                            .format(value)
-                                                            .toString());
-                                                  }),
-                                            ),
-                                            RoundedButton(
-                                              press: () {
-                                                Navigator.pop(context);
-                                              },
-                                              color: colorMainBlue,
-                                              width: 80.w,
-                                              height: 6.h,
-                                              child: Text(
-                                                'done'.tr(),
-                                                style: s14f500colorSysWhite,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                    ));
-                              });
-                        },
-                        icon: const Icon(Icons.calendar_month)),
-                  );
-                }),
-
-                ///ADD
-                SizedBox(height: 1.h),
-                BlocBuilder<AddUserCubit, AddUserState>(buildWhen: (pre, now) {
-                  return pre.addMess != now.addMess;
-                }, builder: (context, state) {
-                  return InputFieldWidget(
-                    onChanged: (value) {
-                      context.read<AddUserCubit>().addChanged(value);
-                    },
-                    width: 90.w,
-                    height: 8.h,
-                    nameTitle: "address".tr(),
-                    hintText: "enter address".tr(),
-                    icon: const Icon(
-                      LineAwesomeIcons.address_card,
-                      color: Colors.black,
-                      size: 20,
-                    ),
-                    isHidden: state.addMess != "",
-                    validateText: state.addMess,
-                  );
-                }),
-                SizedBox(height: 2.h),
-                BlocConsumer<AddUserCubit, AddUserState>(
-                    listener: (context, state) {
-                  if (state.status == AddUserStatus.success) {
-                    showCreateDoneDialog();
-                  } else if (state.status == AddUserStatus.error) {
-                    showCreateFailDialog();
-                  }
-                }, builder: (context, state) {
-                  return RoundedButton(
-                      press: () {
-                        context.read<AddUserCubit>().createUser();
-                      },
-                      color: colorSystemWhite,
-                      colorBorder: colorSystemYeloow,
-                      width: 80.w,
-                      height: 8.h,
-                      child: state.status == AddUserStatus.submit
-                          ? SizedBox(
-                              height: 10.h,
-                              child: const Center(
-                                child: CircularProgressIndicator(
-                                  color: colorSystemYeloow,
-                                  strokeWidth: 3,
+                                      color: colorMainBlue),
                                 ),
                               ),
-                            )
-                          : Text(
-                              'go'.tr(),
-                              style: s16f700ColorSysYel,
-                            ));
-                })
-              ],
+                            ],
+                          ),
+                          items: genders
+                              .map((item) => DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: colorMainBlue,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ))
+                              .toList(),
+                          value: state.sex,
+                          onChanged: (value) {
+                            context
+                                .read<AddUserCubit>()
+                                .sexChanged(value ?? "Male");
+                          },
+                          buttonStyleData: ButtonStyleData(
+                            width: 90.w,
+                            height: 8.h,
+                            padding: const EdgeInsets.only(left: 14, right: 14),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              border: Border.all(
+                                color: Colors.black26,
+                              ),
+                              color: colorSystemWhite,
+                            ),
+                            elevation: 2,
+                          ),
+                          iconStyleData: const IconStyleData(
+                            icon: Icon(
+                              Icons.arrow_forward_ios_outlined,
+                            ),
+                            iconSize: 14,
+                            iconEnabledColor: colorMainBlue,
+                            iconDisabledColor: Colors.grey,
+                          ),
+                          dropdownStyleData: DropdownStyleData(
+                            maxHeight: 100,
+                            width: 45.w,
+                            padding: null,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(14),
+                              color: colorSystemWhite,
+                            ),
+                            elevation: 8,
+                          ),
+                          menuItemStyleData: const MenuItemStyleData(
+                            height: 40,
+                            padding: EdgeInsets.only(left: 14, right: 14),
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+
+                  ///PHONE
+                  SizedBox(height: 1.h),
+                  BlocBuilder<AddUserCubit, AddUserState>(buildWhen: (pre, now) {
+                    return pre.phoneMess != now.phoneMess;
+                  }, builder: (context, state) {
+                    return InputFieldWidget(
+                      onChanged: (value) {
+                        context.read<AddUserCubit>().phoneChanged(value);
+                      },
+                      width: 90.w,
+                      height: 8.h,
+                      nameTitle: "phone".tr(),
+                      hintText: 'enter phone'.tr(),
+                      icon: const Icon(
+                        LineAwesomeIcons.phone,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                      isHidden: state.phoneMess != "",
+                      validateText: state.phoneMess,
+                    );
+                  }),
+
+                  ///DATE OF BIRTH
+                  SizedBox(height: 1.h),
+                  BlocBuilder<AddUserCubit, AddUserState>(buildWhen: (pre, now) {
+                    return pre.birthMess != now.birthMess ||
+                        pre.birthDate != now.birthDate;
+                  }, builder: (context, state) {
+                    return InputFieldWidget(
+                      readOnly: true,
+                      width: 90.w,
+                      height: 8.h,
+                      nameTitle: "birthday".tr(),
+                      hintText: 'enter birthDay'.tr(),
+                      controller: TextEditingController(text: state.birthDate),
+                      isHidden: state.birthMess != "",
+                      validateText: state.birthMess,
+                      icon: const Icon(
+                        LineAwesomeIcons.birthday_cake,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                      iconRight: IconButton(
+                          onPressed: () {
+                            showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(25)),
+                                ),
+                                builder: (_) {
+                                  return BlocProvider.value(
+                                      value:
+                                          BlocProvider.of<AddUserCubit>(context),
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 5.w,
+                                          right: 5.w,
+                                        ),
+                                        child: SizedBox(
+                                          height: 30.h,
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 23.h,
+                                                child: MyScrollDatePicker(
+                                                    widthScreen: 100.w,
+                                                    scrollViewOptions:
+                                                        const DatePickerScrollViewOptions(
+                                                      year:
+                                                          ScrollViewDetailOptions(
+                                                              margin:
+                                                                  EdgeInsets.all(
+                                                                      10)),
+                                                      month:
+                                                          ScrollViewDetailOptions(
+                                                              margin:
+                                                                  EdgeInsets.all(
+                                                                      10)),
+                                                      day:
+                                                          ScrollViewDetailOptions(
+                                                              margin:
+                                                                  EdgeInsets.all(
+                                                                      10)),
+                                                    ),
+                                                    maximumDate: DateTime.now(),
+                                                    selectedDate: DateTime.now(),
+                                                    locale: const Locale('en'),
+                                                    onDateTimeChanged:
+                                                        (DateTime value) {
+                                                      final f = DateFormat(
+                                                          'yyyy-MM-dd');
+                                                      context
+                                                          .read<AddUserCubit>()
+                                                          .birthChanged(f
+                                                              .format(value)
+                                                              .toString());
+                                                    }),
+                                              ),
+                                              RoundedButton(
+                                                press: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                color: colorMainBlue,
+                                                width: 80.w,
+                                                height: 6.h,
+                                                child: Text(
+                                                  'done'.tr(),
+                                                  style: s14f500colorSysWhite,
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                      ));
+                                });
+                          },
+                          icon: const Icon(Icons.calendar_month)),
+                    );
+                  }),
+
+                  ///ADD
+                  SizedBox(height: 1.h),
+                  BlocBuilder<AddUserCubit, AddUserState>(buildWhen: (pre, now) {
+                    return pre.addMess != now.addMess;
+                  }, builder: (context, state) {
+                    return InputFieldWidget(
+                      onChanged: (value) {
+                        context.read<AddUserCubit>().addChanged(value);
+                      },
+                      width: 90.w,
+                      height: 8.h,
+                      nameTitle: "address".tr(),
+                      hintText: "enter address".tr(),
+                      icon: const Icon(
+                        LineAwesomeIcons.address_card,
+                        color: Colors.black,
+                        size: 20,
+                      ),
+                      isHidden: state.addMess != "",
+                      validateText: state.addMess,
+                    );
+                  }),
+                  SizedBox(height: 2.h),
+                  BlocConsumer<AddUserCubit, AddUserState>(
+                      listener: (context, state) {
+                    if (state.status == AddUserStatus.success) {
+                      showCreateDoneDialog();
+                    } else if (state.status == AddUserStatus.error) {
+                      showCreateFailDialog();
+                    }
+                  }, builder: (context, state) {
+                    return RoundedButton(
+                        press: () {
+                          context.read<AddUserCubit>().createUser();
+                        },
+                        color: colorSystemWhite,
+                        colorBorder: colorSystemYeloow,
+                        width: 80.w,
+                        height: 8.h,
+                        child: state.status == AddUserStatus.submit
+                            ? SizedBox(
+                                height: 10.h,
+                                child: const Center(
+                                  child: CircularProgressIndicator(
+                                    color: colorSystemYeloow,
+                                    strokeWidth: 3,
+                                  ),
+                                ),
+                              )
+                            : Text(
+                                'go'.tr(),
+                                style: s16f700ColorSysYel,
+                              ));
+                  })
+                ],
+              ),
             ),
           ),
         ),

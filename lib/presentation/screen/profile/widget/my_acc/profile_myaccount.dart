@@ -3,6 +3,7 @@ import 'dart:io';
 import 'dart:async';
 import 'package:admin/presentation/navigation/routers.dart';
 import 'package:admin/presentation/widget/bg_home_screen.dart';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
@@ -95,69 +96,30 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
     return _previewImages();
   }
 
-  Future<void> _displayPickImageDialog(
+  Future<void> showDisplayPickImageDialog(
       BuildContext context, OnPickImageCallback onPick) async {
-    return showDialog(
+    return AwesomeDialog(
         context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            shape: ShapeBorder.lerp(
-                const StadiumBorder(), const StadiumBorder(), 100),
-            backgroundColor: colorSystemWhite,
-            actions: <Widget>[
-              TextButton(
-                child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(100),
-                      border: Border.all(color: colorSystemYeloow)),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Icon(
-                        LineAwesomeIcons.envira_gallery,
-                        color: Colors.black,
-                        size: 30,
-                      ),
-                      Text('gallery'.tr()),
-                    ],
-                  ),
-                ),
-                onPressed: () {
-                  onPick('Gallery');
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(100),
-                        border: Border.all(color: colorSystemYeloow)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Icon(
-                          LineAwesomeIcons.retro_camera,
-                          color: Colors.black,
-                          size: 30,
-                        ),
-                        Text('camera'.tr()),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    onPick('Camera');
-                    Navigator.of(context).pop();
-                  }),
-            ],
-          );
-        });
+        dialogType: DialogType.info,
+        headerAnimationLoop: false,
+        animType: AnimType.topSlide,
+        dismissOnTouchOutside: true,
+        desc: '${'choose one'.tr()} ?',
+        descTextStyle: s20GgBarColorMainTeal,
+        btnCancelOnPress: () {
+          onPick('Camera');
+        },
+        btnOkOnPress: () {
+          onPick('Gallery');
+        },
+        btnOkText: "gallery".tr(),
+        btnCancelText: "camera".tr())
+        .show();
   }
 
   Future<void> _onImageButtonPressed({required BuildContext context}) async {
     if (context.mounted) {
-      await _displayPickImageDialog(context, (String typeOfChoose) async {
+      await showDisplayPickImageDialog(context, (String typeOfChoose) async {
         try {
           File? pickedFile;
           XFile? picked;
@@ -210,6 +172,31 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
       });
     }
   }
+  showUpdateDoneDialog() {
+    return AwesomeDialog(
+      context: context,
+      dialogType: DialogType.success,
+      headerAnimationLoop: false,
+      animType: AnimType.topSlide,
+      dismissOnTouchOutside: false,
+      desc: '${'update successful'.tr()}',
+      descTextStyle: s20GgBarColorMainTeal,
+      btnOkOnPress: () {},
+    ).show();
+  }
+
+  showUpdateFailDialog() {
+    return AwesomeDialog(
+      context: context,
+      dialogType: DialogType.warning,
+      headerAnimationLoop: false,
+      animType: AnimType.topSlide,
+      dismissOnTouchOutside: false,
+      desc: '${'update fail'.tr()}',
+      descTextStyle: s20GgBarColorMainTeal,
+      btnOkOnPress: () {},
+    ).show();
+  }
 
   final List<String> genders = ['Male', 'Female'];
   @override
@@ -224,7 +211,6 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
         onPressHome: () {},
         child: Expanded(
           child: SingleChildScrollView(
-            reverse: true,
             child: Padding(
               padding: EdgeInsets.only(top: 5.h, left: 2.w, right: 2.w),
               child: Container(
@@ -581,41 +567,12 @@ class _UpdateProfileUserScreenState extends State<UpdateProfileUserScreen> {
 
                     BlocConsumer<UpdateProfileCubit, UpdateProfileState>(
                         listener: (context, state) {
-                      if (state.status == UpdateProfileStatus.success) {
-                        showDialog(
-                            context: context,
-                            builder: (ctx) => Center(
-                                    child: AlertDialog(
-                                  shape: ShapeBorder.lerp(const StadiumBorder(),
-                                      const StadiumBorder(), 100),
-                                  backgroundColor: colorSystemWhite,
-                                  title: Center(
-                                    child: Text('update successful'.tr(),
-                                        style: s16f700ColorError,
-                                        textAlign: TextAlign.center),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                        child: Container(
-                                            padding: const EdgeInsets.all(15),
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(100),
-                                                border: Border.all(
-                                                    color: colorSystemYeloow)),
-                                            child: Center(
-                                              child: Text(
-                                                'done'.tr(),
-                                                style: s15f700ColorErrorPri,
-                                                textAlign: TextAlign.center,
-                                              ),
-                                            )),
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        }),
-                                  ],
-                                )));
-                      }
+                          if (state.status == UpdateProfileStatus.success) {
+                            showUpdateDoneDialog();
+                          } else if (state.status ==
+                              UpdateProfileStatus.error) {
+                            showUpdateFailDialog();
+                          }
                     }, builder: (context, state) {
                       return RoundedButton(
                           press: () async {

@@ -80,7 +80,7 @@ class DetailResultHWCubit extends Cubit<DetailResultHWState> {
             week, instance.get<UserGlobal>().lop.toString(), state.pageNow);
     dataList = dataPagination!.data;
     dataListALl = await resultHWAPIRepo.getAllResultQuizHWByWeekAndLop(
-        week, instance.get<UserGlobal>().lop.toString());
+        week, instance.get<UserGlobal>().lop.toString(),"get");
     for (int i = 0; i < dataListALl!.length; i++) {
       chart.add(ChartData(dataListALl[i].name!, dataListALl[i].score!));
     }

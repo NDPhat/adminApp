@@ -16,6 +16,7 @@
   "this week already created": "Tuần này đã Tạo mới",
   "create successful": "Tạo mới thành công",
   "create": "Tạo mới",
+  "update": "Cập nhật",
   "create student": "Tạo mới sinh viên",
   "enter name": "Nhập tên",
   "enter class": "Nhập lớp",
@@ -56,9 +57,11 @@
   "update password": "Thay đổi mật khẩu",
 
   "skip": "Bỏ qua",
+  "empty data": "Dữ liệu trống",
+  "mark": "Chấm điểm",
 
   "language": "Ngôn ngữ",
-  "english": "Tiếng Anh,",
+  "english": "Tiếng Anh",
   "vietnamese": "Tiếng Việt",
 
   "hi": "Xin chào",
@@ -69,12 +72,13 @@
   "search": "Tìm kiếm",
   "class": "Lớp",
   "review this week home work": "Xem lại bài tập tuần này",
+  "this previous week not done yet": "Bài tập tuần trước chưa xong",
   "year": "Năm",
   "on schedule": "Trong thời hạn",
   "login fail": "Đăng nhập thất bại",
 
   "my account": "Tài khoản cá nhân",
-  "local notification": "Local notification",
+  "local notification": "Cài đặt thông báo",
   "your name": "Tên",
   "your class": "Lớp",
   "your email": "Email",
@@ -83,6 +87,9 @@
   "your birthDay": "Ngày sinh",
   "review": "Xem lại",
 
+  "gallery": "Thư viện",
+  "camera": "Máy ảnh",
+  "choose one": "Chọn một",
 
 
   "welcome": "Chào mừng",
@@ -99,12 +106,20 @@
   "address": "Địa chỉ",
 
 
-  "sort": "Sắp xếp"
+  "sort": "Sắp xếp",
 
+  "change password": "Thay đổi mật khẩu",
+  "change your password.": "Thay đổi mật khẩu của bạn.",
+  "your old password": "Nhập mật khẩu cũ",
+  "old password":  "Mật khẩu cũ",
+  "new password":  "Mật khẩu mới",
+  "your new password": "Nhập mật khẩu mới",
+  "re-your new password": "Nhập lại mật khẩu mới",
+  "re-new password":  "Mật khẩu mới",
+  "update successful": "Cập nhật thành công",
 
-
-
-
+  "something wrong" : "Oops! Có lỗi xảy ra.",
+  "mark done" : "Chấm điểm hoàn tất"
 
 }
 

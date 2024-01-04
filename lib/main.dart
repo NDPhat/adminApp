@@ -24,8 +24,7 @@ void main() async {
   ///INIT DB AND DECLARE VARIABLE
   setUpProject();
 
-  runApp(DevicePreview(
-    builder: (context) => EasyLocalization(
+  runApp(EasyLocalization(
         supportedLocales: const [
           Locale("vi", "VI"),
           Locale("en", "EN"),
@@ -33,7 +32,7 @@ void main() async {
         path: "resources/langs",
         saveLocale: true,
         child: const RestartWidget(child: AdminApp())), // Wrap your app
-  ));
+  );
 }
 
 class AdminApp extends StatelessWidget {

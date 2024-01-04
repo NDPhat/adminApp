@@ -24,10 +24,10 @@ class ChartHWSeason extends StatelessWidget {
           future: instance.get<ResultHWAPIRepo>().getAllResultQuizHWByLop(
               instance.get<UserGlobal>().lop.toString()),
           builder: (context, snapshot) {
-            if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+            if (snapshot.hasData) {
               List<ChartDataHWWeekMainScreen> dataList = [];
               snapshot.data!.sort(
-                  (a, b) => int.parse(a.week!).compareTo(int.parse(a.week!)));
+                  (a, b) => int.parse(a.week!).compareTo(int.parse(b.week!)));
               for (int i = 1; i <= int.parse(snapshot.data!.last.week!); i++) {
                 dataList.add(ChartDataHWWeekMainScreen(i, 0, 0, 0, 0));
               }
@@ -44,7 +44,6 @@ class ChartHWSeason extends StatelessWidget {
                   dataList[week - 1].y3++;
                 }
               }
-
               return Column(
                 children: [
                   SizedBox(
@@ -53,7 +52,7 @@ class ChartHWSeason extends StatelessWidget {
                     child: SfCartesianChart(
                         plotAreaBorderColor: colorMainBlue,
                         plotAreaBorderWidth: 0,
-                        legend: Legend(isVisible: true, width: '20'),
+                        legend: Legend(isVisible: true, width: '40'),
                         tooltipBehavior: TooltipBehavior(),
                         primaryXAxis: CategoryAxis(
                           majorGridLines: const MajorGridLines(width: 0),
@@ -150,9 +149,20 @@ class ChartHWSeason extends StatelessWidget {
                   ),
                 ],
               );
-            } else {
-              return const SizedBox();
             }
+            else if (snapshot.connectionState == ConnectionState.waiting) {
+              return SizedBox(
+                height: 30.h,
+                width: 90.w,
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: colorMainBlue,
+                    strokeWidth: 5,
+                  ),
+                ),
+              );
+            }
+            return const SizedBox();
           }),
     );
   }

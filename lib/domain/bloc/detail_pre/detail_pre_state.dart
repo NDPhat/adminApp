@@ -38,7 +38,8 @@ class DetailPreHWState extends Equatable {
 
     //this.user,
   });
-  factory DetailPreHWState.initial() {
+  factory DetailPreHWState.initial(
+      ) {
     return DetailPreHWState(
       color: instance.get<PreGlobal>().color ?? 'blue',
       numQ: instance.get<PreGlobal>().numQ.toString() ?? '',

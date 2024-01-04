@@ -16,6 +16,7 @@
   "this week already created": "This week already created",
   "create successful": "Create successful",
   "create": "Create",
+  "update": "Update",
   "create student": "Create student",
   "enter name": "Enter name",
   "enter class": "Enter class",
@@ -64,6 +65,8 @@
   "update password": "Update password",
 
   "skip": "Skip",
+  "empty data": "Empty data",
+  "mark": "Mark",
 
   "mode": "Mode",
   "language": "Language",
@@ -77,6 +80,7 @@
   "student management": "Student management",
   "search": "Search",
   "review this week home work": "Review this week home work",
+  "this previous week not done yet": "This previous week not done yet",
   "year": "Year",
   "on schedule": "On schedule",
   "login fail": "Login fail",
@@ -91,6 +95,9 @@
   "your address": "Your address",
   "your birthDay": "Your birthDay",
 
+  "gallery": "Gallery",
+  "camera": "Camera",
+  "choose one": "Choose one",
 
 
   "welcome": "Welcome",
@@ -98,11 +105,18 @@
   "history": "History",
   "day": "Day",
   "local notify": "Local notification",
-  "sort": "Sort"
+  "sort": "Sort",
 
+  "change password": "Change password",
+  "change your password.": "Change your password.",
+  "your old password": "Your old password",
+  "old password":  "Old password",
+  "new password":  "New password",
+  "your new password": "Your new password",
+  "re-new password": "Re-new password",
+  "re-your new password": "Re-your new password",
+  "update successful": "Update successful",
 
-
-
-
-
+  "something wrong" : "Oops! Something was wrong.",
+  "mark done" : "Mark done"
 }

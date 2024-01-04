@@ -1,0 +1,1 @@
+enum ManageStatus { initial,success,successMark,onLoading,error,errorMark,clear,submit}

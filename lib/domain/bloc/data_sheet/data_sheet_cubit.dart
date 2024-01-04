@@ -32,12 +32,12 @@ class DataSheetCubit extends Cubit<DataSheetState> {
     /// lay tu week1 den week5
     for (int i = 1; i <= 5; i++) {
       dataList = await resultHWAPIRepo.getAllResultQuizHWByWeekAndLop(
-          i.toString(), instance.get<UserGlobal>().lop.toString());
+          i.toString(), instance.get<UserGlobal>().lop.toString(),"get");
       if (dataList!.isNotEmpty) {
         int totalQ = 0;
         int score = 0;
         for (var element in dataList) {
-          totalQ = totalQ + element.numQ!;
+          totalQ = totalQ + 10;
           score = score + element.score!;
         }
         dataFinal.add(FinalResultHW(
@@ -62,7 +62,7 @@ class DataSheetCubit extends Cubit<DataSheetState> {
 
     for (int i = start; i <= end; i++) {
       dataList = await resultHWAPIRepo.getAllResultQuizHWByWeekAndLop(
-          i.toString(), instance.get<UserGlobal>().lop.toString());
+          i.toString(), instance.get<UserGlobal>().lop.toString(),"get");
       if (dataList!.isNotEmpty) {
         int totalQ = 0;
         int score = 0;

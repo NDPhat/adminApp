@@ -103,10 +103,7 @@ class PreHWAPIImpl extends PreHWAPIRepo {
         List<PreHWAPIModel>? result = PreHWAPIRes.fromJson(parsed).lItems;
         return result;
       } else {
-        // log(req.body);
-        Map<String, dynamic> parsed = json.decode(req.body);
-        List<PreHWAPIModel>? result = PreHWAPIRes.fromJson(parsed).lItems;
-        return result;
+       return null;
       }
     } on SocketException catch (_) {
       return null;
@@ -158,4 +155,30 @@ class PreHWAPIImpl extends PreHWAPIRepo {
       return null;
     }
   }
+
+  @override
+  Future<int> getPreHWByWeekAndClass(String week, String lop) async {
+    try {
+      final url = "${endpoint}getPreQuizHWByWeekAndClass?week=$week&lop=$lop";
+      final req = await http.get(Uri.parse(url), headers: requestHeaders);
+      if (req.statusCode == 200 ) {
+        Map<String, dynamic> parsed = json.decode(req.body);
+        PreHWAPIRes result = PreHWAPIRes
+             .fromJson(parsed);
+        if(result.lItems!.length != 0){
+          return 0;
+        }
+        else{
+          return 1;
+        }
+      } else {
+        return 1;
+      }
+    } on SocketException catch (_) {
+      return 2;
+    } catch (_) {
+      return 2;
+    }
+  }
+
 }

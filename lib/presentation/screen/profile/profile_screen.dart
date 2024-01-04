@@ -27,50 +27,25 @@ class ProfileScreen extends StatelessWidget {
               children: [
                 SizedBox(height: 3.h),
 
-                Stack(
-                  children: [
-                    Container(
-                        width: 22.w,
-                        height: 10.h,
-                        decoration: BoxDecoration(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(60)),
-                            border: Border.all(color: colorSystemYeloow),
-                            color: colorSystemWhite),
-                        child: CircleAvatar(
-                          radius: 60,
-                          backgroundColor: Colors.red,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8), // Border radius
-                            child: ClipOval(
-                                child: Image.network(
-                              instance.get<UserGlobal>().linkImage != null
-                                  ? instance.get<UserGlobal>().linkImage!
-                                  : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
-                              fit: BoxFit.cover,
-                              width: 100,
-                              height: 100,
-                            )),
-                          ),
+                SizedBox(
+                    width: 22.w,
+                    height: 10.h,
+                    child: CircleAvatar(
+                      radius: 60,
+                      backgroundColor: Colors.red,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8), // Border radius
+                        child: ClipOval(
+                            child: Image.network(
+                          instance.get<UserGlobal>().linkImage != null
+                              ? instance.get<UserGlobal>().linkImage!
+                              : "https://cdn-icons-png.flaticon.com/512/3135/3135715.png",
+                          fit: BoxFit.cover,
+                          width: 100,
+                          height: 100,
                         )),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: Container(
-                        width: 35,
-                        height: 35,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(100),
-                            color: colorSystemYeloow),
-                        child: const Icon(
-                          LineAwesomeIcons.retro_camera,
-                          color: Colors.black,
-                          size: 20,
-                        ),
                       ),
-                    ),
-                  ],
-                ),
+                    )),
                 SizedBox(height: 1.h),
                 Text('Mr.P', style: Theme.of(context).textTheme.headline4),
                 Text('Coding is my life',

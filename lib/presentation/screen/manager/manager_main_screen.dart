@@ -45,7 +45,7 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Future<void> showPreHWDialog(PreHWAPIModel data) {
+    Future<void> showPreHWDialog(String week) {
       return AwesomeDialog(
         context: context,
         dialogType: DialogType.question,
@@ -57,7 +57,7 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
         descTextStyle: s20GgBarColorMainTeal,
         btnCancelOnPress: () {},
         btnOkOnPress: () {
-          Navigator.pushNamed(context, Routers.detailPre, arguments: data);
+          Navigator.pushNamed(context, Routers.managerHWOnGoing, arguments: week);
         },
       ).show();
     }
@@ -274,7 +274,7 @@ class _ManagerMainScreenState extends State<ManagerMainScreen> {
                                           fontSize: 20),
                                     ),
                                     onTap: () {
-                                      showPreHWDialog(snapshot.data![index]);
+                                      showPreHWDialog(snapshot.data![index].week.toString());
                                     },
                                     childRight: Text(
                                       "${snapshot.data![index].status}",

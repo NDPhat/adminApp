@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 
 import '../../../application/utils/status/add_pre_hw.dart';
 import '../../../application/utils/time_change/format.dart';
+import '../../../data/remote/models/pre_hw_res.dart';
 
 part 'add_pre_state.dart';
 
@@ -130,24 +131,33 @@ class AddPreHWCubit extends Cubit<AddPreHWState> {
     emit(state.copyWith(status: AddPreHWStatus.submit));
     if (isFormValid()) {
       try {
-        int? data = await preHWAPIRepo.createPreHW(PreHWAPIReq(
-          week: state.week,
-          dstart: "${state.timeStart.trim()} ${state.dayStart.trim()}",
-          dend: "${state.timeEnd.trim()} ${state.dayEnd.trim()}",
-          sign: state.sign,
-          lop: instance.get<UserGlobal>().lop.toString(),
-          sNum: int.parse(state.sNum),
-          numQ: int.parse(state.numQ),
-          eNum: int.parse(state.eNum),
-          color: state.color,
-          status: state.statusPre,
-        ));
-        if (data == 0) {
-          emit(state.copyWith(status: AddPreHWStatus.success));
-        } else if (data == 1) {
-          emit(state.copyWith(status: AddPreHWStatus.sameWeek));
-        } else {
-          emit(state.copyWith(status: AddPreHWStatus.error));
+        List<PreHWAPIModel>? dataR =await  preHWAPIRepo.getOnGoingPreHW(instance.get<UserGlobal>().lop!);
+        if(dataR == null) {
+          int? data = await preHWAPIRepo.createPreHW(PreHWAPIReq(
+            week: state.week,
+            dstart: "${state.timeStart.trim()} ${state.dayStart.trim()}",
+            dend: "${state.timeEnd.trim()} ${state.dayEnd.trim()}",
+            sign: state.sign,
+            lop: instance
+                .get<UserGlobal>()
+                .lop
+                .toString(),
+            sNum: int.parse(state.sNum),
+            numQ: int.parse(state.numQ),
+            eNum: int.parse(state.eNum),
+            color: state.color,
+            status: state.statusPre,
+          ));
+          if (data == 0) {
+            emit(state.copyWith(status: AddPreHWStatus.success));
+          } else if (data == 1) {
+            emit(state.copyWith(status: AddPreHWStatus.sameWeek));
+          } else {
+            emit(state.copyWith(status: AddPreHWStatus.error));
+          }
+        }
+        else{
+          emit(state.copyWith(status: AddPreHWStatus.notDoneWeek));
         }
       } on Exception catch (e) {}
     } else {

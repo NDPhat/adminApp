@@ -27,7 +27,7 @@ class ChildRightHWByWeek extends StatelessWidget {
             future: instance
                 .get<ResultHWAPIRepo>()
                 .getAllResultQuizHWByWeekAndLop(
-                    week, instance.get<UserGlobal>().lop.toString()),
+                    week, instance.get<UserGlobal>().lop.toString(),"get"),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 int sY = 0;

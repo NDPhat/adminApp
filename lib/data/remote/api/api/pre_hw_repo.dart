@@ -8,5 +8,6 @@ abstract class PreHWAPIRepo {
   Future<List<PreHWAPIModel>?> getALlDonePreHW(String lop);
   Future<PreHWAPIResPagi?> getALlDonePreHWWithPagi(int page, String lop);
   Future<PreHWAPIModel?> getPreHWByWeek(String week);
+  Future<int?> getPreHWByWeekAndClass(String week,String lop);
   Future<List<PreHWAPIModel>?> getOnGoingPreHW(String lop);
 }

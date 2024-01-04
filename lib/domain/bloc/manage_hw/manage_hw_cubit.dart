@@ -4,6 +4,7 @@ import 'package:admin/data/remote/models/result_hw_res.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../application/utils/find_average/find_average_score.dart';
+import '../../../application/utils/status/manage_status.dart';
 import '../../../data/local/models/user_global.dart';
 import '../../../data/remote/models/result_hw_res_pagi.dart';
 import '../../../data/remote/models/user_res.dart';
@@ -32,12 +33,17 @@ class ManageHWCubit extends Cubit<ManageHWState> {
   }
 
   Future<void> initPage(String week) async {
+    emit(state.copyWith(status: ManageStatus.onLoading));
     Map<String, String> imageList = await getImageLink();
     late ResultHWAPIResPagi? dataPagination;
     List<ResultHWAPIModel>? dataList = [];
     dataPagination =
         await resultHWAPIRepo.getAllResultQuizHWByWeekAndLopWithPagi(
             week, instance.get<UserGlobal>().lop.toString(), state.pageNow);
+    List<ResultHWAPIModel>? allData = [];
+    allData =
+        await resultHWAPIRepo.getAllResultQuizHWByWeekAndLop(
+            week, instance.get<UserGlobal>().lop.toString(),"mark");
     dataList = dataPagination!.data;
     int length = dataPagination.total!;
     if (dataList!.isNotEmpty) {
@@ -46,8 +52,13 @@ class ManageHWCubit extends Cubit<ManageHWState> {
         searchList: dataList,
         imageList: imageList,
         nativeList: dataList,
+        allList: allData,
         lengthNow: length,
+        status: ManageStatus.success
       ));
+    }
+    else{
+      emit(state.copyWith(status: ManageStatus.error));
     }
   }
 
@@ -117,5 +128,18 @@ class ManageHWCubit extends Cubit<ManageHWState> {
         searchList: dataList,
       ));
     }
+  }
+  Future<void> mark() async {
+    emit(state.copyWith(status: ManageStatus.submit));
+      try {
+        state.allList!.forEach((element) async {
+          element.numQ=11;
+          bool? dataR =await resultHWAPIRepo.updateStatusMarkScore(element);
+          if(dataR  == false) {
+            emit(state.copyWith(status: ManageStatus.errorMark));
+          }
+        });
+        emit(state.copyWith(status: ManageStatus.successMark));
+      } on Exception catch (e) {}
   }
 }

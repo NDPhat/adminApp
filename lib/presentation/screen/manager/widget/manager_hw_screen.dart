@@ -14,6 +14,7 @@ import '../../../../application/cons/color.dart';
 import '../../../../application/cons/text_style.dart';
 import '../../../../application/utils/find_average/find_average_score.dart';
 
+import '../../../../application/utils/status/manage_status.dart';
 import '../../../widget/item_manager_user.dart';
 import 'dot_page_indicator.dart';
 import 'indicator.dart';
@@ -80,57 +81,65 @@ class _ManagerHomeWorkScreenState extends State<ManagerHomeWorkScreen> {
             }),
             BlocBuilder<ManageHWCubit, ManageHWState>(buildWhen: (pre, now) {
               return pre.pageNow != now.pageNow ||
+                  pre.status != now.status ||
                   pre.searchList != now.searchList;
             }, builder: (context, state) {
-              return SizedBox(
-                height: 72.h,
-                width: 90.w,
-                child: state.searchList!.isEmpty
-                    ? SizedBox(
-                        height: 30.h,
-                        width: 90.w,
-                        child: const Center(
-                          child: CircularProgressIndicator(
-                            color: colorMainBlue,
-                            strokeWidth: 5,
-                          ),
-                        ),
-                      )
-                    : CustomScrollView(
-                        slivers: [
-                          SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                                  childCount: state.searchList!.length,
+              if(state.status ==ManageStatus.success) {
+                return SizedBox(
+                  height: 72.h,
+                  width: 90.w,
+                  child: CustomScrollView(
+                    slivers: [
+                      SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                              childCount: state.searchList!.length,
                                   (context, index) {
-                            return Padding(
-                              padding: EdgeInsets.only(bottom: 0.5.h, top: 1.h),
-                              child: ItemManager(
-                                  lop: state.searchList![index].lop!,
-                                  ten: state.searchList![index].name!,
-                                  childLeft: Center(
-                                    child: Text(
-                                      findAveScore(
-                                          state.searchList![index].score!),
-                                      style: GoogleFonts.saira(
-                                          color: findColorByScore(findAveScore(
-                                              state.searchList![index].score!)),
-                                          fontSize: 20),
-                                    ),
-                                  ),
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                        context, Routers.detailResultHW,
-                                        arguments:
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                      bottom: 0.5.h, top: 1.h),
+                                  child: ItemManager(
+                                      lop: state.searchList![index].lop!,
+                                      ten: state.searchList![index].name!,
+                                      childLeft: Center(
+                                        child: Text(
+                                          state.searchList![index].score!
+                                              .toString(),
+                                          style: GoogleFonts.saira(
+                                              color: findColorByScore(
+                                                  findAveScore(
+                                                      state.searchList![index]
+                                                          .score!)),
+                                              fontSize: 20),
+                                        ),
+                                      ),
+                                      onTap: () {
+                                        Navigator.pushNamed(
+                                            context, Routers.detailResultHW,
+                                            arguments:
                                             state.searchList![index].key);
-                                  },
-                                  imageLink: state.imageList[
+                                      },
+                                      imageLink: state.imageList[
                                       state.searchList![index].userId],
-                                  colorBorder: colorMainTealPri),
-                            );
-                          }))
-                        ],
-                      ),
-              );
+                                      colorBorder: colorMainTealPri),
+                                );
+                              }))
+                    ],
+                  ),
+                );
+              }
+              else if(state.status == ManageStatus.onLoading){
+                return SizedBox(
+                  height: 30.h,
+                  width: 90.w,
+                  child: const Center(
+                    child: CircularProgressIndicator(
+                      color: colorMainBlue,
+                      strokeWidth: 5,
+                    ),
+                  ),
+                );
+              }
+              return const SizedBox.shrink();
             }),
             sizedBox,
             Container(
